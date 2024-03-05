@@ -183,7 +183,7 @@
 <p>JavaScript나 HTML, CSS를 모르시나요? <a href="https://developer.mozilla.org/en-US/docs/Learn">MDN에서 더 알아보세요.</a></p>
 <h2 id="이-책을-읽는-방법"><a class="header" href="#이-책을-읽는-방법">이 책을 읽는 방법</a></h2>
 <p><a href="./why-rust-and-webassembly.html">Rust와 WebAssembly를 사용하는 동기부여</a> 를 읽어보면 좋고, <a href="./background-and-concepts.html">배경과 컨셉</a> 과 먼저 친숙해져보는것도 좋습니다.</p>
-<p>이 [튜토리얼][] 은 처음부터 끝까지 읽도록 작성됐습니다. 튜토리얼에 있는 코드를 작성, 컴파일링하고 직접 실행해보세요. Rust와 WebAssembly를 같이 사용해본적이 없다면, 튜토리얼을 활용해보세요!</p>
+<p>이 <a href="./game-of-life/introduction.html">튜토리얼</a> 은 처음부터 끝까지 읽도록 작성됐습니다. 튜토리얼에 있는 코드를 작성, 컴파일링하고 직접 실행해보세요. Rust와 WebAssembly를 같이 사용해본적이 없다면, 튜토리얼을 활용해보세요!</p>
 <p><a href="./reference/index.html">레퍼런스 섹션</a> 은 아무 순서로 정독해도 괜찮습니다.</p>
 <blockquote>
 <p><strong>💡 팁:</strong> 페이지 최상단에 있는 🔍 아이콘을 누르거나 <code>s</code> 키를 눌러서 책 전체를 검색해볼수도 있습니다.</p>
@@ -216,7 +216,7 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="배경-및-개념"><a class="header" href="#배경-및-개념">배경 및 개념</a></h1>
 <p>이 섹션은 Rust와 WebAssembly 개발에 뛰어들 때 필요한 맥락을 설명해줍니다.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="webassembly가-뭔가요"><a class="header" href="#webassembly가-뭔가요">WebAssembly가 뭔가요?</a></h1>
-<p>WebAssembly(wasm)는 [포괄적인 사양]이 있는 간단한 기계 모델이자 실행 가능한 포맷입니다. 휴대 가능하고, 가벼우며 거의 네이티브 프로그램과 같은 속도로 실행될수도 있도록 설계됐습니다.</p>
+<p>WebAssembly(wasm)는 <a href="https://webassembly.github.io/spec/">포괄적인 사양</a>이 있는 간단한 기계 모델이자 실행 가능한 포맷입니다. 휴대 가능하고, 가벼우며 거의 네이티브 프로그램과 같은 속도로 실행될수도 있도록 설계됐습니다.</p>
 <p>프로그래밍 언어로써, WebAssembly는 같은 구조를 나타내면서도 두가지 다른 포맷으로 구성돼 있습니다.</p>
 <ol>
 <li>
@@ -244,10 +244,10 @@
     end)
   (export "fac" (func $fac)))
 </code></pre>
-<p>위 예제가 <code>.wasm</code> 파일로는 어떻게 보일지 궁금하다면, [wat2wasmdemo] 웹사이트를 이용해보세요.</p>
+<p>위 예제가 <code>.wasm</code> 파일로는 어떻게 보일지 궁금하다면, <a href="https://webassembly.github.io/wabt/demo/wat2wasm/">wat2wasm 데모</a> 웹사이트를 이용해보세요.</p>
 <h2 id="선형-메모리"><a class="header" href="#선형-메모리">선형 메모리</a></h2>
-<p>WebAssembly 매우 간단한 [메모리 모델]을 가지고 있고, 하나의 wasm 모듈은 하나의 "선형 메모리" 에 접근할수 있습니다.</p>
-<p>이 메모리는 페이지 사이즈 (64K)의 곱만큼 [커질수 있으며] 이 사이즈는 줄어들 수 없습니다.</p>
+<p>WebAssembly 매우 간단한 <a href="https://webassembly.github.io/spec/core/syntax/modules.html#syntax-mem">메모리 모델</a>을 가지고 있고, 하나의 wasm 모듈은 하나의 "선형 메모리" 에 접근할수 있습니다.</p>
+<p>이 메모리는 페이지 사이즈 (64K)의 곱만큼 <a href="https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-memory">커질수 있으며</a> 이 사이즈는 줄어들 수 없습니다.</p>
 <h2 id="웹에서만-webassembly를-사용할-수-있나요"><a class="header" href="#웹에서만-webassembly를-사용할-수-있나요">웹에서만 WebAssembly를 사용할 수 있나요?</a></h2>
 <p>현재로써는 JavaScript 웹 커뮤니티에서 주목을 받고 있지만, wasm은 특정 실행 환경을 필요로 하지 않습니다. 그러므로, wasm이 미래에 다양한 맥락에서 사용할수 있는 "휴대 가능한 실행할수 있는" 포맷이라고 여겨질수도 있습니다. 하지만 오늘날 wasm은 대부분 (웹과 <a href="https://nodejs.org">Node.js</a>을 포함한) 다양한 형태로 존재하는 JavaScript(JS)와 함께 언급됩니다.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="튜토리얼-conways-game-of-life"><a class="header" href="#튜토리얼-conways-game-of-life">튜토리얼: Conway's Game of Life</a></h1>
@@ -286,7 +286,7 @@
 <p><code>wasm-pack</code>은 Rust로 생성된 WebAssembly를 개발, 테스팅, 배포하도록 도와주는 원스톱 샵입니다.</p>
 <p><a href="https://rustwasm.github.io/wasm-pack/installer/">여기서 <code>wasm-pack</code> 다운로드 해보세요!</a></p>
 <h2 id="cargo-generate"><a class="header" href="#cargo-generate"><code>cargo-generate</code></a></h2>
-<p>[<code>cargo-generate</code>는 기존에 존재하는 git 레포지토리를 템플릿으로 사용하면서 새 Rust 프로젝트를 시작하고 빠르게 돌릴수 있도록 도와줍니다.]</p>
+<p><a href="https://github.com/ashleygwilliams/cargo-generate"><code>cargo-generate</code>는 기존에 존재하는 git 레포지토리를 템플릿으로 사용하면서 새 Rust 프로젝트를 시작하고 빠르게 돌릴수 있도록 도와줍니다.</a></p>
 <p>이 명령어로 <code>cargo-generate</code>를 설치해보세요:</p>
 <pre><code>cargo install cargo-generate
 </code></pre>
