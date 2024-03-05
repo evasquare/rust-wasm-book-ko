@@ -1,0 +1,309 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Time Profiling - Rust and WebAssembly</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../why-rust-and-webassembly.html"><strong aria-hidden="true">2.</strong> Why Rust and WebAssembly?</a></li><li class="chapter-item expanded "><a href="../background-and-concepts.html"><strong aria-hidden="true">3.</strong> Background And Concepts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../what-is-webassembly.html"><strong aria-hidden="true">3.1.</strong> What is WebAssembly?</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../game-of-life/introduction.html"><strong aria-hidden="true">4.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../game-of-life/setup.html"><strong aria-hidden="true">4.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../game-of-life/hello-world.html"><strong aria-hidden="true">4.2.</strong> Hello, World!</a></li><li class="chapter-item expanded "><a href="../game-of-life/rules.html"><strong aria-hidden="true">4.3.</strong> Rules</a></li><li class="chapter-item expanded "><a href="../game-of-life/implementing.html"><strong aria-hidden="true">4.4.</strong> Implementing Life</a></li><li class="chapter-item expanded "><a href="../game-of-life/testing.html"><strong aria-hidden="true">4.5.</strong> Testing Life</a></li><li class="chapter-item expanded "><a href="../game-of-life/debugging.html"><strong aria-hidden="true">4.6.</strong> Debugging</a></li><li class="chapter-item expanded "><a href="../game-of-life/interactivity.html"><strong aria-hidden="true">4.7.</strong> Adding Interactivity</a></li><li class="chapter-item expanded "><a href="../game-of-life/time-profiling.html"><strong aria-hidden="true">4.8.</strong> Time Profiling</a></li><li class="chapter-item expanded "><a href="../game-of-life/code-size.html"><strong aria-hidden="true">4.9.</strong> Shrinking .wasm Size</a></li><li class="chapter-item expanded "><a href="../game-of-life/publishing-to-npm.html"><strong aria-hidden="true">4.10.</strong> Publishing to npm</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../reference/index.html"><strong aria-hidden="true">5.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/crates.html"><strong aria-hidden="true">5.1.</strong> Crates You Should Know</a></li><li class="chapter-item expanded "><a href="../reference/tools.html"><strong aria-hidden="true">5.2.</strong> Tools You Should Know</a></li><li class="chapter-item expanded "><a href="../reference/project-templates.html"><strong aria-hidden="true">5.3.</strong> Project Templates</a></li><li class="chapter-item expanded "><a href="../reference/debugging.html"><strong aria-hidden="true">5.4.</strong> Debugging</a></li><li class="chapter-item expanded "><a href="../reference/time-profiling.html" class="active"><strong aria-hidden="true">5.5.</strong> Time Profiling</a></li><li class="chapter-item expanded "><a href="../reference/code-size.html"><strong aria-hidden="true">5.6.</strong> Shrinking .wasm Size</a></li><li class="chapter-item expanded "><a href="../reference/js-ffi.html"><strong aria-hidden="true">5.7.</strong> JavaScript Interoperation</a></li><li class="chapter-item expanded "><a href="../reference/which-crates-work-with-wasm.html"><strong aria-hidden="true">5.8.</strong> Which Crates Will Work Off-the-Shelf with WebAssembly?</a></li><li class="chapter-item expanded "><a href="../reference/add-wasm-support-to-crate.html"><strong aria-hidden="true">5.9.</strong> How to Add WebAssembly Support to a General-Purpose Crate</a></li><li class="chapter-item expanded "><a href="../reference/deploying-to-production.html"><strong aria-hidden="true">5.10.</strong> Deploying Rust and WebAssembly to Production</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust and WebAssembly</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="time-profiling"><a class="header" href="#time-profiling">Time Profiling</a></h1>
+<p>This section describes how to profile Web pages using Rust and WebAssembly where
+the goal is improving throughput or latency.</p>
+<blockquote>
+<p>⚡ Always make sure you are using an optimized build when profiling! <code>wasm-pack build</code> will build with optimizations by default.</p>
+</blockquote>
+<h2 id="available-tools"><a class="header" href="#available-tools">Available Tools</a></h2>
+<h3 id="the-windowperformancenow-timer"><a class="header" href="#the-windowperformancenow-timer">The <code>window.performance.now()</code> Timer</a></h3>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Performance/now">The <code>performance.now()</code> function</a> returns a monotonic timestamp
+measured in milliseconds since the Web page was loaded.</p>
+<p>Calling <code>performance.now</code> has little overhead, so we can create simple, granular
+measurements from it without distorting the performance of the rest of the
+system and inflicting bias upon our measurements.</p>
+<p>We can use it to time various operations, and we can access
+<code>window.performance.now()</code> via <a href="https://rustwasm.github.io/wasm-bindgen/web-sys/index.html">the <code>web-sys</code> crate</a>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>extern crate web_sys;
+
+fn now() -&gt; f64 {
+    web_sys::window()
+        .expect("should have a Window")
+        .performance()
+        .expect("should have a Performance")
+        .now()
+}
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/fn.window.html">The <code>web_sys::window</code> function</a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/struct.Window.html#method.performance">The <code>web_sys::Window::performance</code> method</a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/struct.Performance.html#method.now">The <code>web_sys::Performance::now</code> method</a></li>
+</ul>
+<h3 id="developer-tools-profilers"><a class="header" href="#developer-tools-profilers">Developer Tools Profilers</a></h3>
+<p>All Web browsers' built-in developer tools include a profiler. These profilers
+display which functions are taking the most time with the usual kinds of
+visualizations like call trees and flame graphs.</p>
+<p>If you <a href="./debugging.html#building-with-debug-symbols">build with debug symbols</a> so that the "name" custom section is
+included in the wasm binary, then these profilers should display the Rust
+function names instead of something opaque like <code>wasm-function[123]</code>.</p>
+<p>Note that these profilers <em>won't</em> show inlined functions, and since Rust and
+LLVM rely on inlining so heavily, the results might still end up a bit
+perplexing.</p>
+<p><a href="../images/game-of-life/profiler-with-rust-names.png"><img src="../images/game-of-life/profiler-with-rust-names.png" alt="Screenshot of profiler with Rust symbols" /></a></p>
+<h4 id="resources"><a class="header" href="#resources">Resources</a></h4>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Tools/Performance">Firefox Developer Tools — Performance</a></li>
+<li><a href="https://docs.microsoft.com/en-us/microsoft-edge/devtools-guide/performance">Microsoft Edge Developer Tools — Performance</a></li>
+<li><a href="https://developers.google.com/web/tools/chrome-devtools/rendering-tools/js-execution">Chrome DevTools JavaScript Profiler</a></li>
+</ul>
+<h3 id="the-consoletime-and-consoletimeend-functions"><a class="header" href="#the-consoletime-and-consoletimeend-functions">The <code>console.time</code> and <code>console.timeEnd</code> Functions</a></h3>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/time">The <code>console.time</code> and <code>console.timeEnd</code> functions</a> allow you to
+log the timing of named operations to the browser's developer tools console. You
+call <code>console.time("some operation")</code> when the operation begins, and call
+<code>console.timeEnd("some operation")</code> when it finishes. The string label naming
+the operation is optional.</p>
+<p>You can use these functions directly via <a href="https://rustwasm.github.io/wasm-bindgen/web-sys/index.html">the <code>web-sys</code> crate</a>:</p>
+<ul>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.time_with_label.html"><code>web_sys::console::time_with_label("some operation")</code></a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.time_end_with_label.html"><code>web_sys::console::time_end_with_label("some operation")</code></a></li>
+</ul>
+<p>Here is a screenshot of <code>console.time</code> logs in the browser's console:</p>
+<p><a href="../images/game-of-life/console-time.png"><img src="../images/game-of-life/console-time.png" alt="Screenshot of console.time logs" /></a></p>
+<p>Additionally, <code>console.time</code> and <code>console.timeEnd</code> logs will show up in your
+browser's profiler's "timeline" or "waterfall" view:</p>
+<p><a href="../images/game-of-life/console-time-in-profiler.png"><img src="../images/game-of-life/console-time-in-profiler.png" alt="Screenshot of console.time logs" /></a></p>
+<h3 id="using-bench-with-native-code"><a class="header" href="#using-bench-with-native-code">Using <code>#[bench]</code> with Native Code</a></h3>
+<p>The same way we can often leverage our operating system's native code debugging
+tools by writing <code>#[test]</code>s rather than debugging on the Web, we can leverage
+our operating system's native code profiling tools by writing <code>#[bench]</code>
+functions.</p>
+<p>Write your benchmarks in the <code>benches</code> subdirectory of your crate. Make sure
+that your <code>crate-type</code> includes <code>"rlib"</code> or else the bench binaries won't be
+able to link your main lib.</p>
+<p>However! Make sure that you know the bottleneck is in the WebAssembly before
+investing much energy in native code profiling! Use your browser's profiler to
+confirm this, or else you risk wasting your time optimizing code that isn't hot.</p>
+<h4 id="resources-1"><a class="header" href="#resources-1">Resources</a></h4>
+<ul>
+<li><a href="http://www.brendangregg.com/perf.html">Using the <code>perf</code> profiler on Linux</a></li>
+<li><a href="https://help.apple.com/instruments/mac/current/">Using the Instruments.app profiler on macOS</a></li>
+<li><a href="https://software.intel.com/en-us/vtune">The VTune profiler supports Windows and Linux</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../reference/debugging.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../reference/code-size.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../reference/debugging.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../reference/code-size.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

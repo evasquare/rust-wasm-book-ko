@@ -1,0 +1,3191 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Rust and WebAssembly</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="why-rust-and-webassembly.html"><strong aria-hidden="true">2.</strong> Why Rust and WebAssembly?</a></li><li class="chapter-item expanded "><a href="background-and-concepts.html"><strong aria-hidden="true">3.</strong> Background And Concepts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="what-is-webassembly.html"><strong aria-hidden="true">3.1.</strong> What is WebAssembly?</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="game-of-life/introduction.html"><strong aria-hidden="true">4.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="game-of-life/setup.html"><strong aria-hidden="true">4.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="game-of-life/hello-world.html"><strong aria-hidden="true">4.2.</strong> Hello, World!</a></li><li class="chapter-item expanded "><a href="game-of-life/rules.html"><strong aria-hidden="true">4.3.</strong> Rules</a></li><li class="chapter-item expanded "><a href="game-of-life/implementing.html"><strong aria-hidden="true">4.4.</strong> Implementing Life</a></li><li class="chapter-item expanded "><a href="game-of-life/testing.html"><strong aria-hidden="true">4.5.</strong> Testing Life</a></li><li class="chapter-item expanded "><a href="game-of-life/debugging.html"><strong aria-hidden="true">4.6.</strong> Debugging</a></li><li class="chapter-item expanded "><a href="game-of-life/interactivity.html"><strong aria-hidden="true">4.7.</strong> Adding Interactivity</a></li><li class="chapter-item expanded "><a href="game-of-life/time-profiling.html"><strong aria-hidden="true">4.8.</strong> Time Profiling</a></li><li class="chapter-item expanded "><a href="game-of-life/code-size.html"><strong aria-hidden="true">4.9.</strong> Shrinking .wasm Size</a></li><li class="chapter-item expanded "><a href="game-of-life/publishing-to-npm.html"><strong aria-hidden="true">4.10.</strong> Publishing to npm</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="reference/index.html"><strong aria-hidden="true">5.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reference/crates.html"><strong aria-hidden="true">5.1.</strong> Crates You Should Know</a></li><li class="chapter-item expanded "><a href="reference/tools.html"><strong aria-hidden="true">5.2.</strong> Tools You Should Know</a></li><li class="chapter-item expanded "><a href="reference/project-templates.html"><strong aria-hidden="true">5.3.</strong> Project Templates</a></li><li class="chapter-item expanded "><a href="reference/debugging.html"><strong aria-hidden="true">5.4.</strong> Debugging</a></li><li class="chapter-item expanded "><a href="reference/time-profiling.html"><strong aria-hidden="true">5.5.</strong> Time Profiling</a></li><li class="chapter-item expanded "><a href="reference/code-size.html"><strong aria-hidden="true">5.6.</strong> Shrinking .wasm Size</a></li><li class="chapter-item expanded "><a href="reference/js-ffi.html"><strong aria-hidden="true">5.7.</strong> JavaScript Interoperation</a></li><li class="chapter-item expanded "><a href="reference/which-crates-work-with-wasm.html"><strong aria-hidden="true">5.8.</strong> Which Crates Will Work Off-the-Shelf with WebAssembly?</a></li><li class="chapter-item expanded "><a href="reference/add-wasm-support-to-crate.html"><strong aria-hidden="true">5.9.</strong> How to Add WebAssembly Support to a General-Purpose Crate</a></li><li class="chapter-item expanded "><a href="reference/deploying-to-production.html"><strong aria-hidden="true">5.10.</strong> Deploying Rust and WebAssembly to Production</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust and WebAssembly</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="rust--와-webassembly-"><a class="header" href="#rust--와-webassembly-">Rust 🦀 와 WebAssembly 🕸</a></h1>
+<p>이 간결한 책은 <a href="https://www.rust-lang.org">Rust</a>와 <a href="https://webassembly.org/">WebAssembly</a>를 함께 사용하는 방법을 설명해줍니다.</p>
+<h2 id="누구를-위한-책인가요"><a class="header" href="#누구를-위한-책인가요">누구를 위한 책인가요?</a></h2>
+<p>이 책은 Rust 코드를 웹에서 작동하는 빠르고 믿을수 있는 WebAssembly 코드로 컴파일하는데에 관심이 있는 사람들을 위해 작성됐습니다.
+꼭 전문가가 돼야할 필요는 없지만, Rust를 조금이라도 알아야 하고 JavaScript와 HTML, CSS에 익숙하면 더 좋습니다.</p>
+<p>Rust를 아직 모르시나요? <a href="https://doc.rust-lang.org/book/"><em>The Rust Programming Language</em> 책으로 시작해보세요</a></p>
+<p>JavaScript나 HTML, CSS를 모르시나요? <a href="https://developer.mozilla.org/en-US/docs/Learn">MDN에서 더 알아보세요.</a></p>
+<h2 id="이-책을-읽는-방법"><a class="header" href="#이-책을-읽는-방법">이 책을 읽는 방법</a></h2>
+<p><a href="./why-rust-and-webassembly.html">Rust와 WebAssembly를 사용하는 동기부여</a> 를 읽어보면 좋고, <a href="./background-and-concepts.html">배경과 컨셉</a> 과 먼저 친숙해져보는것도 좋습니다.</p>
+<p>이 [튜토리얼][] 은 처음부터 끝까지 읽도록 작성됐습니다. 튜토리얼에 있는 코드를 작성, 컴파일링하고 직접 실행해보세요. Rust와 WebAssembly를 같이 사용해본적이 없다면, 튜토리얼을 활용해보세요!</p>
+<p><a href="./reference/index.html">레퍼런스 섹션</a> 은 아무 순서로 정독해도 괜찮습니다.</p>
+<blockquote>
+<p><strong>💡 팁:</strong> 페이지 최상단에 있는 🔍 아이콘을 누르거나 <code>s</code> 키를 눌러서 책 전체를 검색해볼수도 있습니다.</p>
+</blockquote>
+<h2 id="이-책에-기여하기"><a class="header" href="#이-책에-기여하기">이 책에 기여하기</a></h2>
+<p>이 책은 오픈소스입니다! 오타를 찾으셨나요? 누락된 부분이 있나요? <a href="https://github.com/rustwasm/book"><strong>풀 리퀘스트를 생성해보세요!</strong></a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="왜-rust로-webassembly-개발을-해야-하나요"><a class="header" href="#왜-rust로-webassembly-개발을-해야-하나요">왜 Rust로 WebAssembly 개발을 해야 하나요?</a></h1>
+<h2 id="저레벨-컨트롤과-고레벨-개발자-경험"><a class="header" href="#저레벨-컨트롤과-고레벨-개발자-경험">저레벨 컨트롤과 고레벨 개발자 경험</a></h2>
+<p>JavaScript 웹 앱들은 믿을수 있는 성능을 확보하고 유지하는데 어려움을 겪습니다. JavaScript 동적 타입 시스템과 가비지 콜렉션 (Garbage Collection)을 잠시 중단하는 것만으로는 크게 도움이 되지 않습니다. 보기에는 작은 내용의 코드를 수정하더라도 JIT에 치명적인 코드를 작성한다면 드라마틱한 성능 저하를 일으킬수도 있습니다.</p>
+<p>Rust는 JavaScript를 병들게 만든 비결정적인 가비지 콜렉션 중단으로부터 자유로울 뿐 아니라, 프로그래머들이 간접지정과 단일화, 메모리 레이아웃을 컨트롤할수 있도록 함으로 저레벨 컨트롤과 믿을수 있는 성능을 제공합니다.</p>
+<h2 id="작은-wasm-사이즈"><a class="header" href="#작은-wasm-사이즈">작은 <code>.wasm</code> 사이즈</a></h2>
+<p><code>.wasm</code> 파일이 네트워크로 전송돼야 하는 점 때문에 코드의 파일 사이즈는 매우 중요합니다. Rust는 런타임이 작고 가비지 콜렉터와 같은 불필요한 요소가 없어 <code>.wasm</code> 사이즈를 효과적으로 줄일수 있도록 해줍니다. 이는 코드 파일 사이즈의 관점에서 실제로 사용하는 기능만 포함할 수 있도록 해줍니다.</p>
+<h2 id="모든-내용을-다시-작성하지-말아주세요"><a class="header" href="#모든-내용을-다시-작성하지-말아주세요">모든 내용을 다시 작성하지 <strong>말아주세요</strong></a></h2>
+<p>기존에 존재하는 코드 베이스를 버릴 필요는 없습니다. 바로 효과를 볼수 있도록, 성능이 중요한 JavaScript 함수들을 Rust로 옮기는 것으로 시작해볼수도 있습니다. 원한다면 거기서 멈춰도 괜찮습니다.</p>
+<h2 id="다른-툴과-잘-작동합니다"><a class="header" href="#다른-툴과-잘-작동합니다">다른 툴과 잘 작동합니다</a></h2>
+<p>Rust와 WebAssembly는 기존에 존재하는 JavaScript 툴링과 함께 가장 잘 작동합니다. WebAssembly는 ECMAScript 모듈을 지원하고 npm과 Webpack처럼 기존에 사랑받던 툴링을 계속 사용할수 있게 해줍니다.</p>
+<h2 id="기대할수-있는-강점들"><a class="header" href="#기대할수-있는-강점들">기대할수 있는 강점들</a></h2>
+<p>Rust는 개발자들이 기대하는 현대적인 편의 기능을 갖추고 있습니다. 예를 들어서:</p>
+<ul>
+<li>
+<p><code>cargo</code>로 강력한 패키지 관리하기</p>
+</li>
+<li>
+<p>(추가 비용 없이) 이해하기 쉬운 코드를 쓸수 있게 해주는 추상화</p>
+</li>
+<li>
+<p>그리고 환영해주는 커뮤니티! 😊</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="배경-및-개념"><a class="header" href="#배경-및-개념">배경 및 개념</a></h1>
+<p>이 섹션은 Rust와 WebAssembly 개발에 뛰어들 때 필요한 맥락을 설명해줍니다.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="webassembly가-뭔가요"><a class="header" href="#webassembly가-뭔가요">WebAssembly가 뭔가요?</a></h1>
+<p>WebAssembly(wasm)는 [포괄적인 사양]이 있는 간단한 기계 모델이자 실행 가능한 포맷입니다. 휴대 가능하고, 가벼우며 거의 네이티브 프로그램과 같은 속도로 실행될수도 있도록 설계됐습니다.</p>
+<p>프로그래밍 언어로써, WebAssembly는 같은 구조를 나타내면서도 두가지 다른 포맷으로 구성돼 있습니다.</p>
+<ol>
+<li>
+<p><code>.wat</code> 텍스트 포맷 ("<strong>W</strong>eb<strong>A</strong>ssembly <strong>T</strong>ext" 에서 유래함)은 <a href="https://en.wikipedia.org/wiki/S-expression">S-expressions</a> 구조를 사용하고 Scheme이나 Clojure와 같은 Lisp 계열 언어와 유사점을 공유합니다.</p>
+</li>
+<li>
+<p><code>.wasm</code> 바이너리 포맷은 더 저레벨이면서 WebAssembly 가상 머신에서 바로 사용되도록 의도됐습니다. 개념적으로 ELF 와 Mach-0와 비슷합니다.</p>
+</li>
+</ol>
+<p>참고 자료로, <code>wat</code> 언어로 작성된 팩토리얼 함수를 확인해보세요.</p>
+<pre><code>(module
+  (func $fac (param f64) (result f64)
+    local.get 0
+    f64.const 1
+    f64.lt
+    if (result f64)
+      f64.const 1
+    else
+      local.get 0
+      local.get 0
+      f64.const 1
+      f64.sub
+      call $fac
+      f64.mul
+    end)
+  (export "fac" (func $fac)))
+</code></pre>
+<p>위 예제가 <code>.wasm</code> 파일로는 어떻게 보일지 궁금하다면, [wat2wasmdemo] 웹사이트를 이용해보세요.</p>
+<h2 id="선형-메모리"><a class="header" href="#선형-메모리">선형 메모리</a></h2>
+<p>WebAssembly 매우 간단한 [메모리 모델]을 가지고 있고, 하나의 wasm 모듈은 하나의 "선형 메모리" 에 접근할수 있습니다.</p>
+<p>이 메모리는 페이지 사이즈 (64K)의 곱만큼 [커질수 있으며] 이 사이즈는 줄어들 수 없습니다.</p>
+<h2 id="웹에서만-webassembly를-사용할-수-있나요"><a class="header" href="#웹에서만-webassembly를-사용할-수-있나요">웹에서만 WebAssembly를 사용할 수 있나요?</a></h2>
+<p>현재로써는 JavaScript 웹 커뮤니티에서 주목을 받고 있지만, wasm은 특정 실행 환경을 필요로 하지 않습니다. 그러므로, wasm이 미래에 다양한 맥락에서 사용할수 있는 "휴대 가능한 실행할수 있는" 포맷이라고 여겨질수도 있습니다. 하지만 오늘날 wasm은 대부분 (웹과 <a href="https://nodejs.org">Node.js</a>을 포함한) 다양한 형태로 존재하는 JavaScript(JS)와 함께 언급됩니다.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="튜토리얼-conways-game-of-life"><a class="header" href="#튜토리얼-conways-game-of-life">튜토리얼: Conway's Game of Life</a></h1>
+<p>이 튜토리얼은 <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway's Game of Life</a>를 Rust와 WebAssembly로 구현하는 내용을 담고 있습니다.</p>
+<h2 id="누구를-위한-튜토리얼인가요"><a class="header" href="#누구를-위한-튜토리얼인가요">누구를 위한 튜토리얼인가요?</a></h2>
+<p>이 튜토리얼은 이미 기초적인 Rust와 JavaScript를 배웠고, Rust와 WebAssembly, JavaScript를 같이 사용하고 싶어하는 사람들을 위해 작성됐습니다.</p>
+<p>기초적인 Rust, JavaScript, HTML 코드를 문제 없이 작성할 수 있어야 합니다. 하지만 전문가가 돼야 할 필요는 전혀 없습니다.</p>
+<h2 id="무엇을-배우게-되나요"><a class="header" href="#무엇을-배우게-되나요">무엇을 배우게 되나요?</a></h2>
+<ul>
+<li>
+<p>WebAssembly 컴파일링을 할수 있도록 Rust 툴체인 셋업하는 법.</p>
+</li>
+<li>
+<p>Rust, WebAssembly, JavaScript, HTML, CSS으로 만든 다언어 프로그램 개발을 위한 워크플로우.</p>
+</li>
+<li>
+<p>Rust와 WebAssembly, 그리고 JavaScript의 강점을 모두 살리는 API를 디자인하는 방법.</p>
+</li>
+<li>
+<p>Rust 코드에서 컴파일된 WebAssembly 모듈 디버깅하는 법.</p>
+</li>
+<li>
+<p>Rust와 WebAssembly 프로그램을 더 빠르게 만들기 위해 타임 프로파일링 하는 법.</p>
+</li>
+<li>
+<p><code>.wasm</code> 바이너리를 네트워크에서 다운로드 할때 더 작고 더 빠르게 만들기 위해 Rust와 WebAssembly 프로그램을 사이즈 프로파일링 하는 방법.</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="셋업하기"><a class="header" href="#셋업하기">셋업하기</a></h1>
+<p>이 섹션은 어떻게 Rust 프로그램들을 WebAssembly로 컴파일하고 JavaScript 환경과 통합시키는지 설명해줍니다.</p>
+<h2 id="rust-툴체인"><a class="header" href="#rust-툴체인">Rust 툴체인</a></h2>
+<p>진행을 위해 <code>rustup</code>, <code>rustc</code>, <code>cargo</code>를 포함한 스탠다드 Rust 툴체인이 필요합니다.</p>
+<p><a href="https://www.rust-lang.org/tools/install">Rust 툴체인을 설치하려면 이 지침을 따라주세요.</a></p>
+<p>Rust와 WebAssembly 개발 경험이 stable 버전의 러스트에 포함될만큼 안정화되고 있습니다! 그러므로 어떤 실험적 기능 flag도 요구되지 않습니다. 하지만 Rust 1.30이나 그 이후 버전이 요구됩니다.</p>
+<h2 id="wasm-pack"><a class="header" href="#wasm-pack"><code>wasm-pack</code></a></h2>
+<p><code>wasm-pack</code>은 Rust로 생성된 WebAssembly를 개발, 테스팅, 배포하도록 도와주는 원스톱 샵입니다.</p>
+<p><a href="https://rustwasm.github.io/wasm-pack/installer/">여기서 <code>wasm-pack</code> 다운로드 해보세요!</a></p>
+<h2 id="cargo-generate"><a class="header" href="#cargo-generate"><code>cargo-generate</code></a></h2>
+<p>[<code>cargo-generate</code>는 기존에 존재하는 git 레포지토리를 템플릿으로 사용하면서 새 Rust 프로젝트를 시작하고 빠르게 돌릴수 있도록 도와줍니다.]</p>
+<p>이 명령어로 <code>cargo-generate</code>를 설치해보세요:</p>
+<pre><code>cargo install cargo-generate
+</code></pre>
+<h2 id="npm"><a class="header" href="#npm"><code>npm</code></a></h2>
+<p><code>npm</code>은 JavaScript와 함께 사용되는 패키지 매니저입니다. 이 책을 진행하면서 JavaScript 번들러와 개발 서버를 설치하고 돌리는데 사용될 예정입니다. 이 튜토리얼 끝에서 컴파일된 <code>.wasm</code>을 <code>npm</code> 레지스트리로 배포해봅니다.</p>
+<p><a href="https://www.npmjs.com/get-npm"><code>npm</code> 을 설치하려면 이 지침을 따라주세요.</a></p>
+<p>이미 <code>npm</code>이 설치돼 있다면, 이 명령어로 최신 버전으로 업데이트가 돼 있는지 확인해주세요:</p>
+<pre><code>npm install npm@latest -g
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world"><a class="header" href="#hello-world">Hello, World!</a></h1>
+<p>이 섹션은 어떻게 Rust와 WebAssembly 프로그램을 처음 돌려보는지 보여줍니다. "Hello, World!" 메세지를 보여주는 웹페이지를 만들어봅시다.</p>
+<p>시작하기 전에 <a href="game-of-life/setup.html">셋업 가이드</a>을 읽고 따라왔는지 확인해주세요.</p>
+<h2 id="프로젝트-템플릿-클론하기"><a class="header" href="#프로젝트-템플릿-클론하기">프로젝트 템플릿 클론하기</a></h2>
+<p>이 프로젝트 템플릿은 합리적인 기본 설정으로 구성돼 있어 웹으로 코드를 빠르게 개발, 통합 및 패키징할수 있게 해줍니다.</p>
+<p>이 명령어로 프로젝트를 클론해보세요:</p>
+<pre><code class="language-text">cargo generate --git https://github.com/rustwasm/wasm-pack-template
+</code></pre>
+<p>새 프로젝트 이름을 어떻게 지을지 입력하게 됩니다. <strong>"wasm-game-of-life"</strong> 이라는 이름을 사용합시다.</p>
+<pre><code class="language-text">wasm-game-of-life
+</code></pre>
+<h2 id="어떻게-구성돼-있나요"><a class="header" href="#어떻게-구성돼-있나요">어떻게 구성돼 있나요?</a></h2>
+<p>새로 생성한 <code>wasm-game-of-life</code> 프로젝트를 열어봅시다.</p>
+<pre><code>cd wasm-game-of-life
+</code></pre>
+<p>그리고 안에 어떤 파일이 담겨있는지 확인해봅시다:</p>
+<pre><code class="language-text">wasm-game-of-life/
+├── Cargo.toml
+├── LICENSE_APACHE
+├── LICENSE_MIT
+├── README.md
+└── src
+    ├── lib.rs
+    └── utils.rs
+</code></pre>
+<p>몇가지 파일을 더 자세히 살펴볼까요?</p>
+<h3 id="wasm-game-of-lifecargotoml"><a class="header" href="#wasm-game-of-lifecargotoml"><code>wasm-game-of-life/Cargo.toml</code></a></h3>
+<p><code>Cargo.toml</code> 파일은 Rust의 패키지 매니저이자 빌드 툴인 <code>cargo</code>와 함께 사용되는 의존성과 메타데이터를 지정합니다. 이 파일은 <code>wasm-bindgen</code> 의존성과 <code>wasm</code> 라이브러리 생성에 사용될 올바르게 설정된 <code>crate-type</code>이 함께 사전에 미리 설정되어 포함돼 있습니다. 몇가지 필수가 아닌 의존성은 나중에 살펴보겠습니다.</p>
+<h3 id="wasm-game-of-lifesrclibrs"><a class="header" href="#wasm-game-of-lifesrclibrs"><code>wasm-game-of-life/src/lib.rs</code></a></h3>
+<p><code>src/lib.rs</code> 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. <code>wasm-bindgen</code>이 자바스크립트를 조작하기 위해 사용되고, <code>window.alert</code> 자바스크립트 함수를 불러온 다음에 <code>greet</code> Rust 함수를 자바스크립트로 보냅니다. 이렇게 인사 메세지를 작동시키게 됩니다.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>mod utils;
+
+use wasm_bindgen::prelude::*;
+
+// `wee_alloc` 기능이 활성화 돼 있으면, `wee-alloc`를 전역 할당자로 사용합니다.
+#[cfg(feature = "wee_alloc")]
+#[global_allocator]
+static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
+#[wasm_bindgen]
+extern {
+    fn alert(s: &amp;str);
+}
+
+#[wasm_bindgen]
+pub fn greet() {
+    alert("Hello, wasm-game-of-life!");
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="wasm-game-of-lifesrcutilsrs"><a class="header" href="#wasm-game-of-lifesrcutilsrs"><code>wasm-game-of-life/src/utils.rs</code></a></h3>
+<p><code>src/utils.rs</code> 모듈은 WebAssembly로 컴파일된 Rust 코드와 더 쉽게 작업하도록 도와도록 주로 사용되는 유틸리티를 포함합니다. <a href="game-of-life/debugging.html">debugging our wasm code</a>와 같은 튜토리얼 후반 부분에서 이러한 유틸리티들을 더 자세히 살펴보겠습니다. 지금은 이 파일을 무시해도 괜찮습니다.</p>
+<h2 id="프로젝트-빌드하기"><a class="header" href="#프로젝트-빌드하기">프로젝트 빌드하기</a></h2>
+<p><code>wasm-pack</code>을 사용하여 다음 빌드 과정을 자동화하게 됩니다:</p>
+<ul>
+<li>Rust 1.30나 그 이후 버전을 사용하고 있는지, <code>wasm32-unknown-unknown</code> 타겟이 <code>rustup</code>으로 설치돼 있는지 확인합니다.</li>
+<li><code>cargo</code>를 사용하여 Rust 소스 코드를 WebAssembly <code>.wasm</code> 바이너리로 컴파일합니다.</li>
+<li><code>wasm-bindgen</code>을 사용하여 Rust로 만든 WebAssembly에서 사용 가능한 JavaScript API를 생성합니다.</li>
+</ul>
+<p>위 작업을 시작하려면, 프로젝트 디렉토리에서 다음 명령어를 실행해주세요:</p>
+<pre><code>wasm-pack build
+</code></pre>
+<p>빌드가 완료되면 결과물을 <code>pkg</code> 디렉토리에서 확인해보세요. 다음 내용물이 보일 겁니다:</p>
+<pre><code>pkg/
+├── package.json
+├── README.md
+├── wasm_game_of_life_bg.wasm
+├── wasm_game_of_life.d.ts
+└── wasm_game_of_life.js
+</code></pre>
+<p><code>README.md</code> 파일이 메인 프로젝트에서 복사되지만 나머지 파일은 완전히 새로 생성된 부분을 확인할수 있습니다.</p>
+<h3 id="wasm-game-of-lifepkgwasm_game_of_life_bgwasm"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_life_bgwasm"><code>wasm-game-of-life/pkg/wasm_game_of_life_bg.wasm</code></a></h3>
+<p>이러한 <code>.wasm</code> 파일은 Rust 컴파일러가 Rust 소스 코드로 생성한 바이너리 파일입니다. 이 파일은 wasm 형식으로 컴파일된 소스 코드의 함수와 데이터들로 구성돼 있습니다. 변환된 "greet" 함수가 예가 될수 있습니다.</p>
+<h3 id="wasm-game-of-lifepkgwasm_game_of_lifejs"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_lifejs"><code>wasm-game-of-life/pkg/wasm_game_of_life.js</code></a></h3>
+<p>이러한 <code>.js</code> 파일은 <code>wasm-bindgen</code>에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 부를수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 부를수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, <code>greet</code> 이라는 JavaScript 함수를 통해 WebAssembly에 있는 해당하는 함수를 부를수 있습니다. 현재로서는 이러한 파일들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 도움이 많이 됩니다.</p>
+<pre><code class="language-js">import * as wasm from './wasm_game_of_life_bg';
+
+// ...
+
+export function greet() {
+    return wasm.greet();
+}
+</code></pre>
+<h3 id="wasm-game-of-lifepkgwasm_game_of_lifedts"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_lifedts"><code>wasm-game-of-life/pkg/wasm_game_of_life.d.ts</code></a></h3>
+<p><code>.d.ts</code> 파일은 생성된 JavaScript 파일과 함께 사용할수 있는 <a href="http://www.typescriptlang.org/">TypeScript</a> 타입 정의를 포함합니다. TypeScript를 사용한다면 정적 타입을 사용하면서 IDE가 제공하는 자동 완성과 같은 기능과 함께 WebAssembly 함수를 호출할 수 있게 됩니다. TypeScript를 사용하지 않는다면, 이 파일을 무시해도 괜찮습니다.</p>
+<pre><code class="language-typescript">export function greet(): void;
+</code></pre>
+<h3 id="wasm-game-of-lifepkgpackagejson"><a class="header" href="#wasm-game-of-lifepkgpackagejson"><code>wasm-game-of-life/pkg/package.json</code></a></h3>
+<p><a href="https://docs.npmjs.com/files/package.json"><code>package.json</code> 파일은 생성된 JavaScript와 WebAssembly 패키지에 대한 메타데이터를 포함합니다.</a> 이런 메타데이터는 npm과 JavaScript 번들러가 여러 패키지들의 종속성, 패키지 이름, 버전 등을 결정할 때 사용됩니다. JavaScript 툴링과 함께 사용하고 npm에 WebAssembly 패키지를 배포할 때 유용합니다.</p>
+<pre><code class="language-json">{
+  "name": "wasm-game-of-life",
+  "collaborators": [
+    "Your Name &lt;your.email@example.com&gt;"
+  ],
+  "description": null,
+  "version": "0.1.0",
+  "license": null,
+  "repository": null,
+  "files": [
+    "wasm_game_of_life_bg.wasm",
+    "wasm_game_of_life.d.ts"
+  ],
+  "main": "wasm_game_of_life.js",
+  "types": "wasm_game_of_life.d.ts"
+}
+</code></pre>
+<h2 id="웹-페이지에-포함시키기"><a class="header" href="#웹-페이지에-포함시키기">웹 페이지에 포함시키기</a></h2>
+<p><code>wasm-game-of-life</code> 패키지를 웹페이지에 포함시키고 웹 환경에서 작동시키기 위해, <a href="https://github.com/rustwasm/create-wasm-app">
+<code>create-wasm-app</code> JavaScript 프로젝트 템플릿</a> 을 사용해봅시다.</p>
+<p>다음 명령어를 <code>wasm-game-of-life</code> 디렉토리 내부에서 실행해주세요:</p>
+<pre><code>npm init wasm-app www
+</code></pre>
+<p>새롭게 생성된 내부 디렉토리인 <code>wasm-game-of-life/www</code> 는 다음 파일들을 포함합니다:</p>
+<pre><code>wasm-game-of-life/www/
+├── bootstrap.js
+├── index.html
+├── index.js
+├── LICENSE-APACHE
+├── LICENSE-MIT
+├── package.json
+├── README.md
+└── webpack.config.js
+</code></pre>
+<p>한번 더 생성된 파일들을 자세히 살펴봅시다.</p>
+<h3 id="wasm-game-of-lifewwwpackagejson"><a class="header" href="#wasm-game-of-lifewwwpackagejson"><code>wasm-game-of-life/www/package.json</code></a></h3>
+<p>이 <code>package.json</code> 파일은 <code>webpack</code>과 <code>webpack-dev-server</code> 종속성들로 미리 셋업이 되어 있고, npm 에 배포된 <code>wasm-pack-template</code>의 초기 버전인 <code>hello-wasm-pack</code> 패키지 또한 종속성도 포함하고 있습니다.</p>
+<h3 id="wasm-game-of-lifewwwwebpackconfigjs"><a class="header" href="#wasm-game-of-lifewwwwebpackconfigjs"><code>wasm-game-of-life/www/webpack.config.js</code></a></h3>
+<p>이 파일은 webpack과 로컬 개발 서버를 설정해줍니다. 미리 설정돼어 있으며 webpack 과 로컬 개발 서버를 사용하기 위해 따로 수정할 필요가 전혀 없습니다.</p>
+<h3 id="wasm-game-of-lifewwwindexhtml"><a class="header" href="#wasm-game-of-lifewwwindexhtml"><code>wasm-game-of-life/www/index.html</code></a></h3>
+<p>웹사이트에 사용되는 최상단 HTML 파일입니다. <code>index.js</code> 를 감싸주는 <code>bootstrap.js</code>를 부르는 것 외에는 특별한 동작을 하지 않습니다.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Hello wasm-pack!&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="./bootstrap.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="wasm-game-of-lifewwwindexjs"><a class="header" href="#wasm-game-of-lifewwwindexjs"><code>wasm-game-of-life/www/index.js</code></a></h3>
+<p>이 <code>index.js</code>는 작업을 하게 될 웹사이트 JavaScript의 엔트리 포인트입니다. <code>wasm-pack-template</code>를 컴파일한 WebAssembly와 JavaScript 코드를 포함하는 <code>hello-wasm-pack</code> npm 패키지를 로드하고, 패키지 내부의 <code>greet</code> 함수를 호출합니다.</p>
+<pre><code class="language-js">import * as wasm from "hello-wasm-pack";
+
+wasm.greet();
+</code></pre>
+<h3 id="종속성-설치하기"><a class="header" href="#종속성-설치하기">종속성 설치하기</a></h3>
+<p>우선, <code>wasm-game-of-life/www</code> 내부 디렉토리에서 <code>npm install</code> 명령어를 실행하여 로컬 개발 서버와 종속성들이 설치됐는지 확인해주세요:</p>
+<pre><code class="language-text">npm install
+</code></pre>
+<p>이 커맨드는 한번만 실행돼야 합니다. 실행하면 <code>webpack</code> JavaScript 번들러와 개발 서버를 설치할수 있습니다.</p>
+<blockquote>
+<p><code>webpack</code>이 Rust와 WebAssembly 작업에 필수가 아니라는 점을 기억해주세요.
+단순히 간편하게 책을 진행하기 위해 이 번들러와 개발 서버를 사용하고 있습니다.
+Parcel과 Rollup도 WebAssembly와 ECMAScript 모듈을 부르는데 사용할 수 있습니다.
+원한다면 Rust와 WebAssembly를 <a href="https://rustwasm.github.io/docs/wasm-bindgen/examples/without-a-bundler.html">번들러 없이</a> 사용할수도 있습니다.</p>
+</blockquote>
+<h3 id="www-패키지-내부에서-로컬-wasm-game-of-life-패키지-사용하기"><a class="header" href="#www-패키지-내부에서-로컬-wasm-game-of-life-패키지-사용하기"><code>www</code> 패키지 내부에서 로컬 <code>wasm-game-of-life</code> 패키지 사용하기</a></h3>
+<p>npm에서 받은 <code>hello-wasm-pack</code> 대신에, 로컬 환경에 있는 <code>wasm-game-of-life</code>를 사용합시다. 이렇게 함으로써 Game of Life 프로그램을 더 점진적으로 개발할수 있게 됩니다.</p>
+<p><code>wasm-game-of-life/www/package.json</code> 파일을 열고 <code>devDependencies</code> 다음에 <code>dependencies</code> 필드를 생성해주세요. 그 다음에, <code>"wasm-game-of-life": "file:../pkg"</code> 엔트리를 포함시켜주세요.</p>
+<pre><code class="language-js">{
+  // ...
+  "dependencies": {                     // 이 3줄 길이의 블럭을 추가해주세요!
+    "wasm-game-of-life": "file:../pkg"
+  },
+  "devDependencies": {
+    //...
+  }
+}
+</code></pre>
+<p>다음으로, <code>hello-wasm-pack</code> 대신에 <code>wasm-game-of-life</code>를 부를수 있도록 <code>wasm-game-of-life/www/index.js</code> 파일을 수정해주세요:</p>
+<pre><code class="language-js">import * as wasm from "wasm-game-of-life";
+
+wasm.greet();
+</code></pre>
+<p>새 종속성을 만들었다면, 다음 명령어로 설치해야 합니다:</p>
+<pre><code class="language-text">npm install
+</code></pre>
+<p>이제 웹사이트를 로컬 환경에서 구동할수 있게 됐습니다!</p>
+<h2 id="로컬-환경에서-구동하기"><a class="header" href="#로컬-환경에서-구동하기">로컬 환경에서 구동하기</a></h2>
+<p>이제 개발 서버를 구동할 새 터미널을 열어주세요. 새로 연 터미널에서 서버를 구동하면 다른 명령어를 계속 입력할수 있는 동시에 백그라운드에서 계속 서버를 구동할수 있게 됩니다. 새 터미널에서 <code>wasm-game-of-life/www</code> 디렉토리로 들어간 다음 이 명령어를 실행해주세요:</p>
+<pre><code>npm run start
+</code></pre>
+<p>웹 브라우저를 열고 <a href="http://localhost:8080/">http://localhost:8080/</a> 를 열면 표시되는 인사 메세지를 확인할수 있습니다:</p>
+<p><a href="game-of-life/../images/game-of-life/hello-world.png"><img src="game-of-life/../images/game-of-life/hello-world.png" alt="Screenshot of the &quot;Hello, wasm-game-of-life!&quot; Web page alert" /></a></p>
+<p>파일을 저장할때마다 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지에 반영되게 하고 싶다면, <code>wasm-pack build</code> 명령어를 <code>wasm-game-of-life</code> 디렉토리에서 다시 실행해주시면 됩니다.</p>
+<h2 id="연습해보기"><a class="header" href="#연습해보기">연습해보기</a></h2>
+<ul>
+<li>
+<p><code>wasm-game-of-life/src/lib.rs</code> 디렉토리에 있는 <code>greet</code> 함수를
+수정해서 표시되는 메세지를 커스터마이징 할수 있도록 <code>name: &amp;str</code> 매개변수를 추가해보고, <code>wasm-game-of-life/www/index.js</code> 파일에서 <code>greet</code> 함수를 이름과 함께 불러보세요.
+<code>wasm-pack build</code> 명령어로 <code>.wasm</code> 바이너리를 다시 빌드하고, <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침하면 브라우저에서 커스터마이징 된 인사하기 기능을 확인할수 있습니다.</p>
+<details>
+  <summary>정답</summary>
+<p><code>wasm-game-of-life/src/lib.rs</code> 디렉토리의 수정된 새 <code>greet</code> 함수:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasm_bindgen]
+pub fn greet(name: &amp;str) {
+    alert(&amp;format!("Hello, {}!", name));
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>wasm-game-of-life/www/index.js</code> 디렉토리에서 수정된 <code>greet</code> 부르기:</p>
+<pre><code class="language-js">wasm.greet("Your Name");
+</code></pre>
+</details>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rules-of-conways-game-of-life"><a class="header" href="#rules-of-conways-game-of-life">Rules of Conway's Game of Life</a></h1>
+<p><em>Note: If you are already familiar with Conway's Game of Life and its rules,
+feel free to skip to the next section!</em></p>
+<p><a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Wikipedia gives a great description of the rules of Conway's Game of
+Life:</a></p>
+<blockquote>
+<p>The universe of the Game of Life is an infinite two-dimensional orthogonal
+grid of square cells, each of which is in one of two possible states, alive or
+dead, or "populated" or "unpopulated". Every cell interacts with its eight
+neighbours, which are the cells that are horizontally, vertically, or
+diagonally adjacent. At each step in time, the following transitions occur:</p>
+<ol>
+<li>
+<p>Any live cell with fewer than two live neighbours dies, as if caused by
+underpopulation.</p>
+</li>
+<li>
+<p>Any live cell with two or three live neighbours lives on to the next
+generation.</p>
+</li>
+<li>
+<p>Any live cell with more than three live neighbours dies, as if by
+overpopulation.</p>
+</li>
+<li>
+<p>Any dead cell with exactly three live neighbours becomes a live cell, as if
+by reproduction.</p>
+</li>
+</ol>
+<p>The initial pattern constitutes the seed of the system. The first generation
+is created by applying the above rules simultaneously to every cell in the
+seed—births and deaths occur simultaneously, and the discrete moment at which
+this happens is sometimes called a tick (in other words, each generation is a
+pure function of the preceding one). The rules continue to be applied
+repeatedly to create further generations.</p>
+</blockquote>
+<p>Consider the following initial universe:</p>
+<img src='../images/game-of-life/initial-universe.png' alt='Initial Universe' width=80 />
+<p>We can calculate the next generation by considering each cell. The top left cell
+is dead. Rule (4) is the only transition rule that applies to dead
+cells. However, because the top left cell does not have exactly three live
+neighbors, the transition rule does not apply, and it remains dead in the next
+generation. The same goes for every other cell in the first row as well.</p>
+<p>Things get interesting when we consider the top live cell, in the second row,
+third column. For live cells, any of the first three rules potentially
+applies. In this cell's case, it has only one live neighbor, and therefore rule
+(1) applies: this cell will die in the next generation. The same fate awaits the
+bottom live cell.</p>
+<p>The middle live cell has two live neighbors: the top and bottom live cells. This
+means that rule (2) applies, and it remains live in the next generation.</p>
+<p>The final interesting cases are the dead cells just to the left and right of the
+middle live cell. The three live cells are all neighbors both of these cells,
+which means that rule (4) applies, and these cells will become alive in the next
+generation.</p>
+<p>Put it all together, and we get this universe after the next tick:</p>
+<img src='../images/game-of-life/next-universe.png' alt='Next Universe' width=80 />
+<p>From these simple, deterministic rules, strange and exciting behavior emerges:</p>
+<div class="table-wrapper"><table><thead><tr><th>Gosper's glider gun</th><th>Pulsar</th><th>Space ship</th></tr></thead><tbody>
+<tr><td><img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Gospers_glider_gun.gif" alt="Gosper&#39;s glider gun" /></td><td><img src="https://upload.wikimedia.org/wikipedia/commons/0/07/Game_of_life_pulsar.gif" alt="Pulsar" /></td><td><img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Game_of_life_animated_LWSS.gif" alt="Lighweight space ship" /></td></tr>
+</tbody></table>
+</div><center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/C2vgICfQawE?rel=0&amp;start=65" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</center>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ul>
+<li>
+<p>Compute by hand the next tick of our example universe. Notice anything
+familiar?</p>
+<details>
+  <summary>Answer</summary>
+<p>It should be the initial state of the example universe:</p>
+  <img src='../images/game-of-life/initial-universe.png' alt='Initial Universe' width=80 />
+<p>This pattern is <em>periodic</em>: it returns to the initial state after every two
+ticks.</p>
+</details>
+</li>
+<li>
+<p>Can you find an initial universe that is stable? That is, a universe in which
+every generation is always the same.</p>
+<details>
+  <summary>Answer</summary>
+<p>There are an infinite number of stable universes! The trivially stable
+universe is the empty universe. A two-by-two square of live cells is also a
+stable universe.</p>
+</details>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="implementing-conways-game-of-life"><a class="header" href="#implementing-conways-game-of-life">Implementing Conway's Game of Life</a></h1>
+<h2 id="design"><a class="header" href="#design">Design</a></h2>
+<p>Before we dive in, we have some design choices to consider.</p>
+<h3 id="infinite-universe"><a class="header" href="#infinite-universe">Infinite Universe</a></h3>
+<p>The Game of Life is played in an infinite universe, but we do not have infinite
+memory and compute power. Working around this rather annoying limitation usually
+comes in one of three flavors:</p>
+<ol>
+<li>
+<p>Keep track of which subset of the universe has interesting things happening,
+and expand this region as needed. In the worst case, this expansion is
+unbounded and the implementation will get slower and slower and eventually
+run out of memory.</p>
+</li>
+<li>
+<p>Create a fixed-size universe, where cells on the edges have fewer neighbors
+than cells in the middle. The downside with this approach is that infinite
+patterns, like gliders, that reach the end of the universe are snuffed out.</p>
+</li>
+<li>
+<p>Create a fixed-size, periodic universe, where cells on the edges have
+neighbors that wrap around to the other side of the universe. Because
+neighbors wrap around the edges of the universe, gliders can keep running
+forever.</p>
+</li>
+</ol>
+<p>We will implement the third option.</p>
+<h3 id="interfacing-rust-and-javascript"><a class="header" href="#interfacing-rust-and-javascript">Interfacing Rust and JavaScript</a></h3>
+<blockquote>
+<p>⚡ This is one of the most important concepts to understand and take away from
+this tutorial!</p>
+</blockquote>
+<p>JavaScript's garbage-collected heap — where <code>Object</code>s, <code>Array</code>s, and DOM nodes
+are allocated — is distinct from WebAssembly's linear memory space, where our
+Rust values live. WebAssembly currently has no direct access to the
+garbage-collected heap (as of April 2018, this is expected to change with the
+<a href="https://github.com/WebAssembly/interface-types/blob/master/proposals/interface-types/Explainer.md">"Interface Types" proposal</a>). JavaScript, on the other hand, can
+read and write to the WebAssembly linear memory space, but only as an
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer"><code>ArrayBuffer</code></a> of scalar values (<code>u8</code>, <code>i32</code>, <code>f64</code>,
+etc...). WebAssembly functions also take and return scalar values. These are the
+building blocks from which all WebAssembly and JavaScript communication is
+constituted.</p>
+<p><code>wasm_bindgen</code> defines a common understanding of how to work with compound
+structures across this boundary. It involves boxing Rust structures, and
+wrapping the pointer in a JavaScript class for usability, or indexing into a
+table of JavaScript objects from Rust. <code>wasm_bindgen</code> is very convenient, but it
+does not remove the need to consider our data representation, and what values
+and structures are passed across this boundary. Instead, think of it as a tool
+for implementing the interface design you choose.</p>
+<p>When designing an interface between WebAssembly and JavaScript, we want to
+optimize for the following properties:</p>
+<ol>
+<li>
+<p><strong>Minimizing copying into and out of the WebAssembly linear memory.</strong>
+Unnecessary copies impose unnecessary overhead.</p>
+</li>
+<li>
+<p><strong>Minimizing serializing and deserializing.</strong> Similar to copies, serializing
+and deserializing also imposes overhead, and often imposes copying as
+well. If we can pass opaque handles to a data structure — instead of
+serializing it on one side, copying it into some known location in the
+WebAssembly linear memory, and deserializing on the other side — we can often
+reduce a lot of overhead. <code>wasm_bindgen</code> helps us define and work with opaque
+handles to JavaScript <code>Object</code>s or boxed Rust structures.</p>
+</li>
+</ol>
+<p>As a general rule of thumb, a good JavaScript↔WebAssembly interface design is
+often one where large, long-lived data structures are implemented as Rust types
+that live in the WebAssembly linear memory, and are exposed to JavaScript as
+opaque handles. JavaScript calls exported WebAssembly functions that take these
+opaque handles, transform their data, perform heavy computations, query the
+data, and ultimately return a small, copy-able result. By only returning the
+small result of the computation, we avoid copying and/or serializing everything
+back and forth between the JavaScript garbage-collected heap and the WebAssembly
+linear memory.</p>
+<h3 id="interfacing-rust-and-javascript-in-our-game-of-life"><a class="header" href="#interfacing-rust-and-javascript-in-our-game-of-life">Interfacing Rust and JavaScript in our Game of Life</a></h3>
+<p>Let's start by enumerating some hazards to avoid. We don't want to copy the
+whole universe into and out of the WebAssembly linear memory on every tick. We
+do not want to allocate objects for every cell in the universe, nor do we want
+to impose a cross-boundary call to read and write each cell.</p>
+<p>Where does this leave us? We can represent the universe as a flat array that
+lives in the WebAssembly linear memory, and has a byte for each cell. <code>0</code> is a
+dead cell and <code>1</code> is a live cell.</p>
+<p>Here is what a 4 by 4 universe looks like in memory:</p>
+<p><img src="game-of-life/../images/game-of-life/universe.png" alt="Screenshot of a 4 by 4 universe" /></p>
+<p>To find the array index of the cell at a given row and column in the universe,
+we can use this formula:</p>
+<pre><code class="language-text">index(row, column, universe) = row * width(universe) + column
+</code></pre>
+<p>We have several ways of exposing the universe's cells to JavaScript. To begin,
+we will implement <a href="https://doc.rust-lang.org/1.25.0/std/fmt/trait.Display.html"><code>std::fmt::Display</code></a> for <code>Universe</code>, which we can
+use to generate a Rust <code>String</code> of the cells rendered as text characters. This
+Rust String is then copied from the WebAssembly linear memory into a JavaScript
+String in the JavaScript's garbage-collected heap, and is then displayed by
+setting HTML <code>textContent</code>. Later in the chapter, we'll evolve this
+implementation to avoid copying the universe's cells between heaps and to render
+to <code>&lt;canvas&gt;</code>.</p>
+<p><em>Another viable design alternative would be for Rust to return a list of every
+cell that changed states after each tick, instead of exposing the whole universe
+to JavaScript. This way, JavaScript wouldn't need to iterate over the whole
+universe when rendering, only the relevant subset. The trade off is that this
+delta-based design is slightly more difficult to implement.</em></p>
+<h2 id="rust-implementation"><a class="header" href="#rust-implementation">Rust Implementation</a></h2>
+<p>In the last chapter, we cloned an initial project template. We will modify that
+project template now.</p>
+<p>Let's begin by removing the <code>alert</code> import and <code>greet</code> function from
+<code>wasm-game-of-life/src/lib.rs</code>, and replacing them with a type definition for
+cells:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasm_bindgen]
+#[repr(u8)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Cell {
+    Dead = 0,
+    Alive = 1,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>It is important that we have <code>#[repr(u8)]</code>, so that each cell is represented as
+a single byte. It is also important that the <code>Dead</code> variant is <code>0</code> and that the
+<code>Alive</code> variant is <code>1</code>, so that we can easily count a cell's live neighbors with
+addition.</p>
+<p>Next, let's define the universe. The universe has a width and a height, and a
+vector of cells of length <code>width * height</code>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasm_bindgen]
+pub struct Universe {
+    width: u32,
+    height: u32,
+    cells: Vec&lt;Cell&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>To access the cell at a given row and column, we translate the row and column
+into an index into the cells vector, as described earlier:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Universe {
+    fn get_index(&amp;self, row: u32, column: u32) -&gt; usize {
+        (row * self.width + column) as usize
+    }
+
+    // ...
+}
+<span class="boring">}</span></code></pre></pre>
+<p>In order to calculate the next state of a cell, we need to get a count of how
+many of its neighbors are alive. Let's write a <code>live_neighbor_count</code> method to
+do just that!</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Universe {
+    // ...
+
+    fn live_neighbor_count(&amp;self, row: u32, column: u32) -&gt; u8 {
+        let mut count = 0;
+        for delta_row in [self.height - 1, 0, 1].iter().cloned() {
+            for delta_col in [self.width - 1, 0, 1].iter().cloned() {
+                if delta_row == 0 &amp;&amp; delta_col == 0 {
+                    continue;
+                }
+
+                let neighbor_row = (row + delta_row) % self.height;
+                let neighbor_col = (column + delta_col) % self.width;
+                let idx = self.get_index(neighbor_row, neighbor_col);
+                count += self.cells[idx] as u8;
+            }
+        }
+        count
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The <code>live_neighbor_count</code> method uses deltas and modulo to avoid special casing
+the edges of the universe with <code>if</code>s. When applying a delta of <code>-1</code>, we <em>add</em>
+<code>self.height - 1</code> and let the modulo do its thing, rather than attempting to
+subtract <code>1</code>. <code>row</code> and <code>column</code> can be <code>0</code>, and if we attempted to subtract <code>1</code>
+from them, there would be an unsigned integer underflow.</p>
+<p>Now we have everything we need to compute the next generation from the current
+one! Each of the Game's rules follows a straightforward translation into a
+condition on a <code>match</code> expression. Additionally, because we want JavaScript to
+control when ticks happen, we will put this method inside a <code>#[wasm_bindgen]</code>
+block, so that it gets exposed to JavaScript.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Public methods, exported to JavaScript.
+#[wasm_bindgen]
+impl Universe {
+    pub fn tick(&amp;mut self) {
+        let mut next = self.cells.clone();
+
+        for row in 0..self.height {
+            for col in 0..self.width {
+                let idx = self.get_index(row, col);
+                let cell = self.cells[idx];
+                let live_neighbors = self.live_neighbor_count(row, col);
+
+                let next_cell = match (cell, live_neighbors) {
+                    // Rule 1: Any live cell with fewer than two live neighbours
+                    // dies, as if caused by underpopulation.
+                    (Cell::Alive, x) if x &lt; 2 =&gt; Cell::Dead,
+                    // Rule 2: Any live cell with two or three live neighbours
+                    // lives on to the next generation.
+                    (Cell::Alive, 2) | (Cell::Alive, 3) =&gt; Cell::Alive,
+                    // Rule 3: Any live cell with more than three live
+                    // neighbours dies, as if by overpopulation.
+                    (Cell::Alive, x) if x &gt; 3 =&gt; Cell::Dead,
+                    // Rule 4: Any dead cell with exactly three live neighbours
+                    // becomes a live cell, as if by reproduction.
+                    (Cell::Dead, 3) =&gt; Cell::Alive,
+                    // All other cells remain in the same state.
+                    (otherwise, _) =&gt; otherwise,
+                };
+
+                next[idx] = next_cell;
+            }
+        }
+
+        self.cells = next;
+    }
+
+    // ...
+}
+<span class="boring">}</span></code></pre></pre>
+<p>So far, the state of the universe is represented as a vector of cells. To make
+this human readable, let's implement a basic text renderer. The idea is to write
+the universe line by line as text, and for each cell that is alive, print the
+Unicode character <code>◼</code> ("black medium square"). For dead cells, we'll print <code>◻</code>
+(a "white medium square").</p>
+<p>By implementing the <a href="https://doc.rust-lang.org/1.25.0/std/fmt/trait.Display.html"><code>Display</code></a> trait from Rust's standard library, we can add a
+way to format a structure in a user-facing manner. This will also automatically
+give us a <a href="https://doc.rust-lang.org/1.25.0/std/string/trait.ToString.html"><code>to_string</code></a> method.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fmt;
+
+impl fmt::Display for Universe {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        for line in self.cells.as_slice().chunks(self.width as usize) {
+            for &amp;cell in line {
+                let symbol = if cell == Cell::Dead { '◻' } else { '◼' };
+                write!(f, "{}", symbol)?;
+            }
+            write!(f, "\n")?;
+        }
+
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Finally, we define a constructor that initializes the universe with an
+interesting pattern of live and dead cells, as well as a <code>render</code> method:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Public methods, exported to JavaScript.
+#[wasm_bindgen]
+impl Universe {
+    // ...
+
+    pub fn new() -&gt; Universe {
+        let width = 64;
+        let height = 64;
+
+        let cells = (0..width * height)
+            .map(|i| {
+                if i % 2 == 0 || i % 7 == 0 {
+                    Cell::Alive
+                } else {
+                    Cell::Dead
+                }
+            })
+            .collect();
+
+        Universe {
+            width,
+            height,
+            cells,
+        }
+    }
+
+    pub fn render(&amp;self) -&gt; String {
+        self.to_string()
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>With that, the Rust half of our Game of Life implementation is complete!</p>
+<p>Recompile it to WebAssembly by running <code>wasm-pack build</code> within the
+<code>wasm-game-of-life</code> directory.</p>
+<h2 id="rendering-with-javascript"><a class="header" href="#rendering-with-javascript">Rendering with JavaScript</a></h2>
+<p>First, let's add a <code>&lt;pre&gt;</code> element to <code>wasm-game-of-life/www/index.html</code> to
+render the universe into, just above the <code>&lt;script&gt;</code> tag:</p>
+<pre><code class="language-html">&lt;body&gt;
+  &lt;pre id="game-of-life-canvas"&gt;&lt;/pre&gt;
+  &lt;script src="./bootstrap.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+</code></pre>
+<p>Additionally, we want the <code>&lt;pre&gt;</code> centered in the middle of the Web page. We can
+use CSS flex boxes to accomplish this task. Add the following <code>&lt;style&gt;</code> tag
+inside <code>wasm-game-of-life/www/index.html</code>'s <code>&lt;head&gt;</code>:</p>
+<pre><code class="language-html">&lt;style&gt;
+  body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+&lt;/style&gt;
+</code></pre>
+<p>At the top of <code>wasm-game-of-life/www/index.js</code>, let's fix our import to bring in
+the <code>Universe</code> rather than the old <code>greet</code> function:</p>
+<pre><code class="language-js">import { Universe } from "wasm-game-of-life";
+</code></pre>
+<p>Also, let's get that <code>&lt;pre&gt;</code> element we just added and instantiate a new
+universe:</p>
+<pre><code class="language-js">const pre = document.getElementById("game-of-life-canvas");
+const universe = Universe.new();
+</code></pre>
+<p>The JavaScript runs in <a href="https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame">a <code>requestAnimationFrame</code>
+loop</a>. On each iteration, it draws the current universe
+to the <code>&lt;pre&gt;</code>, and then calls <code>Universe::tick</code>.</p>
+<pre><code class="language-js">const renderLoop = () =&gt; {
+  pre.textContent = universe.render();
+  universe.tick();
+
+  requestAnimationFrame(renderLoop);
+};
+</code></pre>
+<p>To start the rendering process, all we have to do is make the initial call for
+the first iteration of the rendering loop:</p>
+<pre><code class="language-js">requestAnimationFrame(renderLoop);
+</code></pre>
+<p>Make sure your development server is still running (run <code>npm run start</code> inside
+<code>wasm-game-of-life/www</code>) and this is what
+<a href="http://localhost:8080/">http://localhost:8080/</a> should look like:</p>
+<p><a href="game-of-life/../images/game-of-life/initial-game-of-life-pre.png"><img src="game-of-life/../images/game-of-life/initial-game-of-life-pre.png" alt="Screenshot of the Game of Life implementation with text rendering" /></a></p>
+<h2 id="rendering-to-canvas-directly-from-memory"><a class="header" href="#rendering-to-canvas-directly-from-memory">Rendering to Canvas Directly from Memory</a></h2>
+<p>Generating (and allocating) a <code>String</code> in Rust and then having <code>wasm-bindgen</code>
+convert it to a valid JavaScript string makes unnecessary copies of the
+universe's cells. As the JavaScript code already knows the width and
+height of the universe, and can read WebAssembly's linear memory that make up
+the cells directly, we'll modify the <code>render</code> method to return a pointer to the
+start of the cells array.</p>
+<p>Also, instead of rendering Unicode text, we'll switch to using the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas
+API</a>. We will use this design in the rest of the tutorial.</p>
+<p>Inside <code>wasm-game-of-life/www/index.html</code>, let's replace the <code>&lt;pre&gt;</code> we added
+earlier with a <code>&lt;canvas&gt;</code> we will render into (it too should be within the
+<code>&lt;body&gt;</code>, before the <code>&lt;script&gt;</code> that loads our JavaScript):</p>
+<pre><code class="language-html">&lt;body&gt;
+  &lt;canvas id="game-of-life-canvas"&gt;&lt;/canvas&gt;
+  &lt;script src='./bootstrap.js'&gt;&lt;/script&gt;
+&lt;/body&gt;
+</code></pre>
+<p>To get the necessary information from the Rust implementation, we'll need to add
+some more getter functions for a universe's width, height, and pointer to its
+cells array. All of these are exposed to JavaScript as well. Make these
+additions to <code>wasm-game-of-life/src/lib.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Public methods, exported to JavaScript.
+#[wasm_bindgen]
+impl Universe {
+    // ...
+
+    pub fn width(&amp;self) -&gt; u32 {
+        self.width
+    }
+
+    pub fn height(&amp;self) -&gt; u32 {
+        self.height
+    }
+
+    pub fn cells(&amp;self) -&gt; *const Cell {
+        self.cells.as_ptr()
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Next, in <code>wasm-game-of-life/www/index.js</code>, let's also import <code>Cell</code> from
+<code>wasm-game-of-life</code>, and define some constants that we will use when rendering
+to the canvas:</p>
+<pre><code class="language-js">import { Universe, Cell } from "wasm-game-of-life";
+
+const CELL_SIZE = 5; // px
+const GRID_COLOR = "#CCCCCC";
+const DEAD_COLOR = "#FFFFFF";
+const ALIVE_COLOR = "#000000";
+</code></pre>
+<p>Now, let's rewrite the rest of this JavaScript code to no longer write to the
+<code>&lt;pre&gt;</code>'s <code>textContent</code> but instead draw to the <code>&lt;canvas&gt;</code>:</p>
+<pre><code class="language-js">// Construct the universe, and get its width and height.
+const universe = Universe.new();
+const width = universe.width();
+const height = universe.height();
+
+// Give the canvas room for all of our cells and a 1px border
+// around each of them.
+const canvas = document.getElementById("game-of-life-canvas");
+canvas.height = (CELL_SIZE + 1) * height + 1;
+canvas.width = (CELL_SIZE + 1) * width + 1;
+
+const ctx = canvas.getContext('2d');
+
+const renderLoop = () =&gt; {
+  universe.tick();
+
+  drawGrid();
+  drawCells();
+
+  requestAnimationFrame(renderLoop);
+};
+</code></pre>
+<p>To draw the grid between cells, we draw a set of equally-spaced horizontal
+lines, and a set of equally-spaced vertical lines. These lines criss-cross to
+form the grid.</p>
+<pre><code class="language-js">const drawGrid = () =&gt; {
+  ctx.beginPath();
+  ctx.strokeStyle = GRID_COLOR;
+
+  // Vertical lines.
+  for (let i = 0; i &lt;= width; i++) {
+    ctx.moveTo(i * (CELL_SIZE + 1) + 1, 0);
+    ctx.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * height + 1);
+  }
+
+  // Horizontal lines.
+  for (let j = 0; j &lt;= height; j++) {
+    ctx.moveTo(0,                           j * (CELL_SIZE + 1) + 1);
+    ctx.lineTo((CELL_SIZE + 1) * width + 1, j * (CELL_SIZE + 1) + 1);
+  }
+
+  ctx.stroke();
+};
+</code></pre>
+<p>We can directly access WebAssembly's linear memory via <code>memory</code>, which is
+defined in the raw wasm module <code>wasm_game_of_life_bg</code>. To draw the cells, we
+get a pointer to the universe's cells, construct a <code>Uint8Array</code> overlaying the
+cells buffer, iterate over each cell, and draw a white or black rectangle
+depending on whether the cell is dead or alive, respectively. By working with
+pointers and overlays, we avoid copying the cells across the boundary on every
+tick.</p>
+<pre><code class="language-js">// Import the WebAssembly memory at the top of the file.
+import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
+
+// ...
+
+const getIndex = (row, column) =&gt; {
+  return row * width + column;
+};
+
+const drawCells = () =&gt; {
+  const cellsPtr = universe.cells();
+  const cells = new Uint8Array(memory.buffer, cellsPtr, width * height);
+
+  ctx.beginPath();
+
+  for (let row = 0; row &lt; height; row++) {
+    for (let col = 0; col &lt; width; col++) {
+      const idx = getIndex(row, col);
+
+      ctx.fillStyle = cells[idx] === Cell.Dead
+        ? DEAD_COLOR
+        : ALIVE_COLOR;
+
+      ctx.fillRect(
+        col * (CELL_SIZE + 1) + 1,
+        row * (CELL_SIZE + 1) + 1,
+        CELL_SIZE,
+        CELL_SIZE
+      );
+    }
+  }
+
+  ctx.stroke();
+};
+</code></pre>
+<p>To start the rendering process, we'll use the same code as above to start the
+first iteration of the rendering loop:</p>
+<pre><code class="language-js">drawGrid();
+drawCells();
+requestAnimationFrame(renderLoop);
+</code></pre>
+<p>Note that we call <code>drawGrid()</code> and <code>drawCells()</code> here <em>before</em> we call
+<code>requestAnimationFrame()</code>. The reason we do this is so that the <em>initial</em> state
+of the universe is drawn before we make modifications. If we instead simply
+called <code>requestAnimationFrame(renderLoop)</code>, we'd end up with a situation where
+the first frame that was drawn would actually be <em>after</em> the first call to
+<code>universe.tick()</code>, which is the second "tick" of the life of these cells.</p>
+<h2 id="it-works"><a class="header" href="#it-works">It Works!</a></h2>
+<p>Rebuild the WebAssembly and bindings glue by running this command from within
+the root <code>wasm-game-of-life</code> directory:</p>
+<pre><code>wasm-pack build
+</code></pre>
+<p>Make sure your development server is still running. If it isn't, start it again
+from within the <code>wasm-game-of-life/www</code> directory:</p>
+<pre><code>npm run start
+</code></pre>
+<p>If you refresh <a href="http://localhost:8080/">http://localhost:8080/</a>, you should be
+greeted with an exciting display of life!</p>
+<p><a href="game-of-life/../images/game-of-life/initial-game-of-life.png"><img src="game-of-life/../images/game-of-life/initial-game-of-life.png" alt="Screenshot of the Game of Life implementation" /></a></p>
+<p>As an aside, there is also a really neat algorithm for implementing the Game of
+Life called <a href="https://en.wikipedia.org/wiki/Hashlife">hashlife</a>. It uses
+aggressive memoizing and can actually get <em>exponentially faster</em> to compute
+future generations the longer it runs! Given that, you might be wondering why we
+didn't implement hashlife in this tutorial. It is out of scope for this text,
+where we are focusing on Rust and WebAssembly integration, but we highly
+encourage you to go learn about hashlife on your own!</p>
+<h2 id="exercises-1"><a class="header" href="#exercises-1">Exercises</a></h2>
+<ul>
+<li>
+<p>Initialize the universe with a single space ship.</p>
+</li>
+<li>
+<p>Instead of hard-coding the initial universe, generate a random one, where each
+cell has a fifty-fifty chance of being alive or dead.</p>
+<p><em>Hint: use <a href="https://crates.io/crates/js-sys">the <code>js-sys</code> crate</a> to import
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random">the <code>Math.random</code> JavaScript
+function</a>.</em></p>
+<details>
+  <summary>Answer</summary>
+  *First, add `js-sys` as a dependency in `wasm-game-of-life/Cargo.toml`:*
+<pre><code class="language-toml"># ...
+[dependencies]
+js-sys = "0.3"
+# ...
+</code></pre>
+<p><em>Then, use the <code>js_sys::Math::random</code> function to flip a coin:</em></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>extern crate js_sys;
+
+// ...
+
+if js_sys::Math::random() &lt; 0.5 {
+    // Alive...
+} else {
+    // Dead...
+}
+<span class="boring">}</span></code></pre></pre>
+</details>
+</li>
+<li>
+<p>Representing each cell with a byte makes iterating over cells easy, but it
+comes at the cost of wasting memory. Each byte is eight bits, but we only
+require a single bit to represent whether each cell is alive or dead. Refactor
+the data representation so that each cell uses only a single bit of space.</p>
+<details>
+  <summary>Answer</summary>
+<p>In Rust, you can use <a href="https://crates.io/crates/fixedbitset">the <code>fixedbitset</code> crate and its <code>FixedBitSet</code>
+type</a> to represent cells instead of
+<code>Vec&lt;Cell&gt;</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Make sure you also added the dependency to Cargo.toml!
+extern crate fixedbitset;
+use fixedbitset::FixedBitSet;
+
+// ...
+
+#[wasm_bindgen]
+pub struct Universe {
+    width: u32,
+    height: u32,
+    cells: FixedBitSet,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The Universe constructor can be adjusted the following way:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn new() -&gt; Universe {
+    let width = 64;
+    let height = 64;
+
+    let size = (width * height) as usize;
+    let mut cells = FixedBitSet::with_capacity(size);
+
+    for i in 0..size {
+        cells.set(i, i % 2 == 0 || i % 7 == 0);
+    }
+
+    Universe {
+        width,
+        height,
+        cells,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>To update a cell in the next tick of the universe, we use the <code>set</code> method
+of <code>FixedBitSet</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>next.set(idx, match (cell, live_neighbors) {
+    (true, x) if x &lt; 2 =&gt; false,
+    (true, 2) | (true, 3) =&gt; true,
+    (true, x) if x &gt; 3 =&gt; false,
+    (false, 3) =&gt; true,
+    (otherwise, _) =&gt; otherwise
+});
+<span class="boring">}</span></code></pre></pre>
+<p>To pass a pointer to the start of the bits to JavaScript, you can convert
+the <code>FixedBitSet</code> to a slice and then convert the slice to a pointer:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasm_bindgen]
+impl Universe {
+    // ...
+
+    pub fn cells(&amp;self) -&gt; *const u32 {
+        self.cells.as_slice().as_ptr()
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>In JavaScript, constructing a <code>Uint8Array</code> from Wasm memory is the same as
+before, except that the length of the array is not <code>width * height</code> anymore,
+but <code>width * height / 8</code> since we have a cell per bit rather than per byte:</p>
+<pre><code class="language-js">const cells = new Uint8Array(memory.buffer, cellsPtr, width * height / 8);
+</code></pre>
+<p>Given an index and <code>Uint8Array</code>, you can determine whether the
+<em>n<sup>th</sup></em> bit is set with the following function:</p>
+<pre><code class="language-js">const bitIsSet = (n, arr) =&gt; {
+  const byte = Math.floor(n / 8);
+  const mask = 1 &lt;&lt; (n % 8);
+  return (arr[byte] &amp; mask) === mask;
+};
+</code></pre>
+<p>Given all that, the new version of <code>drawCells</code> looks like this:</p>
+<pre><code class="language-js">const drawCells = () =&gt; {
+  const cellsPtr = universe.cells();
+
+  // This is updated!
+  const cells = new Uint8Array(memory.buffer, cellsPtr, width * height / 8);
+
+  ctx.beginPath();
+
+  for (let row = 0; row &lt; height; row++) {
+    for (let col = 0; col &lt; width; col++) {
+      const idx = getIndex(row, col);
+
+      // This is updated!
+      ctx.fillStyle = bitIsSet(idx, cells)
+        ? ALIVE_COLOR
+        : DEAD_COLOR;
+
+      ctx.fillRect(
+        col * (CELL_SIZE + 1) + 1,
+        row * (CELL_SIZE + 1) + 1,
+        CELL_SIZE,
+        CELL_SIZE
+      );
+    }
+  }
+
+  ctx.stroke();
+};
+</code></pre>
+</details>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="testing-conways-game-of-life"><a class="header" href="#testing-conways-game-of-life">Testing Conway's Game of Life</a></h1>
+<p>Now that we have our Rust implementation of the Game of Life rendering in the
+browser with JavaScript, let's talk about testing our Rust-generated
+WebAssembly functions.</p>
+<p>We are going to test our <code>tick</code> function to make sure that it gives us the
+output that we expect.</p>
+<p>Next, we'll want to create some setter and getter
+functions inside our existing <code>impl Universe</code> block in the
+<code>wasm_game_of_life/src/lib.rs</code> file. We are going to create a <code>set_width</code>
+and a <code>set_height</code> function so we can create <code>Universe</code>s of different sizes.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasm_bindgen]
+impl Universe { 
+    // ...
+
+    /// Set the width of the universe.
+    ///
+    /// Resets all cells to the dead state.
+    pub fn set_width(&amp;mut self, width: u32) {
+        self.width = width;
+        self.cells = (0..width * self.height).map(|_i| Cell::Dead).collect();
+    }
+
+    /// Set the height of the universe.
+    ///
+    /// Resets all cells to the dead state.
+    pub fn set_height(&amp;mut self, height: u32) {
+        self.height = height;
+        self.cells = (0..self.width * height).map(|_i| Cell::Dead).collect();
+    }
+
+}
+<span class="boring">}</span></code></pre></pre>
+<p>We are going to create another <code>impl Universe</code> block inside our
+<code>wasm_game_of_life/src/lib.rs</code> file without the <code>#[wasm_bindgen]</code> attribute.
+There are a few functions we need for testing that we don't want to expose to
+our JavaScript. Rust-generated WebAssembly functions cannot return
+borrowed references. Try compiling the Rust-generated WebAssembly with the
+attribute and take a look at the errors you get.</p>
+<p>We are going to write the implementation of <code>get_cells</code> to get the contents of
+the <code>cells</code> of a <code>Universe</code>. We'll also write a <code>set_cells</code> function so we can
+set <code>cells</code> in a specific row and column of a <code>Universe</code> to be <code>Alive.</code></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Universe {
+    /// Get the dead and alive values of the entire universe.
+    pub fn get_cells(&amp;self) -&gt; &amp;[Cell] {
+        &amp;self.cells
+    }
+
+    /// Set cells to be alive in a universe by passing the row and column
+    /// of each cell as an array.
+    pub fn set_cells(&amp;mut self, cells: &amp;[(u32, u32)]) {
+        for (row, col) in cells.iter().cloned() {
+            let idx = self.get_index(row, col);
+            self.cells[idx] = Cell::Alive;
+        }
+    }
+
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Now we're going to create our test in the <code>wasm_game_of_life/tests/web.rs</code> file.</p>
+<p>Before we do that, there is already one working test in the file. You can
+confirm that the Rust-generated WebAssembly test is working by running
+<code>wasm-pack test --chrome --headless</code> in the <code>wasm-game-of-life</code> directory.
+You can also use the <code>--firefox</code>, <code>--safari</code>, and <code>--node</code> options to
+test your code in those browsers.</p>
+<p>In the <code>wasm_game_of_life/tests/web.rs</code> file, we need to export our
+<code>wasm_game_of_life</code> crate and the <code>Universe</code> type.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>extern crate wasm_game_of_life;
+use wasm_game_of_life::Universe;
+<span class="boring">}</span></code></pre></pre>
+<p>In the <code>wasm_game_of_life/tests/web.rs</code> file we'll want to create some
+spaceship builder functions.</p>
+<p>We'll want one for our input spaceship that we'll call the <code>tick</code> function on
+and we'll want the expected spaceship we will get after one tick. We picked the
+cells that we want to initialize as <code>Alive</code> to create our spaceship in the
+<code>input_spaceship</code> function. The position of the spaceship in the
+<code>expected_spaceship</code> function after the tick of the <code>input_spaceship</code> was
+calculated manually. You can confirm for yourself that the cells of the input
+spaceship after one tick is the same as the expected spaceship.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(test)]
+pub fn input_spaceship() -&gt; Universe {
+    let mut universe = Universe::new();
+    universe.set_width(6);
+    universe.set_height(6);
+    universe.set_cells(&amp;[(1,2), (2,3), (3,1), (3,2), (3,3)]);
+    universe
+}
+
+#[cfg(test)]
+pub fn expected_spaceship() -&gt; Universe {
+    let mut universe = Universe::new();
+    universe.set_width(6);
+    universe.set_height(6);
+    universe.set_cells(&amp;[(2,1), (2,3), (3,2), (3,3), (4,2)]);
+    universe
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Now we will write the implementation for our <code>test_tick</code> function. First, we
+create an instance of our <code>input_spaceship()</code> and our <code>expected_spaceship()</code>.
+Then, we call <code>tick</code> on the <code>input_universe</code>. Finally, we use the <code>assert_eq!</code>
+macro to call <code>get_cells()</code> to ensure that <code>input_universe</code> and
+<code>expected_universe</code> have the same <code>Cell</code> array values. We add the
+<code>#[wasm_bindgen_test]</code> attribute to our code block so we can test our
+Rust-generated WebAssembly code and use <code>wasm-pack test</code> to test the
+WebAssembly code.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasm_bindgen_test]
+pub fn test_tick() {
+    // Let's create a smaller Universe with a small spaceship to test!
+    let mut input_universe = input_spaceship();
+
+    // This is what our spaceship should look like
+    // after one tick in our universe.
+    let expected_universe = expected_spaceship();
+
+    // Call `tick` and then see if the cells in the `Universe`s are the same.
+    input_universe.tick();
+    assert_eq!(&amp;input_universe.get_cells(), &amp;expected_universe.get_cells());
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Run the tests within the <code>wasm-game-of-life</code> directory by running
+<code>wasm-pack test --firefox --headless</code>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="debugging"><a class="header" href="#debugging">Debugging</a></h1>
+<p>Before we write much more code, we will want to have some debugging tools in our
+belt for when things go wrong. Take a moment to review the <a href="game-of-life/../reference/debugging.html">reference page
+listing tools and approaches available for debugging Rust-generated
+WebAssembly</a>.</p>
+<h2 id="enable-logging-for-panics"><a class="header" href="#enable-logging-for-panics">Enable Logging for Panics</a></h2>
+<p><a href="game-of-life/../reference/debugging.html#logging-panics">If our code panics, we want informative error messages to appear in the
+developer console.</a></p>
+<p>Our <code>wasm-pack-template</code> comes with an optional, enabled-by-default dependency
+on <a href="https://github.com/rustwasm/console_error_panic_hook">the <code>console_error_panic_hook</code> crate</a> that is configured in
+<code>wasm-game-of-life/src/utils.rs</code>. All we need to do is install the hook in an
+initialization function or common code path. We can call it inside the
+<code>Universe::new</code> constructor in <code>wasm-game-of-life/src/lib.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn new() -&gt; Universe {
+    utils::set_panic_hook();
+
+    // ...
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="add-logging-to-our-game-of-life"><a class="header" href="#add-logging-to-our-game-of-life">Add Logging to our Game of Life</a></h2>
+<p>Let's <a href="game-of-life/../reference/debugging.html#logging-with-the-console-apis">use the <code>console.log</code> function via the <code>web-sys</code> crate to add some
+logging</a> about each cell in our <code>Universe::tick</code> function.</p>
+<p>First, add <code>web-sys</code> as a dependency and enable its <code>"console"</code> feature in
+<code>wasm-game-of-life/Cargo.toml</code>:</p>
+<pre><code class="language-toml">[dependencies]
+
+# ...
+
+[dependencies.web-sys]
+version = "0.3"
+features = [
+  "console",
+]
+</code></pre>
+<p>For ergonomics, we'll wrap the <code>console.log</code> function up in a <code>println!</code>-style
+macro:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>extern crate web_sys;
+
+// A macro to provide `println!(..)`-style syntax for `console.log` logging.
+macro_rules! log {
+    ( $( $t:tt )* ) =&gt; {
+        web_sys::console::log_1(&amp;format!( $( $t )* ).into());
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Now, we can start logging messages to the console by inserting calls to <code>log</code> in
+Rust code. For example, to log each cell's state, live neighbors count, and next
+state, we could modify <code>wasm-game-of-life/src/lib.rs</code> like this:</p>
+<pre><code class="language-diff">diff --git a/src/lib.rs b/src/lib.rs
+index f757641..a30e107 100755
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -123,6 +122,14 @@ impl Universe {
+                 let cell = self.cells[idx];
+                 let live_neighbors = self.live_neighbor_count(row, col);
+
++                log!(
++                    "cell[{}, {}] is initially {:?} and has {} live neighbors",
++                    row,
++                    col,
++                    cell,
++                    live_neighbors
++                );
++
+                 let next_cell = match (cell, live_neighbors) {
+                     // Rule 1: Any live cell with fewer than two live neighbours
+                     // dies, as if caused by underpopulation.
+@@ -140,6 +147,8 @@ impl Universe {
+                     (otherwise, _) =&gt; otherwise,
+                 };
+
++                log!("    it becomes {:?}", next_cell);
++
+                 next[idx] = next_cell;
+             }
+         }
+</code></pre>
+<h2 id="using-a-debugger-to-pause-between-each-tick"><a class="header" href="#using-a-debugger-to-pause-between-each-tick">Using a Debugger to Pause Between Each Tick</a></h2>
+<p><a href="game-of-life/../reference/debugging.html#using-a-debugger">Browser's stepping debuggers are useful for inspecting the JavaScript that our
+Rust-generated WebAssembly interacts
+with.</a></p>
+<p>For example, we can use the debugger to pause on each iteration of our
+<code>renderLoop</code> function by placing <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger">a JavaScript <code>debugger;</code> statement</a>
+above our call to <code>universe.tick()</code>.</p>
+<pre><code class="language-js">const renderLoop = () =&gt; {
+  debugger;
+  universe.tick();
+
+  drawGrid();
+  drawCells();
+
+  requestAnimationFrame(renderLoop);
+};
+</code></pre>
+<p>This provides us with a convenient checkpoint for inspecting logged messages,
+and comparing the currently rendered frame to the previous one.</p>
+<p><a href="game-of-life/../images/game-of-life/debugging.png"><img src="game-of-life/../images/game-of-life/debugging.png" alt="Screenshot of debugging the Game of Life" /></a></p>
+<h2 id="exercises-2"><a class="header" href="#exercises-2">Exercises</a></h2>
+<ul>
+<li>
+<p>Add logging to the <code>tick</code> function that records the row and column of each
+cell that transitioned states from live to dead or vice versa.</p>
+</li>
+<li>
+<p>Introduce a <code>panic!()</code> in the <code>Universe::new</code> method. Inspect the panic's
+backtrace in your Web browser's JavaScript debugger. Disable debug symbols,
+rebuild without the <code>console_error_panic_hook</code> optional dependency, and
+inspect the stack trace again. Not as useful is it?</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="adding-interactivity"><a class="header" href="#adding-interactivity">Adding Interactivity</a></h1>
+<p>We will continue to explore the JavaScript and WebAssembly interface by adding
+some interactive features to our Game of Life implementation. We will enable
+users to toggle whether a cell is alive or dead by clicking on it, and
+allow pausing the game, which makes drawing cell patterns a lot easier.</p>
+<h2 id="pausing-and-resuming-the-game"><a class="header" href="#pausing-and-resuming-the-game">Pausing and Resuming the Game</a></h2>
+<p>Let's add a button to toggle whether the game is playing or paused. To
+<code>wasm-game-of-life/www/index.html</code>, add the button right above the <code>&lt;canvas&gt;</code>:</p>
+<pre><code class="language-html">&lt;button id="play-pause"&gt;&lt;/button&gt;
+</code></pre>
+<p>In the <code>wasm-game-of-life/www/index.js</code> JavaScript, we will make the following
+changes:</p>
+<ul>
+<li>
+<p>Keep track of the identifier returned by the latest call to
+<code>requestAnimationFrame</code>, so that we can cancel the animation by calling
+<code>cancelAnimationFrame</code> with that identifier.</p>
+</li>
+<li>
+<p>When the play/pause button is clicked, check for whether we have the
+identifier for a queued animation frame. If we do, then the game is currently
+playing, and we want to cancel the animation frame so that <code>renderLoop</code> isn't
+called again, effectively pausing the game. If we do not have an identifier
+for a queued animation frame, then we are currently paused, and we would like
+to call <code>requestAnimationFrame</code> to resume the game.</p>
+</li>
+</ul>
+<p>Because the JavaScript is driving the Rust and WebAssembly, this is all we need
+to do, and we don't need to change the Rust sources.</p>
+<p>We introduce the <code>animationId</code> variable to keep track of the identifier returned
+by <code>requestAnimationFrame</code>. When there is no queued animation frame, we set this
+variable to <code>null</code>.</p>
+<pre><code class="language-js">let animationId = null;
+
+// This function is the same as before, except the
+// result of `requestAnimationFrame` is assigned to
+// `animationId`.
+const renderLoop = () =&gt; {
+  drawGrid();
+  drawCells();
+
+  universe.tick();
+
+  animationId = requestAnimationFrame(renderLoop);
+};
+</code></pre>
+<p>At any instant in time, we can tell whether the game is paused or not by
+inspecting the value of <code>animationId</code>:</p>
+<pre><code class="language-js">const isPaused = () =&gt; {
+  return animationId === null;
+};
+</code></pre>
+<p>Now, when the play/pause button is clicked, we check whether the game is
+currently paused or playing, and resume the <code>renderLoop</code> animation or cancel the
+next animation frame respectively. Additionally, we update the button's text
+icon to reflect the action that the button will take when clicked next.</p>
+<pre><code class="language-js">const playPauseButton = document.getElementById("play-pause");
+
+const play = () =&gt; {
+  playPauseButton.textContent = "⏸";
+  renderLoop();
+};
+
+const pause = () =&gt; {
+  playPauseButton.textContent = "▶";
+  cancelAnimationFrame(animationId);
+  animationId = null;
+};
+
+playPauseButton.addEventListener("click", event =&gt; {
+  if (isPaused()) {
+    play();
+  } else {
+    pause();
+  }
+});
+</code></pre>
+<p>Finally, we were previously kick-starting the game and its animation by calling
+<code>requestAnimationFrame(renderLoop)</code> directly, but we want to replace that with a
+call to <code>play</code> so that the button gets the correct initial text icon.</p>
+<pre><code class="language-diff">// This used to be `requestAnimationFrame(renderLoop)`.
+play();
+</code></pre>
+<p>Refresh <a href="http://localhost:8080/">http://localhost:8080/</a> and we should now be
+able to pause and resume the game by clicking on the button!</p>
+<h2 id="toggling-a-cells-state-on-click-events"><a class="header" href="#toggling-a-cells-state-on-click-events">Toggling a Cell's State on <code>"click"</code> Events</a></h2>
+<p>Now that we can pause the game, it's time to add the ability to mutate the cells
+by clicking on them.</p>
+<p>To toggle a cell is to flip its state from alive to dead or from dead to
+alive. Add a <code>toggle</code> method to <code>Cell</code> in <code>wasm-game-of-life/src/lib.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Cell {
+    fn toggle(&amp;mut self) {
+        *self = match *self {
+            Cell::Dead =&gt; Cell::Alive,
+            Cell::Alive =&gt; Cell::Dead,
+        };
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>To toggle the state of a cell at given row and column, we translate the row and
+column pair into an index into the cells vector and call the toggle method on
+the cell at that index:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Public methods, exported to JavaScript.
+#[wasm_bindgen]
+impl Universe {
+    // ...
+
+    pub fn toggle_cell(&amp;mut self, row: u32, column: u32) {
+        let idx = self.get_index(row, column);
+        self.cells[idx].toggle();
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This method is defined within the <code>impl</code> block that is annotated with
+<code>#[wasm_bindgen]</code> so that it can be called by JavaScript.</p>
+<p>In <code>wasm-game-of-life/www/index.js</code>, we listen to click events on the <code>&lt;canvas&gt;</code>
+element, translate the click event's page-relative coordinates into
+canvas-relative coordinates, and then into a row and column, invoke the
+<code>toggle_cell</code> method, and finally redraw the scene.</p>
+<pre><code class="language-js">canvas.addEventListener("click", event =&gt; {
+  const boundingRect = canvas.getBoundingClientRect();
+
+  const scaleX = canvas.width / boundingRect.width;
+  const scaleY = canvas.height / boundingRect.height;
+
+  const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
+  const canvasTop = (event.clientY - boundingRect.top) * scaleY;
+
+  const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height - 1);
+  const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width - 1);
+
+  universe.toggle_cell(row, col);
+
+  drawGrid();
+  drawCells();
+});
+</code></pre>
+<p>Rebuild with <code>wasm-pack build</code> in <code>wasm-game-of-life</code>, then refresh
+<a href="http://localhost:8080/">http://localhost:8080/</a> again and we can now draw our
+own patterns by clicking on the cells and toggling their state.</p>
+<h2 id="exercises-3"><a class="header" href="#exercises-3">Exercises</a></h2>
+<ul>
+<li>
+<p>Introduce an <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range"><code>&lt;input type="range"&gt;</code></a> widget to control how many
+ticks occur per animation frame.</p>
+</li>
+<li>
+<p>Add a button that resets the universe to a random initial state when
+clicked. Another button that resets the universe to all dead cells.</p>
+</li>
+<li>
+<p>On <code>Ctrl + Click</code>, insert a
+<a href="https://en.wikipedia.org/wiki/Glider_(Conway%27s_Life)">glider</a> centered on
+the target cell. On <code>Shift + Click</code>, insert a pulsar.</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="time-profiling"><a class="header" href="#time-profiling">Time Profiling</a></h1>
+<p>In this chapter, we will improve the performance of our Game of Life
+implementation. We will use time profiling to guide our efforts.</p>
+<p>Familiarize yourself with <a href="game-of-life/../reference/time-profiling.html">the available tools for time profiling Rust and
+WebAssembly code</a> before continuing.</p>
+<h2 id="creating-a-frames-per-second-timer-with-the-windowperformancenow-function"><a class="header" href="#creating-a-frames-per-second-timer-with-the-windowperformancenow-function">Creating a Frames Per Second Timer with the <code>window.performance.now</code> Function</a></h2>
+<p>This FPS timer will be useful as we investigate speeding up our Game of Life's
+rendering.</p>
+<p>We start by adding an <code>fps</code> object to <code>wasm-game-of-life/www/index.js</code>:</p>
+<pre><code class="language-js">const fps = new class {
+  constructor() {
+    this.fps = document.getElementById("fps");
+    this.frames = [];
+    this.lastFrameTimeStamp = performance.now();
+  }
+
+  render() {
+    // Convert the delta time since the last frame render into a measure
+    // of frames per second.
+    const now = performance.now();
+    const delta = now - this.lastFrameTimeStamp;
+    this.lastFrameTimeStamp = now;
+    const fps = 1 / delta * 1000;
+
+    // Save only the latest 100 timings.
+    this.frames.push(fps);
+    if (this.frames.length &gt; 100) {
+      this.frames.shift();
+    }
+
+    // Find the max, min, and mean of our 100 latest timings.
+    let min = Infinity;
+    let max = -Infinity;
+    let sum = 0;
+    for (let i = 0; i &lt; this.frames.length; i++) {
+      sum += this.frames[i];
+      min = Math.min(this.frames[i], min);
+      max = Math.max(this.frames[i], max);
+    }
+    let mean = sum / this.frames.length;
+
+    // Render the statistics.
+    this.fps.textContent = `
+Frames per Second:
+         latest = ${Math.round(fps)}
+avg of last 100 = ${Math.round(mean)}
+min of last 100 = ${Math.round(min)}
+max of last 100 = ${Math.round(max)}
+`.trim();
+  }
+};
+</code></pre>
+<p>Next we call the <code>fps</code> <code>render</code> function on each iteration of <code>renderLoop</code>:</p>
+<pre><code class="language-js">const renderLoop = () =&gt; {
+    fps.render(); //new
+
+    universe.tick();
+    drawGrid();
+    drawCells();
+
+    animationId = requestAnimationFrame(renderLoop);
+};
+</code></pre>
+<p>Finally, don't forget to add the <code>fps</code> element to
+<code>wasm-game-of-life/www/index.html</code>, just above the <code>&lt;canvas&gt;</code>:</p>
+<pre><code class="language-html">&lt;div id="fps"&gt;&lt;/div&gt;
+</code></pre>
+<p>And add CSS to make its formatting nice:</p>
+<pre><code class="language-css">#fps {
+  white-space: pre;
+  font-family: monospace;
+}
+</code></pre>
+<p>And voila! Refresh <a href="http://localhost:8080">http://localhost:8080</a> and now we
+have an FPS counter!</p>
+<h3 id="time-each-universetick-with-consoletime-and-consoletimeend"><a class="header" href="#time-each-universetick-with-consoletime-and-consoletimeend">Time Each <code>Universe::tick</code> with <code>console.time</code> and <code>console.timeEnd</code></a></h3>
+<p>To measure how long each invocation of <code>Universe::tick</code> takes, we can use
+<code>console.time</code> and <code>console.timeEnd</code> via the <code>web-sys</code> crate.</p>
+<p>First, add <code>web-sys</code> as a dependency to <code>wasm-game-of-life/Cargo.toml</code>:</p>
+<pre><code class="language-toml">[dependencies.web-sys]
+version = "0.3"
+features = [
+  "console",
+]
+</code></pre>
+<p>Because there should be a corresponding <code>console.timeEnd</code> invocation for every
+<code>console.time</code> call, it is convenient to wrap them both up in an <a href="https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization">RAII</a> type:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>extern crate web_sys;
+use web_sys::console;
+
+pub struct Timer&lt;'a&gt; {
+    name: &amp;'a str,
+}
+
+impl&lt;'a&gt; Timer&lt;'a&gt; {
+    pub fn new(name: &amp;'a str) -&gt; Timer&lt;'a&gt; {
+        console::time_with_label(name);
+        Timer { name }
+    }
+}
+
+impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
+    fn drop(&amp;mut self) {
+        console::time_end_with_label(self.name);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Then, we can time how long each <code>Universe::tick</code> takes by adding this snippet to
+the top of the method:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let _timer = Timer::new("Universe::tick");
+<span class="boring">}</span></code></pre></pre>
+<p>The time of how long each call to <code>Universe::tick</code> took are now logged in the
+console:</p>
+<p><a href="game-of-life/../images/game-of-life/console-time.png"><img src="game-of-life/../images/game-of-life/console-time.png" alt="Screenshot of console.time logs" /></a></p>
+<p>Additionally, <code>console.time</code> and <code>console.timeEnd</code> pairs will show up in your
+browser's profiler's "timeline" or "waterfall" view:</p>
+<p><a href="game-of-life/../images/game-of-life/console-time-in-profiler.png"><img src="game-of-life/../images/game-of-life/console-time-in-profiler.png" alt="Screenshot of console.time logs" /></a></p>
+<h2 id="growing-our-game-of-life-universe"><a class="header" href="#growing-our-game-of-life-universe">Growing our Game of Life Universe</a></h2>
+<blockquote>
+<p>⚠️ This section utilizes example screenshots from Firefox. While all modern
+browsers have similar tools, there might be slight nuances to working with
+different developer tools. The profile information you extract will be
+essentially the same, but your mileage might vary in terms of the views you
+see and the naming of different tools.</p>
+</blockquote>
+<p>What happens if we make our Game of Life universe larger? Replacing the 64 by 64
+universe with a 128 by 128 universe (by modifying <code>Universe::new</code> in
+<code>wasm-game-of-life/src/lib.rs</code>) results in FPS dropping from a smooth 60 to a
+choppy 40-ish on my machine.</p>
+<p>If we record a profile and look at the waterfall view, we see that each
+animation frame is taking over 20 milliseconds. Recall that 60 frames per second
+leaves sixteen milliseconds for the whole process of rendering a frame. That's
+not just our JavaScript and WebAssembly, but also everything else the browser is
+doing, such as painting.</p>
+<p><a href="game-of-life/../images/game-of-life/drawCells-before-waterfall.png"><img src="game-of-life/../images/game-of-life/drawCells-before-waterfall.png" alt="Screenshot of a waterfall view of rendering a frame" /></a></p>
+<p>If we look at what happens within a single animation frame, we see that the
+<code>CanvasRenderingContext2D.fillStyle</code> setter is very expensive!</p>
+<blockquote>
+<p>⚠️ In Firefox, if you see a line that simply says "DOM" instead of the
+<code>CanvasRenderingContext2D.fillStyle</code> mentioned above, you may need to turn on
+the option for "Show Gecko Platform Data" in your performance developer tools
+options:</p>
+<p><a href="game-of-life/../images/game-of-life/profiler-firefox-show-gecko-platform.png"><img src="game-of-life/../images/game-of-life/profiler-firefox-show-gecko-platform.png" alt="Turning on Show Gecko Platform Data" /></a></p>
+</blockquote>
+<p><a href="game-of-life/../images/game-of-life/drawCells-before-flamegraph.png"><img src="game-of-life/../images/game-of-life/drawCells-before-flamegraph.png" alt="Screenshot of a flamegraph view of rendering a frame" /></a></p>
+<p>And we can confirm that this isn't an abnormality by looking at the call tree's
+aggregation of many frames:</p>
+<p><a href="game-of-life/../images/game-of-life/drawCells-before-calltree.png"><img src="game-of-life/../images/game-of-life/drawCells-before-calltree.png" alt="Screenshot of a flamegraph view of rendering a frame" /></a></p>
+<p>Nearly 40% of our time is spent in this setter!</p>
+<blockquote>
+<p>⚡ We might have expected something in the <code>tick</code> method to be the performance
+bottleneck, but it wasn't. Always let profiling guide your focus, since time
+may be spent in places you don't expect it to be.</p>
+</blockquote>
+<p>In the <code>drawCells</code> function in <code>wasm-game-of-life/www/index.js</code>, the <code>fillStyle</code>
+property is set once for every cell in the universe, on every animation frame:</p>
+<pre><code class="language-js">for (let row = 0; row &lt; height; row++) {
+  for (let col = 0; col &lt; width; col++) {
+    const idx = getIndex(row, col);
+
+    ctx.fillStyle = cells[idx] === DEAD
+      ? DEAD_COLOR
+      : ALIVE_COLOR;
+
+    ctx.fillRect(
+      col * (CELL_SIZE + 1) + 1,
+      row * (CELL_SIZE + 1) + 1,
+      CELL_SIZE,
+      CELL_SIZE
+    );
+  }
+}
+</code></pre>
+<p>Now that we have discovered that setting <code>fillStyle</code> is so expensive, what can
+we do to avoid setting it so often? We need to change <code>fillStyle</code> depending on
+whether a cell is alive or dead. If we set <code>fillStyle = ALIVE_COLOR</code> and then
+draw every alive cell in one pass, and then set <code>fillStyle = DEAD_COLOR</code> and
+draw every dead cell in another pass, then we only end setting <code>fillStyle</code>
+twice, rather than once for every cell.</p>
+<pre><code class="language-js">// Alive cells.
+ctx.fillStyle = ALIVE_COLOR;
+for (let row = 0; row &lt; height; row++) {
+  for (let col = 0; col &lt; width; col++) {
+    const idx = getIndex(row, col);
+    if (cells[idx] !== Cell.Alive) {
+      continue;
+    }
+
+    ctx.fillRect(
+      col * (CELL_SIZE + 1) + 1,
+      row * (CELL_SIZE + 1) + 1,
+      CELL_SIZE,
+      CELL_SIZE
+    );
+  }
+}
+
+// Dead cells.
+ctx.fillStyle = DEAD_COLOR;
+for (let row = 0; row &lt; height; row++) {
+  for (let col = 0; col &lt; width; col++) {
+    const idx = getIndex(row, col);
+    if (cells[idx] !== Cell.Dead) {
+      continue;
+    }
+
+    ctx.fillRect(
+      col * (CELL_SIZE + 1) + 1,
+      row * (CELL_SIZE + 1) + 1,
+      CELL_SIZE,
+      CELL_SIZE
+    );
+  }
+}
+</code></pre>
+<p>After saving these changes and refreshing
+<a href="http://localhost:8080/">http://localhost:8080/</a>, rendering is back to a smooth
+60 frames per second.</p>
+<p>If we take another profile, we can see that only about ten milliseconds are
+spent in each animation frame now.</p>
+<p><a href="game-of-life/../images/game-of-life/drawCells-after-waterfall.png"><img src="game-of-life/../images/game-of-life/drawCells-after-waterfall.png" alt="Screenshot of a waterfall view of rendering a frame after the drawCells changes" /></a></p>
+<p>Breaking down a single frame, we see that the <code>fillStyle</code> cost is gone, and most
+of our frame's time is spent within <code>fillRect</code>, drawing each cell's rectangle.</p>
+<p><a href="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png"><img src="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png" alt="Screenshot of a flamegraph view of rendering a frame after the drawCells changes" /></a></p>
+<h2 id="making-time-run-faster"><a class="header" href="#making-time-run-faster">Making Time Run Faster</a></h2>
+<p>Some folks don't like waiting around, and would prefer if instead of one tick of
+the universe occurred per animation frame, nine ticks did. We can modify the
+<code>renderLoop</code> function in <code>wasm-game-of-life/www/index.js</code> to do this quite
+easily:</p>
+<pre><code class="language-js">for (let i = 0; i &lt; 9; i++) {
+  universe.tick();
+}
+</code></pre>
+<p>On my machine, this brings us back down to only 35 frames per second. No
+good. We want that buttery 60!</p>
+<p>Now we know that time is being spent in <code>Universe::tick</code>, so let's add some
+<code>Timer</code>s to wrap various bits of it in <code>console.time</code> and <code>console.timeEnd</code>
+calls, and see where that leads us. My hypothesis is that allocating a new
+vector of cells and freeing the old vector on every tick is costly, and taking
+up a significant portion of our time budget.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn tick(&amp;mut self) {
+    let _timer = Timer::new("Universe::tick");
+
+    let mut next = {
+        let _timer = Timer::new("allocate next cells");
+        self.cells.clone()
+    };
+
+    {
+        let _timer = Timer::new("new generation");
+        for row in 0..self.height {
+            for col in 0..self.width {
+                let idx = self.get_index(row, col);
+                let cell = self.cells[idx];
+                let live_neighbors = self.live_neighbor_count(row, col);
+
+                let next_cell = match (cell, live_neighbors) {
+                    // Rule 1: Any live cell with fewer than two live neighbours
+                    // dies, as if caused by underpopulation.
+                    (Cell::Alive, x) if x &lt; 2 =&gt; Cell::Dead,
+                    // Rule 2: Any live cell with two or three live neighbours
+                    // lives on to the next generation.
+                    (Cell::Alive, 2) | (Cell::Alive, 3) =&gt; Cell::Alive,
+                    // Rule 3: Any live cell with more than three live
+                    // neighbours dies, as if by overpopulation.
+                    (Cell::Alive, x) if x &gt; 3 =&gt; Cell::Dead,
+                    // Rule 4: Any dead cell with exactly three live neighbours
+                    // becomes a live cell, as if by reproduction.
+                    (Cell::Dead, 3) =&gt; Cell::Alive,
+                    // All other cells remain in the same state.
+                    (otherwise, _) =&gt; otherwise,
+                };
+
+                next[idx] = next_cell;
+            }
+        }
+    }
+
+    let _timer = Timer::new("free old cells");
+    self.cells = next;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Looking at the timings, it is clear that my hypothesis is incorrect: the vast
+majority of time is spent actually calculating the next generation of
+cells. Allocating and freeing a vector on every tick appears to have negligible
+cost, surprisingly. Another reminder to always guide our efforts with profiling!</p>
+<p><a href="game-of-life/../images/game-of-life/console-time-in-universe-tick.png"><img src="game-of-life/../images/game-of-life/console-time-in-universe-tick.png" alt="Screenshot of a Universe::tick timer results" /></a></p>
+<p>The next section requires the <code>nightly</code> compiler. It's required because of
+the <a href="https://doc.rust-lang.org/unstable-book/library-features/test.html">test feature gate</a>
+we're going to use for the benchmarks. Another tool we will install is <a href="https://github.com/BurntSushi/cargo-benchcmp">cargo benchcmp</a>.
+It's a small utility for comparing micro-benchmarks produced by <code>cargo bench</code>.</p>
+<p>Let's write a native code <code>#[bench]</code> doing the same thing that our WebAssembly
+is doing, but where we can use more mature profiling tools. Here is the new
+<code>wasm-game-of-life/benches/bench.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span>#![feature(test)]
+
+<span class="boring">fn main() {
+</span>extern crate test;
+extern crate wasm_game_of_life;
+
+#[bench]
+fn universe_ticks(b: &amp;mut test::Bencher) {
+    let mut universe = wasm_game_of_life::Universe::new();
+
+    b.iter(|| {
+        universe.tick();
+    });
+}
+<span class="boring">}</span></code></pre></pre>
+<p>We also have to comment out all the <code>#[wasm_bindgen]</code> annotations, and the
+<code>"cdylib"</code> bits from <code>Cargo.toml</code> or else building native code will fail and
+have link errors.</p>
+<p>With all that in place, we can run <code>cargo bench | tee before.txt</code> to compile and run our
+benchmark! The <code>| tee before.txt</code> part will take the output from <code>cargo bench</code> and put in a file
+called <code>before.txt</code>.</p>
+<pre><code>$ cargo bench | tee before.txt
+    Finished release [optimized + debuginfo] target(s) in 0.0 secs
+     Running target/release/deps/wasm_game_of_life-91574dfbe2b5a124
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+
+     Running target/release/deps/bench-8474091a05cfa2d9
+
+running 1 test
+test universe_ticks ... bench:     664,421 ns/iter (+/- 51,926)
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
+</code></pre>
+<p>This also tells us where the binary lives, and we can run the benchmarks again,
+but this time under our operating system's profiler. In my case, I'm running
+Linux, so <a href="https://perf.wiki.kernel.org/index.php/Main_Page"><code>perf</code></a> is the profiler I'll use:</p>
+<pre><code>$ perf record -g target/release/deps/bench-8474091a05cfa2d9 --bench
+running 1 test
+test universe_ticks ... bench:     635,061 ns/iter (+/- 38,764)
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
+
+[ perf record: Woken up 1 times to write data ]
+[ perf record: Captured and wrote 0.178 MB perf.data (2349 samples) ]
+</code></pre>
+<p>Loading up the profile with <code>perf report</code> shows that all of our time is spent in
+<code>Universe::tick</code>, as expected:</p>
+<p><a href="game-of-life/../images/game-of-life/bench-perf-report.png"><img src="game-of-life/../images/game-of-life/bench-perf-report.png" alt="Screenshot of perf report" /></a></p>
+<p><code>perf</code> will annotate which instructions in a function time is being spent at if
+you press <code>a</code>:</p>
+<p><a href="game-of-life/../images/game-of-life/bench-perf-annotate.png"><img src="game-of-life/../images/game-of-life/bench-perf-annotate.png" alt="Screenshot of perf&#39;s instruction annotation" /></a></p>
+<p>This tells us that 26.67% of time is being spent summing neighboring cells'
+values, 23.41% of time is spent getting the neighbor's column index, and another
+15.42% of time is spent getting the neighbor's row index. Of these top three
+most expensive instructions, the second and third are both costly <code>div</code>
+instructions. These <code>div</code>s implement the modulo indexing logic in
+<code>Universe::live_neighbor_count</code>.</p>
+<p>Recall the <code>live_neighbor_count</code> definition inside
+<code>wasm-game-of-life/src/lib.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn live_neighbor_count(&amp;self, row: u32, column: u32) -&gt; u8 {
+    let mut count = 0;
+    for delta_row in [self.height - 1, 0, 1].iter().cloned() {
+        for delta_col in [self.width - 1, 0, 1].iter().cloned() {
+            if delta_row == 0 &amp;&amp; delta_col == 0 {
+                continue;
+            }
+
+            let neighbor_row = (row + delta_row) % self.height;
+            let neighbor_col = (column + delta_col) % self.width;
+            let idx = self.get_index(neighbor_row, neighbor_col);
+            count += self.cells[idx] as u8;
+        }
+    }
+    count
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The reason we used modulo was to avoid cluttering up the code with <code>if</code> branches
+for the first or last row or column edge cases. But we are paying the cost of a
+<code>div</code> instruction even for the most common case, when neither <code>row</code> nor <code>column</code>
+is on the edge of the universe and they don't need the modulo wrapping
+treatment. Instead, if we use <code>if</code>s for the edge cases and unroll this loop, the
+branches <em>should</em> be very well-predicted by the CPU's branch predictor.</p>
+<p>Let's rewrite <code>live_neighbor_count</code> like this:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn live_neighbor_count(&amp;self, row: u32, column: u32) -&gt; u8 {
+    let mut count = 0;
+
+    let north = if row == 0 {
+        self.height - 1
+    } else {
+        row - 1
+    };
+
+    let south = if row == self.height - 1 {
+        0
+    } else {
+        row + 1
+    };
+
+    let west = if column == 0 {
+        self.width - 1
+    } else {
+        column - 1
+    };
+
+    let east = if column == self.width - 1 {
+        0
+    } else {
+        column + 1
+    };
+
+    let nw = self.get_index(north, west);
+    count += self.cells[nw] as u8;
+
+    let n = self.get_index(north, column);
+    count += self.cells[n] as u8;
+
+    let ne = self.get_index(north, east);
+    count += self.cells[ne] as u8;
+
+    let w = self.get_index(row, west);
+    count += self.cells[w] as u8;
+
+    let e = self.get_index(row, east);
+    count += self.cells[e] as u8;
+
+    let sw = self.get_index(south, west);
+    count += self.cells[sw] as u8;
+
+    let s = self.get_index(south, column);
+    count += self.cells[s] as u8;
+
+    let se = self.get_index(south, east);
+    count += self.cells[se] as u8;
+
+    count
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Now let's run the benchmarks again! This time output it to <code>after.txt</code>.</p>
+<pre><code>$ cargo bench | tee after.txt
+   Compiling wasm_game_of_life v0.1.0 (file:///home/fitzgen/wasm_game_of_life)
+    Finished release [optimized + debuginfo] target(s) in 0.82 secs
+     Running target/release/deps/wasm_game_of_life-91574dfbe2b5a124
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+
+     Running target/release/deps/bench-8474091a05cfa2d9
+
+running 1 test
+test universe_ticks ... bench:      87,258 ns/iter (+/- 14,632)
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
+</code></pre>
+<p>That looks a whole lot better! We can see just how much better it is with the <code>benchcmp</code> tool and the two text files we created before:</p>
+<pre><code>$ cargo benchcmp before.txt after.txt
+ name            before.txt ns/iter  after.txt ns/iter  diff ns/iter   diff %  speedup
+ universe_ticks  664,421             87,258                 -577,163  -86.87%   x 7.61
+</code></pre>
+<p>Wow! 7.61x speed up!</p>
+<p>WebAssembly intentionally maps closely to common hardware architectures, but we
+do need to make sure that this native code speed up translates into a
+WebAssembly speed up as well.</p>
+<p>Let's rebuild the <code>.wasm</code> with <code>wasm-pack build</code> and refresh
+<a href="http://localhost:8080/">http://localhost:8080/</a>. On my machine, the page is
+running at 60 frames per second again, and recording another profile with the
+browser's profiler reveals that each animation frame is taking about ten
+milliseconds.</p>
+<p>Success!</p>
+<p><a href="game-of-life/../images/game-of-life/waterfall-after-branches-and-unrolling.png"><img src="game-of-life/../images/game-of-life/waterfall-after-branches-and-unrolling.png" alt="Screenshot of a waterfall view of rendering a frame after replacing modulos with branches" /></a></p>
+<h2 id="exercises-4"><a class="header" href="#exercises-4">Exercises</a></h2>
+<ul>
+<li>
+<p>At this point, the next lowest hanging fruit for speeding up <code>Universe::tick</code>
+is removing the allocation and free. Implement double buffering of cells,
+where the <code>Universe</code> maintains two vectors, never frees either of them, and
+never allocates new buffers in <code>tick</code>.</p>
+</li>
+<li>
+<p>Implement the alternative, delta-based design from the "Implementing Life"
+chapter, where the Rust code returns a list of cells that changed states to
+JavaScript. Does this make rendering to <code>&lt;canvas&gt;</code> faster? Can you implement
+this design without allocating a new list of deltas on every tick?</p>
+</li>
+<li>
+<p>As our profiling has shown us, 2D <code>&lt;canvas&gt;</code> rendering is not particularly
+fast. Replace the 2D canvas renderer with a <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a> renderer. How much faster is
+the WebGL version? How large can you make the universe before WebGL rendering
+is a bottleneck?</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="shrinking-wasm-size"><a class="header" href="#shrinking-wasm-size">Shrinking <code>.wasm</code> Size</a></h1>
+<p>For <code>.wasm</code> binaries that we ship to clients over the network, such as our Game
+of Life Web application, we want to keep an eye on code size. The smaller our
+<code>.wasm</code> is, the faster our page loads get, and the happier our users are.</p>
+<h2 id="how-small-can-we-get-our-game-of-life-wasm-binary-via-build-configuration"><a class="header" href="#how-small-can-we-get-our-game-of-life-wasm-binary-via-build-configuration">How small can we get our Game of Life <code>.wasm</code> binary via build configuration?</a></h2>
+<p><a href="game-of-life/../reference/code-size.html#optimizing-builds-for-code-size">Take a moment to review the build configuration options we can tweak to get
+smaller <code>.wasm</code> code
+sizes.</a></p>
+<p>With the default release build configuration (without debug symbols), our
+WebAssembly binary is 29,410 bytes:</p>
+<pre><code>$ wc -c pkg/wasm_game_of_life_bg.wasm
+29410 pkg/wasm_game_of_life_bg.wasm
+</code></pre>
+<p>After enabling LTO, setting <code>opt-level = "z"</code>, and running <code>wasm-opt -Oz</code>, the
+resulting <code>.wasm</code> binary shrinks to only 17,317 bytes:</p>
+<pre><code>$ wc -c pkg/wasm_game_of_life_bg.wasm
+17317 pkg/wasm_game_of_life_bg.wasm
+</code></pre>
+<p>And if we compress it with <code>gzip</code> (which nearly every HTTP server does) we get
+down to a measly 9,045 bytes!</p>
+<pre><code>$ gzip -9 &lt; pkg/wasm_game_of_life_bg.wasm | wc -c
+9045
+</code></pre>
+<h2 id="exercises-5"><a class="header" href="#exercises-5">Exercises</a></h2>
+<ul>
+<li>
+<p>Use <a href="game-of-life/../reference/code-size.html#use-the-wasm-snip-tool">the <code>wasm-snip</code> tool</a>
+to remove the panicking infrastructure functions from our Game of Life's
+<code>.wasm</code> binary. How many bytes does it save?</p>
+</li>
+<li>
+<p>Build our Game of Life crate with and without <a href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> as its global
+allocator</a>. The
+<code>rustwasm/wasm-pack-template</code> template that we cloned to start this project
+has a "wee_alloc" cargo feature that you can enable by adding it to the
+<code>default</code> key in the <code>[features]</code> section of <code>wasm-game-of-life/Cargo.toml</code>:</p>
+<pre><code class="language-toml">[features]
+default = ["wee_alloc"]
+</code></pre>
+<p>How much size does using <code>wee_alloc</code> shave off of the <code>.wasm</code>
+binary?</p>
+</li>
+<li>
+<p>We only ever instantiate a single <code>Universe</code>, so rather than providing a
+constructor, we can export operations that manipulate a single <code>static mut</code>
+global instance. If this global instance also uses the double buffering
+technique discussed in earlier chapters, we can make those buffers also be
+<code>static mut</code> globals. This removes all dynamic allocation from our Game of
+Life implementation, and we can make it a <code>#![no_std]</code> crate that doesn't
+include an allocator. How much size was removed from the <code>.wasm</code> by completely
+removing the allocator dependency?</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="publishing-to-npm"><a class="header" href="#publishing-to-npm">Publishing to npm</a></h1>
+<p>Now that we have a working, fast, <em>and</em> small <code>wasm-game-of-life</code> package, we
+can publish it to npm so other JavaScript developers can reuse it, if they ever
+need an off-the-shelf Game of Life implementation.</p>
+<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
+<p>First, <a href="https://www.npmjs.com/signup">make sure you have an npm account</a>.</p>
+<p>Second, make sure you are logged into your account locally, by running this
+command:</p>
+<pre><code>wasm-pack login
+</code></pre>
+<h2 id="publishing"><a class="header" href="#publishing">Publishing</a></h2>
+<p>Make sure that the <code>wasm-game-of-life/pkg</code> build is up to date by running
+<code>wasm-pack</code> inside the <code>wasm-game-of-life</code> directory:</p>
+<pre><code>wasm-pack build
+</code></pre>
+<p>Take a moment to check out the contents of <code>wasm-game-of-life/pkg</code> now, this is
+what we are publishing to npm in the next step!</p>
+<p>When you're ready, run <code>wasm-pack publish</code> to upload the package to npm:</p>
+<pre><code>wasm-pack publish
+</code></pre>
+<p>That's all it takes to publish to npm!</p>
+<p>...except other folks have also done this tutorial, and therefore the
+<code>wasm-game-of-life</code> name is taken on npm, and that last command probably didn't
+work.</p>
+<p>Open up <code>wasm-game-of-life/Cargo.toml</code> and add your username to the end of the
+<code>name</code> to disambiguate the package in a unique way:</p>
+<pre><code class="language-toml">[package]
+name = "wasm-game-of-life-my-username"
+</code></pre>
+<p>Then, rebuild and publish again:</p>
+<pre><code>wasm-pack build
+wasm-pack publish
+</code></pre>
+<p>This time it should work!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="reference"><a class="header" href="#reference">Reference</a></h1>
+<p>This section contains reference material for Rust and WebAssembly
+development. It is not intended to provide a narrative and be read start to
+finish. Instead, each subsection should stand on its own.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="crates-you-should-know"><a class="header" href="#crates-you-should-know">Crates You Should Know</a></h1>
+<p>This is a curated list of awesome crates you should know about for doing Rust
+and WebAssembly development.</p>
+<p><a href="https://crates.io/categories/wasm">You can also browse all the crates published to crates.io in the WebAssembly
+category.</a></p>
+<h2 id="interacting-with-javascript-and-the-dom"><a class="header" href="#interacting-with-javascript-and-the-dom">Interacting with JavaScript and the DOM</a></h2>
+<h3 id="wasm-bindgen--cratesio--repository"><a class="header" href="#wasm-bindgen--cratesio--repository"><code>wasm-bindgen</code> | <a href="https://crates.io/crates/wasm-bindgen">crates.io</a> | <a href="https://github.com/rustwasm/wasm-bindgen">repository</a></a></h3>
+<p><code>wasm-bindgen</code> facilitates high-level interactions between Rust and
+JavaScript. It allows one to import JavaScript things into Rust and export Rust
+things to JavaScript.</p>
+<h3 id="wasm-bindgen-futures--cratesio--repository"><a class="header" href="#wasm-bindgen-futures--cratesio--repository"><code>wasm-bindgen-futures</code> | <a href="https://crates.io/crates/wasm-bindgen-futures">crates.io</a> | <a href="https://github.com/rustwasm/wasm-bindgen/tree/master/crates/futures">repository</a></a></h3>
+<p><code>wasm-bindgen-futures</code> is a bridge connecting JavaScript <code>Promise</code>s and Rust
+<code>Future</code>s. It can convert in both directions and is useful when working with
+asynchronous tasks in Rust, and allows interacting with DOM events and I/O
+operations.</p>
+<h3 id="js-sys--cratesio--repository"><a class="header" href="#js-sys--cratesio--repository"><code>js-sys</code> | <a href="https://crates.io/crates/js-sys">crates.io</a> | <a href="https://github.com/rustwasm/wasm-bindgen/tree/master/crates/js-sys">repository</a></a></h3>
+<p>Raw <code>wasm-bindgen</code> imports for all the JavaScript global types and methods, such
+as <code>Object</code>, <code>Function</code>, <code>eval</code>, etc. These APIs are portable across all
+standard ECMAScript environments, not just the Web, such as Node.js.</p>
+<h3 id="web-sys--cratesio--repository"><a class="header" href="#web-sys--cratesio--repository"><code>web-sys</code> | <a href="https://crates.io/crates/web-sys">crates.io</a> | <a href="https://github.com/rustwasm/wasm-bindgen/tree/master/crates/web-sys">repository</a></a></h3>
+<p>Raw <code>wasm-bindgen</code> imports for all the Web's APIs, such as DOM manipulation,
+<code>setTimeout</code>, Web GL, Web Audio, etc.</p>
+<h2 id="error-reporting-and-logging"><a class="header" href="#error-reporting-and-logging">Error Reporting and Logging</a></h2>
+<h3 id="console_error_panic_hook--cratesio--repository"><a class="header" href="#console_error_panic_hook--cratesio--repository"><code>console_error_panic_hook</code> | <a href="https://crates.io/crates/console_error_panic_hook">crates.io</a> | <a href="https://github.com/rustwasm/console_error_panic_hook">repository</a></a></h3>
+<p>This crate lets you debug panics on <code>wasm32-unknown-unknown</code> by providing a
+panic hook that forwards panic messages to <code>console.error</code>.</p>
+<h3 id="console_log--cratesio--repository"><a class="header" href="#console_log--cratesio--repository"><code>console_log</code> | <a href="https://crates.io/crates/console_log">crates.io</a> | <a href="https://github.com/iamcodemaker/console_log">repository</a></a></h3>
+<p>This crate provides a backend for <a href="https://crates.io/crates/log">the <code>log</code>
+crate</a> that routes logged messages to the devtools
+console.</p>
+<h2 id="dynamic-allocation"><a class="header" href="#dynamic-allocation">Dynamic Allocation</a></h2>
+<h3 id="wee_alloc--cratesio--repository"><a class="header" href="#wee_alloc--cratesio--repository"><code>wee_alloc</code> | <a href="https://crates.io/crates/wee_alloc">crates.io</a> | <a href="https://github.com/rustwasm/wee_alloc">repository</a></a></h3>
+<p>The <strong>W</strong>asm-<strong>E</strong>nabled, <strong>E</strong>lfin Allocator. A small (~1K uncompressed
+<code>.wasm</code>) allocator implementation for when code size is a greater concern than
+allocation performance.</p>
+<h2 id="parsing-and-generating-wasm-binaries"><a class="header" href="#parsing-and-generating-wasm-binaries">Parsing and Generating <code>.wasm</code> Binaries</a></h2>
+<h3 id="parity-wasm--cratesio--repository"><a class="header" href="#parity-wasm--cratesio--repository"><code>parity-wasm</code> | <a href="https://crates.io/crates/parity-wasm">crates.io</a> | <a href="https://github.com/paritytech/parity-wasm">repository</a></a></h3>
+<p>Low-level WebAssembly format library for serializing, deserializing, and
+building <code>.wasm</code> binaries. Good support for well-known custom sections, such as
+the "names" section and "reloc.WHATEVER" sections.</p>
+<h3 id="wasmparser--cratesio--repository"><a class="header" href="#wasmparser--cratesio--repository"><code>wasmparser</code> | <a href="https://crates.io/crates/wasmparser">crates.io</a> | <a href="https://github.com/yurydelendik/wasmparser.rs">repository</a></a></h3>
+<p>A simple, event-driven library for parsing WebAssembly binary files. Provides
+the byte offsets of each parsed thing, which is necessary when interpreting
+relocs, for example.</p>
+<h2 id="interpreting-and-compiling-webassembly"><a class="header" href="#interpreting-and-compiling-webassembly">Interpreting and Compiling WebAssembly</a></h2>
+<h3 id="wasmi--cratesio--repository"><a class="header" href="#wasmi--cratesio--repository"><code>wasmi</code> | <a href="https://crates.io/crates/wasmi">crates.io</a> | <a href="https://github.com/paritytech/wasmi">repository</a></a></h3>
+<p>An embeddable WebAssembly interpreter from Parity.</p>
+<h3 id="cranelift-wasm--cratesio--repository"><a class="header" href="#cranelift-wasm--cratesio--repository"><code>cranelift-wasm</code> | <a href="https://crates.io/crates/cranelift-wasm">crates.io</a> | <a href="https://github.com/bytecodealliance/wasmtime/tree/master/cranelift">repository</a></a></h3>
+<p>Compile WebAssembly to the native host's machine code. Part of the Cranelift (né
+Cretonne) code generator project.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tools-you-should-know"><a class="header" href="#tools-you-should-know">Tools You Should Know</a></h1>
+<p>This is a curated list of awesome tools you should know about when doing Rust
+and WebAssembly development.</p>
+<h2 id="development-build-and-workflow-orchestration"><a class="header" href="#development-build-and-workflow-orchestration">Development, Build, and Workflow Orchestration</a></h2>
+<h3 id="wasm-pack--repository"><a class="header" href="#wasm-pack--repository"><code>wasm-pack</code> | <a href="https://github.com/rustwasm/wasm-pack">repository</a></a></h3>
+<p><code>wasm-pack</code> seeks to be a one-stop shop for building and working with Rust-
+generated WebAssembly that you would like to interoperate with JavaScript, on
+the Web or with Node.js. <code>wasm-pack</code> helps you build and publish Rust-generated
+WebAssembly to the npm registry to be used alongside any other JavaScript
+package in workflows that you already use.</p>
+<h2 id="optimizing-and-manipulating-wasm-binaries"><a class="header" href="#optimizing-and-manipulating-wasm-binaries">Optimizing and Manipulating <code>.wasm</code> Binaries</a></h2>
+<h3 id="wasm-opt--repository"><a class="header" href="#wasm-opt--repository"><code>wasm-opt</code> | <a href="https://github.com/WebAssembly/binaryen">repository</a></a></h3>
+<p>The <code>wasm-opt</code> tool reads WebAssembly as input, runs transformation,
+optimization, and/or instrumentation passes on it, and then emits the
+transformed WebAssembly as output. Running it on the <code>.wasm</code> binaries produced
+by LLVM by way of <code>rustc</code> will usually create <code>.wasm</code> binaries that are both
+smaller and execute faster. This tool is a part of the <code>binaryen</code> project.</p>
+<h3 id="wasm2js--repository"><a class="header" href="#wasm2js--repository"><code>wasm2js</code> | <a href="https://github.com/WebAssembly/binaryen">repository</a></a></h3>
+<p>The <code>wasm2js</code> tool compiles WebAssembly into "almost asm.js". This is great for
+supporting browsers that don't have a WebAssembly implementation, such as
+Internet Explorer 11. This tool is a part of the <code>binaryen</code> project.</p>
+<h3 id="wasm-gc--repository"><a class="header" href="#wasm-gc--repository"><code>wasm-gc</code> | <a href="https://github.com/alexcrichton/wasm-gc">repository</a></a></h3>
+<p>A small tool to garbage collect a WebAssembly module and remove all unneeded
+exports, imports, functions, etc. This is effectively a <code>--gc-sections</code> linker
+flag for WebAssembly.</p>
+<p>You don't usually need to use this tool yourself because of two reasons:</p>
+<ol>
+<li><code>rustc</code> now has a new enough version of <code>lld</code> that it supports the
+<code>--gc-sections</code> flag for WebAssembly. This is automatically enabled for LTO
+builds.</li>
+<li>The <code>wasm-bindgen</code> CLI tool runs <code>wasm-gc</code> for you automatically.</li>
+</ol>
+<h3 id="wasm-snip--repository"><a class="header" href="#wasm-snip--repository"><code>wasm-snip</code> | <a href="https://github.com/rustwasm/wasm-snip">repository</a></a></h3>
+<p><code>wasm-snip</code> replaces a WebAssembly function's body with an <code>unreachable</code>
+instruction.</p>
+<p>Maybe you know that some function will never be called at runtime, but the
+compiler can't prove that at compile time? Snip it! Then run <code>wasm-gc</code> again and
+all the functions it transitively called (which could also never be called at
+runtime) will get removed too.</p>
+<p>This is useful for forcibly removing Rust's panicking infrastructure in
+non-debug production builds.</p>
+<h2 id="inspecting-wasm-binaries"><a class="header" href="#inspecting-wasm-binaries">Inspecting <code>.wasm</code> Binaries</a></h2>
+<h3 id="twiggy--repository"><a class="header" href="#twiggy--repository"><code>twiggy</code> | <a href="https://github.com/rustwasm/twiggy">repository</a></a></h3>
+<p><code>twiggy</code> is a code size profiler for <code>.wasm</code> binaries. It analyzes a binary's
+call graph to answer questions like:</p>
+<ul>
+<li>Why was this function included in the binary in the first place? I.e. which
+exported functions are transitively calling it?</li>
+<li>What is the retained size of this function? I.e. how much space would be saved
+if I removed it and all the functions that become dead code after its removal.</li>
+</ul>
+<p>Use <code>twiggy</code> to make your binaries slim!</p>
+<h3 id="wasm-objdump--repository"><a class="header" href="#wasm-objdump--repository"><code>wasm-objdump</code> | <a href="https://github.com/WebAssembly/wabt">repository</a></a></h3>
+<p>Print low-level details about a <code>.wasm</code> binary and each of its sections. Also
+supports disassembling into the WAT text format. It's like <code>objdump</code> but for
+WebAssembly. This is a part of the WABT project.</p>
+<h3 id="wasm-nm--repository"><a class="header" href="#wasm-nm--repository"><code>wasm-nm</code> | <a href="https://github.com/fitzgen/wasm-nm">repository</a></a></h3>
+<p>List the imported, exported, and private function symbols defined within a
+<code>.wasm</code> binary. It's like <code>nm</code> but for WebAssembly.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="project-templates"><a class="header" href="#project-templates">Project Templates</a></h1>
+<p>The Rust and WebAssembly working group curates and maintains a variety of
+project templates to help you kickstart new projects and hit the ground running.</p>
+<h2 id="wasm-pack-template"><a class="header" href="#wasm-pack-template"><code>wasm-pack-template</code></a></h2>
+<p><a href="https://github.com/rustwasm/wasm-pack-template">This template</a> is for starting a Rust and WebAssembly
+project to be used with <a href="https://github.com/rustwasm/wasm-pack"><code>wasm-pack</code></a>.</p>
+<p>Use <code>cargo generate</code> to clone this project template:</p>
+<pre><code>cargo install cargo-generate
+cargo generate --git https://github.com/rustwasm/wasm-pack-template.git
+</code></pre>
+<h2 id="create-wasm-app"><a class="header" href="#create-wasm-app"><code>create-wasm-app</code></a></h2>
+<p><a href="https://github.com/rustwasm/create-wasm-app">This template</a> is for JavaScript projects that consume
+packages from npm that were created from Rust with <a href="https://github.com/rustwasm/wasm-pack"><code>wasm-pack</code></a>.</p>
+<p>Use it with <code>npm init</code>:</p>
+<pre><code>mkdir my-project
+cd my-project/
+npm init wasm-app
+</code></pre>
+<p>This template is often used alongside <code>wasm-pack-template</code>, where
+<code>wasm-pack-template</code> projects are installed locally with <code>npm link</code>, and pulled
+in as a dependency for a <code>create-wasm-app</code> project.</p>
+<h2 id="rust-webpack-template"><a class="header" href="#rust-webpack-template"><code>rust-webpack-template</code></a></h2>
+<p><a href="https://github.com/rustwasm/rust-webpack-template">This template</a> comes pre-configured with all the
+boilerplate for compiling Rust to WebAssembly and hooking that directly into a
+Webpack build pipeline with Webpack's <a href="https://github.com/wasm-tool/rust-loader/"><code>rust-loader</code></a>.</p>
+<p>Use it with <code>npm init</code>:</p>
+<pre><code>mkdir my-project
+cd my-project/
+npm init rust-webpack
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="debugging-rust-generated-webassembly"><a class="header" href="#debugging-rust-generated-webassembly">Debugging Rust-Generated WebAssembly</a></h1>
+<p>This section contains tips for debugging Rust-generated WebAssembly.</p>
+<h2 id="building-with-debug-symbols"><a class="header" href="#building-with-debug-symbols">Building with Debug Symbols</a></h2>
+<blockquote>
+<p>⚡ When debugging, always make sure you are building with debug symbols!</p>
+</blockquote>
+<p>If you don't have debug symbols enabled, then the <code>"name"</code> custom section won't
+be present in the compiled <code>.wasm</code> binary, and stack traces will have function
+names like <code>wasm-function[42]</code> rather than the Rust name of the function, like
+<code>wasm_game_of_life::Universe::live_neighbor_count</code>.</p>
+<p>When using a "debug" build (aka <code>wasm-pack build --debug</code> or <code>cargo build</code>)
+debug symbols are enabled by default.</p>
+<p>With a "release" build, debug symbols are not enabled by default. To enable
+debug symbols, ensure that you <code>debug = true</code> in the <code>[profile.release]</code> section
+of your <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[profile.release]
+debug = true
+</code></pre>
+<h2 id="logging-with-the-console-apis"><a class="header" href="#logging-with-the-console-apis">Logging with the <code>console</code> APIs</a></h2>
+<p>Logging is one of the most effective tools we have for proving and disproving
+hypotheses about why our programs are buggy. On the Web, <a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/log">the <code>console.log</code>
+function</a> is the
+way to log messages to the browser's developer tools console.</p>
+<p>We can use <a href="https://rustwasm.github.io/wasm-bindgen/web-sys/index.html">the <code>web-sys</code> crate</a> to get access to the <code>console</code> logging
+functions:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>extern crate web_sys;
+
+web_sys::console::log_1(&amp;"Hello, world!".into());
+<span class="boring">}</span></code></pre></pre>
+<p>Alternatively, <a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/error">the <code>console.error</code>
+function</a> has
+the same signature as <code>console.log</code>, but developer tools tend to also capture
+and display a stack trace alongside the logged message when <code>console.error</code> is
+used.</p>
+<h3 id="references"><a class="header" href="#references">References</a></h3>
+<ul>
+<li>Using <code>console.log</code> with the <code>web-sys</code> crate:
+<ul>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log.html"><code>web_sys::console::log</code> takes an array of values to log</a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log_1.html"><code>web_sys::console::log_1</code> logs a single value</a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log_2.html"><code>web_sys::console::log_2</code> logs two values</a></li>
+<li>Etc...</li>
+</ul>
+</li>
+<li>Using <code>console.error</code> with the <code>web-sys</code> crate:
+<ul>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error.html"><code>web_sys::console::error</code> takes an array of values to log</a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error_1.html"><code>web_sys::console::error_1</code> logs a single value</a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error_2.html"><code>web_sys::console::error_2</code> logs two values</a></li>
+<li>Etc...</li>
+</ul>
+</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Console">The <code>console</code> object on MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Tools/Web_Console">Firefox Developer Tools — Web Console</a></li>
+<li><a href="https://docs.microsoft.com/en-us/microsoft-edge/devtools-guide/console">Microsoft Edge Developer Tools — Console</a></li>
+<li><a href="https://developers.google.com/web/tools/chrome-devtools/console/get-started">Get Started with the Chrome DevTools Console</a></li>
+</ul>
+<h2 id="logging-panics"><a class="header" href="#logging-panics">Logging Panics</a></h2>
+<p><a href="https://github.com/rustwasm/console_error_panic_hook">The <code>console_error_panic_hook</code> crate logs unexpected panics to the developer
+console via <code>console.error</code>.</a> Rather than getting cryptic,
+difficult-to-debug <code>RuntimeError: unreachable executed</code> error messages, this
+gives you Rust's formatted panic message.</p>
+<p>All you need to do is install the hook by calling
+<code>console_error_panic_hook::set_once()</code> in an initialization function or common
+code path:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasm_bindgen]
+pub fn init_panic_hook() {
+    console_error_panic_hook::set_once();
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="using-a-debugger"><a class="header" href="#using-a-debugger">Using a Debugger</a></h2>
+<p>Unfortunately, the debugging story for WebAssembly is still immature. On most
+Unix systems, <a href="http://dwarfstd.org/">DWARF</a> is used to encode the information that a debugger
+needs to provide source-level inspection of a running program. There is an
+alternative format that encodes similar information on Windows. Currently, there
+is no equivalent for WebAssembly. Therefore, debuggers currently provide limited
+utility, and we end up stepping through raw WebAssembly instructions emitted by
+the compiler, rather than the Rust source text we authored.</p>
+<blockquote>
+<p>There is a <a href="https://github.com/WebAssembly/debugging">sub-charter of the W3C WebAssembly group for
+debugging</a>, so expect this story to improve in the
+future!</p>
+</blockquote>
+<p>Nonetheless, debuggers are still useful for inspecting the JavaScript that
+interacts with our WebAssembly, and inspecting raw wasm state.</p>
+<h3 id="references-1"><a class="header" href="#references-1">References</a></h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Tools/Debugger">Firefox Developer Tools — Debugger</a></li>
+<li><a href="https://docs.microsoft.com/en-us/microsoft-edge/devtools-guide/debugger">Microsoft Edge Developer Tools — Debugger</a></li>
+<li><a href="https://developers.google.com/web/tools/chrome-devtools/javascript/">Get Started with Debugging JavaScript in Chrome DevTools</a></li>
+</ul>
+<h2 id="avoid-the-need-to-debug-webassembly-in-the-first-place"><a class="header" href="#avoid-the-need-to-debug-webassembly-in-the-first-place">Avoid the Need to Debug WebAssembly in the First Place</a></h2>
+<p>If the bug is specific to interactions with JavaScript or Web APIs, then <a href="https://rustwasm.github.io/wasm-bindgen/wasm-bindgen-test/index.html">write
+tests with <code>wasm-bindgen-test</code>.</a></p>
+<p>If a bug does <em>not</em> involve interaction with JavaScript or Web APIs, then try to
+reproduce it as a normal Rust <code>#[test]</code> function, where you can leverage your
+OS's mature native tooling when debugging. Use testing crates like
+<a href="https://crates.io/crates/quickcheck"><code>quickcheck</code></a> and its test case shrinkers to mechanically reduce
+test cases. Ultimately, you will have an easier time finding and fixing bugs if
+you can isolate them in a smaller test cases that don't require interacting with
+JavaScript.</p>
+<p>Note that in order to run native <code>#[test]</code>s without compiler and linker errors,
+you will need to ensure that <code>"rlib"</code> is included in the <code>[lib.crate-type]</code>
+array in your <code>Cargo.toml</code> file.</p>
+<pre><code class="language-toml">[lib]
+crate-type ["cdylib", "rlib"]
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="time-profiling-1"><a class="header" href="#time-profiling-1">Time Profiling</a></h1>
+<p>This section describes how to profile Web pages using Rust and WebAssembly where
+the goal is improving throughput or latency.</p>
+<blockquote>
+<p>⚡ Always make sure you are using an optimized build when profiling! <code>wasm-pack build</code> will build with optimizations by default.</p>
+</blockquote>
+<h2 id="available-tools"><a class="header" href="#available-tools">Available Tools</a></h2>
+<h3 id="the-windowperformancenow-timer"><a class="header" href="#the-windowperformancenow-timer">The <code>window.performance.now()</code> Timer</a></h3>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Performance/now">The <code>performance.now()</code> function</a> returns a monotonic timestamp
+measured in milliseconds since the Web page was loaded.</p>
+<p>Calling <code>performance.now</code> has little overhead, so we can create simple, granular
+measurements from it without distorting the performance of the rest of the
+system and inflicting bias upon our measurements.</p>
+<p>We can use it to time various operations, and we can access
+<code>window.performance.now()</code> via <a href="https://rustwasm.github.io/wasm-bindgen/web-sys/index.html">the <code>web-sys</code> crate</a>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>extern crate web_sys;
+
+fn now() -&gt; f64 {
+    web_sys::window()
+        .expect("should have a Window")
+        .performance()
+        .expect("should have a Performance")
+        .now()
+}
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/fn.window.html">The <code>web_sys::window</code> function</a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/struct.Window.html#method.performance">The <code>web_sys::Window::performance</code> method</a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/struct.Performance.html#method.now">The <code>web_sys::Performance::now</code> method</a></li>
+</ul>
+<h3 id="developer-tools-profilers"><a class="header" href="#developer-tools-profilers">Developer Tools Profilers</a></h3>
+<p>All Web browsers' built-in developer tools include a profiler. These profilers
+display which functions are taking the most time with the usual kinds of
+visualizations like call trees and flame graphs.</p>
+<p>If you <a href="reference/./debugging.html#building-with-debug-symbols">build with debug symbols</a> so that the "name" custom section is
+included in the wasm binary, then these profilers should display the Rust
+function names instead of something opaque like <code>wasm-function[123]</code>.</p>
+<p>Note that these profilers <em>won't</em> show inlined functions, and since Rust and
+LLVM rely on inlining so heavily, the results might still end up a bit
+perplexing.</p>
+<p><a href="reference/../images/game-of-life/profiler-with-rust-names.png"><img src="reference/../images/game-of-life/profiler-with-rust-names.png" alt="Screenshot of profiler with Rust symbols" /></a></p>
+<h4 id="resources"><a class="header" href="#resources">Resources</a></h4>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Tools/Performance">Firefox Developer Tools — Performance</a></li>
+<li><a href="https://docs.microsoft.com/en-us/microsoft-edge/devtools-guide/performance">Microsoft Edge Developer Tools — Performance</a></li>
+<li><a href="https://developers.google.com/web/tools/chrome-devtools/rendering-tools/js-execution">Chrome DevTools JavaScript Profiler</a></li>
+</ul>
+<h3 id="the-consoletime-and-consoletimeend-functions"><a class="header" href="#the-consoletime-and-consoletimeend-functions">The <code>console.time</code> and <code>console.timeEnd</code> Functions</a></h3>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/time">The <code>console.time</code> and <code>console.timeEnd</code> functions</a> allow you to
+log the timing of named operations to the browser's developer tools console. You
+call <code>console.time("some operation")</code> when the operation begins, and call
+<code>console.timeEnd("some operation")</code> when it finishes. The string label naming
+the operation is optional.</p>
+<p>You can use these functions directly via <a href="https://rustwasm.github.io/wasm-bindgen/web-sys/index.html">the <code>web-sys</code> crate</a>:</p>
+<ul>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.time_with_label.html"><code>web_sys::console::time_with_label("some operation")</code></a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.time_end_with_label.html"><code>web_sys::console::time_end_with_label("some operation")</code></a></li>
+</ul>
+<p>Here is a screenshot of <code>console.time</code> logs in the browser's console:</p>
+<p><a href="reference/../images/game-of-life/console-time.png"><img src="reference/../images/game-of-life/console-time.png" alt="Screenshot of console.time logs" /></a></p>
+<p>Additionally, <code>console.time</code> and <code>console.timeEnd</code> logs will show up in your
+browser's profiler's "timeline" or "waterfall" view:</p>
+<p><a href="reference/../images/game-of-life/console-time-in-profiler.png"><img src="reference/../images/game-of-life/console-time-in-profiler.png" alt="Screenshot of console.time logs" /></a></p>
+<h3 id="using-bench-with-native-code"><a class="header" href="#using-bench-with-native-code">Using <code>#[bench]</code> with Native Code</a></h3>
+<p>The same way we can often leverage our operating system's native code debugging
+tools by writing <code>#[test]</code>s rather than debugging on the Web, we can leverage
+our operating system's native code profiling tools by writing <code>#[bench]</code>
+functions.</p>
+<p>Write your benchmarks in the <code>benches</code> subdirectory of your crate. Make sure
+that your <code>crate-type</code> includes <code>"rlib"</code> or else the bench binaries won't be
+able to link your main lib.</p>
+<p>However! Make sure that you know the bottleneck is in the WebAssembly before
+investing much energy in native code profiling! Use your browser's profiler to
+confirm this, or else you risk wasting your time optimizing code that isn't hot.</p>
+<h4 id="resources-1"><a class="header" href="#resources-1">Resources</a></h4>
+<ul>
+<li><a href="http://www.brendangregg.com/perf.html">Using the <code>perf</code> profiler on Linux</a></li>
+<li><a href="https://help.apple.com/instruments/mac/current/">Using the Instruments.app profiler on macOS</a></li>
+<li><a href="https://software.intel.com/en-us/vtune">The VTune profiler supports Windows and Linux</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="shrinking-wasm-code-size"><a class="header" href="#shrinking-wasm-code-size">Shrinking <code>.wasm</code> Code Size</a></h1>
+<p>This section will teach you how to optimize your <code>.wasm</code> build for a small code
+size footprint, and how to identify opportunities to change your Rust source
+such that less <code>.wasm</code> code is emitted.</p>
+<h2 id="why-care-about-code-size"><a class="header" href="#why-care-about-code-size">Why Care About Code Size?</a></h2>
+<p>When serving a <code>.wasm</code> file over the network, the smaller it is, the faster the
+client can download it. Faster <code>.wasm</code> downloads lead to faster page load times,
+and that leads to happier users.</p>
+<p>However, it's important to remember though that code size likely isn't the
+end-all-be-all metric you're interested in, but rather something much more vague
+and hard to measure like "time to first interaction". While code size plays a
+large factor in this measurement (can't do anything if you don't even have all
+the code yet!) it's not the only factor.</p>
+<p>WebAssembly is typically served to users gzip'd so you'll want to be sure to
+compare differences in gzip'd size for transfer times over the wire. Also keep
+in mind that the WebAssembly binary format is quite amenable to gzip
+compression, often getting over 50% reductions in size.</p>
+<p>Furthermore, WebAssembly's binary format is optimized for very fast parsing and
+processing. Browsers nowadays have "baseline compilers" which parses WebAssembly
+and emits compiled code as fast as wasm can come in over the network. This means
+that <a href="https://hacks.mozilla.org/2018/01/making-webassembly-even-faster-firefoxs-new-streaming-and-tiering-compiler/">if you're using <code>instantiateStreaming</code></a> the second the Web request
+is done the WebAssembly module is probably ready to go. JavaScript, on the other
+hand, can often take longer to not only parse but also get up to speed with JIT
+compilation and such.</p>
+<p>And finally, remember that WebAssembly is also far more optimized than
+JavaScript for execution speed. You'll want to be sure to measure for runtime
+comparisons between JavaScript and WebAssembly to factor that in to how
+important code size is.</p>
+<p>All this to say basically don't dismay immediately if your <code>.wasm</code> file is
+larger than expected! Code size may end up only being one of many factors in the
+end-to-end story. Comparisons between JavaScript and WebAssembly that only look
+at code size are missing the forest for the trees.</p>
+<h2 id="optimizing-builds-for-code-size"><a class="header" href="#optimizing-builds-for-code-size">Optimizing Builds for Code Size</a></h2>
+<p>There are a bunch of configuration options we can use to get <code>rustc</code> to make
+smaller <code>.wasm</code> binaries. In some cases, we are trading longer compile times for
+smaller <code>.wasm</code> sizes. In other cases, we are trading runtime speed of the
+WebAssembly for smaller code size. We should be cognizant of the trade offs of
+each option, and in the cases where we trade runtime speed for code size,
+profile and measure to make an informed decision about whether the trade is
+worth it.</p>
+<h3 id="compiling-with-link-time-optimizations-lto"><a class="header" href="#compiling-with-link-time-optimizations-lto">Compiling with Link Time Optimizations (LTO)</a></h3>
+<p>In <code>Cargo.toml</code>, add <code>lto = true</code> in the <code>[profile.release]</code> section:</p>
+<pre><code class="language-toml">[profile.release]
+lto = true
+</code></pre>
+<p>This gives LLVM many more opportunities to inline and prune functions. Not only
+will it make the <code>.wasm</code> smaller, but it will also make it faster at runtime!
+The downside is that compilation will take longer.</p>
+<h3 id="tell-llvm-to-optimize-for-size-instead-of-speed"><a class="header" href="#tell-llvm-to-optimize-for-size-instead-of-speed">Tell LLVM to Optimize for Size Instead of Speed</a></h3>
+<p>LLVM's optimization passes are tuned to improve speed, not size, by default. We
+can change the goal to code size by modifying the <code>[profile.release]</code> section in
+<code>Cargo.toml</code> to this:</p>
+<pre><code class="language-toml">[profile.release]
+opt-level = 's'
+</code></pre>
+<p>Or, to even more aggressively optimize for size, at further potential speed
+costs:</p>
+<pre><code class="language-toml">[profile.release]
+opt-level = 'z'
+</code></pre>
+<p>Note that, surprisingly enough, <code>opt-level = "s"</code> can sometimes result in
+smaller binaries than <code>opt-level = "z"</code>. Always measure!</p>
+<h3 id="use-the-wasm-opt-tool"><a class="header" href="#use-the-wasm-opt-tool">Use the <code>wasm-opt</code> Tool</a></h3>
+<p>The <a href="https://github.com/WebAssembly/binaryen">Binaryen</a> toolkit is a collection of WebAssembly-specific compiler
+tools. It goes much further than LLVM's WebAssembly backend does, and using its
+<code>wasm-opt</code> tool to post-process a <code>.wasm</code> binary generated by LLVM can often get
+another 15-20% savings on code size. It will often produce runtime speed ups at
+the same time!</p>
+<pre><code class="language-bash"># Optimize for size.
+wasm-opt -Os -o output.wasm input.wasm
+
+# Optimize aggressively for size.
+wasm-opt -Oz -o output.wasm input.wasm
+
+# Optimize for speed.
+wasm-opt -O -o output.wasm input.wasm
+
+# Optimize aggressively for speed.
+wasm-opt -O3 -o output.wasm input.wasm
+</code></pre>
+<h3 id="notes-about-debug-information"><a class="header" href="#notes-about-debug-information">Notes about Debug Information</a></h3>
+<p>One of the biggest contributors to wasm binary size can be debug information and
+the <code>names</code> section of the wasm binary. The <code>wasm-pack</code> tool, however, removes
+debuginfo by default. Additionally <code>wasm-opt</code> removes the <code>names</code> section by
+default unless <code>-g</code> is also specified.</p>
+<p>This means that if you follow the above steps you should by default not have
+either debuginfo or the names section in the wasm binary. If, however, you are
+manually otherwise preserving this debug information in the wasm binary be sure
+to be mindful of this!</p>
+<h2 id="size-profiling"><a class="header" href="#size-profiling">Size Profiling</a></h2>
+<p>If tweaking build configurations to optimize for code size isn't resulting in a
+small enough <code>.wasm</code> binary, it is time to do some profiling to see where the
+remaining code size is coming from.</p>
+<blockquote>
+<p>⚡ Just like how we let time profiling guide our speed up efforts, we want to
+let size profiling guide our code size shrinking efforts. Fail to do this and
+you risk wasting your own time!</p>
+</blockquote>
+<h3 id="the-twiggy-code-size-profiler"><a class="header" href="#the-twiggy-code-size-profiler">The <code>twiggy</code> Code Size Profiler</a></h3>
+<p><a href="https://github.com/rustwasm/twiggy"><code>twiggy</code> is a code size profiler</a> that supports WebAssembly as
+input. It analyzes a binary's call graph to answer questions like:</p>
+<ul>
+<li>
+<p>Why was this function included in the binary in the first place?</p>
+</li>
+<li>
+<p>What is the <em>retained size</em> of this function? I.e. how much space would be
+saved if I removed it and all the functions that become dead code after its
+removal?</p>
+</li>
+</ul>
+<style>
+/* For whatever reason, the default mdbook fonts fonts break with the
+   following box-drawing characters, hence the manual style. */
+pre, code {
+  font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+}
+</style>
+<pre><code class="language-text">$ twiggy top -n 20 pkg/wasm_game_of_life_bg.wasm
+ Shallow Bytes │ Shallow % │ Item
+───────────────┼───────────┼────────────────────────────────────────────────────────────────────────────────────────
+          9158 ┊    19.65% ┊ "function names" subsection
+          3251 ┊     6.98% ┊ dlmalloc::dlmalloc::Dlmalloc::malloc::h632d10c184fef6e8
+          2510 ┊     5.39% ┊ &lt;str as core::fmt::Debug&gt;::fmt::he0d87479d1c208ea
+          1737 ┊     3.73% ┊ data[0]
+          1574 ┊     3.38% ┊ data[3]
+          1524 ┊     3.27% ┊ core::fmt::Formatter::pad::h6825605b326ea2c5
+          1413 ┊     3.03% ┊ std::panicking::rust_panic_with_hook::h1d3660f2e339513d
+          1200 ┊     2.57% ┊ core::fmt::Formatter::pad_integral::h06996c5859a57ced
+          1131 ┊     2.43% ┊ core::str::slice_error_fail::h6da90c14857ae01b
+          1051 ┊     2.26% ┊ core::fmt::write::h03ff8c7a2f3a9605
+           931 ┊     2.00% ┊ data[4]
+           864 ┊     1.85% ┊ dlmalloc::dlmalloc::Dlmalloc::free::h27b781e3b06bdb05
+           841 ┊     1.80% ┊ &lt;char as core::fmt::Debug&gt;::fmt::h07742d9f4a8c56f2
+           813 ┊     1.74% ┊ __rust_realloc
+           708 ┊     1.52% ┊ core::slice::memchr::memchr::h6243a1b2885fdb85
+           678 ┊     1.45% ┊ &lt;core::fmt::builders::PadAdapter&lt;'a&gt; as core::fmt::Write&gt;::write_str::h96b72fb7457d3062
+           631 ┊     1.35% ┊ universe_tick
+           631 ┊     1.35% ┊ dlmalloc::dlmalloc::Dlmalloc::dispose_chunk::hae6c5c8634e575b8
+           514 ┊     1.10% ┊ std::panicking::default_hook::{{closure}}::hfae0c204085471d5
+           503 ┊     1.08% ┊ &lt;&amp;'a T as core::fmt::Debug&gt;::fmt::hba207e4f7abaece6
+</code></pre>
+<h3 id="manually-inspecting-llvm-ir"><a class="header" href="#manually-inspecting-llvm-ir">Manually Inspecting LLVM-IR</a></h3>
+<p>LLVM-IR is the final intermediate representation in the compiler toolchain
+before LLVM generates WebAssembly. Therefore, it is very similar to the
+WebAssembly that is ultimately emitted. More LLVM-IR generally means more
+<code>.wasm</code> size, and if a function takes up 25% of the LLVM-IR, then it generally
+will take up 25% of the <code>.wasm</code>. While these numbers only hold in general, the
+LLVM-IR has crucial information that is not present in the <code>.wasm</code> (because of
+WebAssembly's lack of a debugging format like DWARF): which subroutines were
+inlined into a given function.</p>
+<p>You can generate LLVM-IR with this <code>cargo</code> command:</p>
+<pre><code>cargo rustc --release -- --emit llvm-ir
+</code></pre>
+<p>Then, you can use <code>find</code> to locate the <code>.ll</code> file containing the LLVM-IR in
+<code>cargo</code>'s <code>target</code> directory:</p>
+<pre><code>find target/release -type f -name '*.ll'
+</code></pre>
+<h4 id="references-2"><a class="header" href="#references-2">References</a></h4>
+<ul>
+<li><a href="https://llvm.org/docs/LangRef.html">LLVM Language Reference Manual</a></li>
+</ul>
+<h2 id="more-invasive-tools-and-techniques"><a class="header" href="#more-invasive-tools-and-techniques">More Invasive Tools and Techniques</a></h2>
+<p>Tweaking build configurations to get smaller <code>.wasm</code> binaries is pretty hands
+off. When you need to go the extra mile, however, you are prepared to use more
+invasive techniques, like rewriting source code to avoid bloat. What follows is
+a collection of get-your-hands-dirty techniques you can apply to get smaller
+code sizes.</p>
+<h3 id="avoid-string-formatting"><a class="header" href="#avoid-string-formatting">Avoid String Formatting</a></h3>
+<p><code>format!</code>, <code>to_string</code>, etc... can bring in a lot of code bloat. If possible,
+only do string formatting in debug mode, and in release mode use static strings.</p>
+<h3 id="avoid-panicking"><a class="header" href="#avoid-panicking">Avoid Panicking</a></h3>
+<p>This is definitely easier said than done, but tools like <code>twiggy</code> and manually
+inspecting LLVM-IR can help you figure out which functions are panicking.</p>
+<p>Panics do not always appear as a <code>panic!()</code> macro invocation. They arise
+implicitly from many constructs, such as:</p>
+<ul>
+<li>
+<p>Indexing a slice panics on out of bounds indices: <code>my_slice[i]</code></p>
+</li>
+<li>
+<p>Division will panic if the divisor is zero: <code>dividend / divisor</code></p>
+</li>
+<li>
+<p>Unwrapping an <code>Option</code> or <code>Result</code>: <code>opt.unwrap()</code> or <code>res.unwrap()</code></p>
+</li>
+</ul>
+<p>The first two can be translated into the third. Indexing can be replaced with
+fallible <code>my_slice.get(i)</code> operations. Division can be replaced with
+<code>checked_div</code> calls. Now we only have a single case to contend with.</p>
+<p>Unwrapping an <code>Option</code> or <code>Result</code> without panicking comes in two flavors: safe
+and unsafe.</p>
+<p>The safe approach is to <code>abort</code> instead of panicking when encountering a <code>None</code>
+or an <code>Error</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[inline]
+pub fn unwrap_abort&lt;T&gt;(o: Option&lt;T&gt;) -&gt; T {
+    use std::process;
+    match o {
+        Some(t) =&gt; t,
+        None =&gt; process::abort(),
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Ultimately, panics translate into aborts in <code>wasm32-unknown-unknown</code> anyways, so
+this gives you the same behavior but without the code bloat.</p>
+<p>Alternatively, the <a href="https://crates.io/crates/unreachable"><code>unreachable</code> crate</a> provides an unsafe
+<a href="https://docs.rs/unreachable/1.0.0/unreachable/trait.UncheckedOptionExt.html#tymethod.unchecked_unwrap"><code>unchecked_unwrap</code> extension method</a> for <code>Option</code> and
+<code>Result</code> which tells the Rust compiler to <em>assume</em> that the <code>Option</code> is <code>Some</code>
+or the <code>Result</code> is <code>Ok</code>. It is undefined behavior what happens if that
+assumption does not hold. You really only want to use this unsafe approach when
+you 110% <em>know</em> that the assumption holds, and the compiler just isn't smart
+enough to see it. Even if you go down this route, you should have a debug build
+configuration that still does the checking, and only use unchecked operations in
+release builds.</p>
+<h3 id="avoid-allocation-or-switch-to-wee_alloc"><a class="header" href="#avoid-allocation-or-switch-to-wee_alloc">Avoid Allocation or Switch to <code>wee_alloc</code></a></h3>
+<p>Rust's default allocator for WebAssembly is a port of <code>dlmalloc</code> to Rust. It
+weighs in somewhere around ten kilobytes. If you can completely avoid dynamic
+allocation, then you should be able to shed those ten kilobytes.</p>
+<p>Completely avoiding dynamic allocation can be very difficult. But removing
+allocation from hot code paths is usually much easier (and usually helps make
+those hot code paths faster, as well). In these cases, <a href="https://github.com/rustwasm/wee_alloc">replacing the default
+global allocator with <code>wee_alloc</code></a> should save you most (but not
+quite all) of those ten kilobytes. <code>wee_alloc</code> is an allocator designed for
+situations where you need <em>some</em> kind of allocator, but do not need a
+particularly fast allocator, and will happily trade allocation speed for smaller
+code size.</p>
+<h3 id="use-trait-objects-instead-of-generic-type-parameters"><a class="header" href="#use-trait-objects-instead-of-generic-type-parameters">Use Trait Objects Instead of Generic Type Parameters</a></h3>
+<p>When you create generic functions that use type parameters, like this:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn whatever&lt;T: MyTrait&gt;(t: T) { ... }
+<span class="boring">}</span></code></pre></pre>
+<p>Then <code>rustc</code> and LLVM will create a new copy of the function for each <code>T</code> type
+that the function is used with. This presents many opportunities for compiler
+optimizations based on which particular <code>T</code> each copy is working with, but these
+copies add up quickly in terms of code size.</p>
+<p>If you use trait objects instead of type parameters, like this:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn whatever(t: Box&lt;MyTrait&gt;) { ... }
+// or
+fn whatever(t: &amp;MyTrait) { ... }
+// etc...
+<span class="boring">}</span></code></pre></pre>
+<p>Then dynamic dispatch via virtual calls is used, and only a single version of
+the function is emitted in the <code>.wasm</code>. The downside is the loss of the compiler
+optimization opportunities and the added cost of indirect, dynamically
+dispatched function calls.</p>
+<h3 id="use-the-wasm-snip-tool"><a class="header" href="#use-the-wasm-snip-tool">Use the <code>wasm-snip</code> Tool</a></h3>
+<p><a href="https://github.com/fitzgen/wasm-snip"><code>wasm-snip</code> replaces a WebAssembly function's body with an <code>unreachable</code>
+instruction.</a> This is a rather heavy, blunt hammer for functions that kind
+of look like nails if you squint hard enough.</p>
+<p>Maybe you know that some function will never be called at runtime, but the
+compiler can't prove that at compile time? Snip it! Afterwards, run <code>wasm-opt</code>
+again with the <code>--dce</code> flag, and all the functions that the snipped function
+transitively called (which could also never be called at runtime) will get
+removed too.</p>
+<p>This tool is particularly useful for removing the panicking infrastructure,
+since panics ultimately translate into traps anyways.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="javascript-interoperation"><a class="header" href="#javascript-interoperation">JavaScript Interoperation</a></h1>
+<h2 id="importing-and-exporting-js-functions"><a class="header" href="#importing-and-exporting-js-functions">Importing and Exporting JS Functions</a></h2>
+<h3 id="from-the-rust-side"><a class="header" href="#from-the-rust-side">From the Rust Side</a></h3>
+<p>When using wasm within a JS host, importing and exporting functions from the
+Rust side is straightforward: it works very similarly to C.</p>
+<p>WebAssembly modules declare a sequence of imports, each with a <em>module name</em>
+and an <em>import name</em>. The module name for an <code>extern { ... }</code> block can be
+specified using <a href="https://github.com/rust-lang/rust/issues/52090"><code>#[link(wasm_import_module)]</code></a>, currently
+it defaults to "env".</p>
+<p>Exports have only a single name. In addition to any <code>extern</code> functions the
+WebAssembly instance's default linear memory is exported as "memory".</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// import a JS function called `foo` from the module `mod`
+#[link(wasm_import_module = "mod")]
+extern { fn foo(); }
+
+// export a Rust function called `bar`
+#[no_mangle]
+pub extern fn bar() { /* ... */ }
+<span class="boring">}</span></code></pre></pre>
+<p>Because of wasm's limited value types, these functions must operate only on
+primitive numeric types.</p>
+<h3 id="from-the-js-side"><a class="header" href="#from-the-js-side">From the JS Side</a></h3>
+<p>Within JS, a wasm binary turns into an ES6 module. It must be <em>instantiated</em>
+with linear memory and have a set of JS functions matching the expected
+imports.  The details of instantiation are available on <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming">MDN</a>.</p>
+<p>The resulting ES6 module will contain all of the functions exported from Rust, now
+available as JS functions.</p>
+<p><a href="https://www.hellorust.com/demos/add/index.html">Here</a> is a very simple example of the whole setup in action.</p>
+<h2 id="going-beyond-numerics"><a class="header" href="#going-beyond-numerics">Going Beyond Numerics</a></h2>
+<p>When using wasm within JS, there is a sharp split between the wasm module's
+memory and the JS memory:</p>
+<ul>
+<li>
+<p>Each wasm module has a linear memory (described at the top of this document),
+which is initialized during instantiation. <strong>JS code can freely read and write
+to this memory</strong>.</p>
+</li>
+<li>
+<p>By contrast, wasm code has no <em>direct</em> access to JS objects.</p>
+</li>
+</ul>
+<p>Thus, sophisticated interop happens in two main ways:</p>
+<ul>
+<li>
+<p>Copying in or out binary data to the wasm memory. For example, this is one way
+to provide an owned <code>String</code> to the Rust side.</p>
+</li>
+<li>
+<p>Setting up an explicit "heap" of JS objects which are then given
+"addresses". This allows wasm code to refer to JS objects indirectly (using
+integers), and operate on those objects by invoking imported JS functions.</p>
+</li>
+</ul>
+<p>Fortunately, this interop story is very amenable to treatment through a generic
+"bindgen"-style framework: <a href="https://github.com/rustwasm/wasm-bindgen">wasm-bindgen</a>. The framework makes it possible to
+write idiomatic Rust function signatures that map to idiomatic JS functions,
+automatically.</p>
+<h2 id="custom-sections"><a class="header" href="#custom-sections">Custom Sections</a></h2>
+<p>Custom sections allow embedding named arbitrary data into a wasm module. The
+section data is set at compile time and is read directly from the wasm module,
+it cannot be modified at runtime.</p>
+<p>In Rust, custom sections are static arrays (<code>[T; size]</code>) exposed with the
+<code>#[link_section]</code> attribute:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[link_section = "hello"]
+pub static SECTION: [u8; 24] = *b"This is a custom section";
+<span class="boring">}</span></code></pre></pre>
+<p>This adds a custom section named <code>hello</code> to the wasm file, the rust variable
+name <code>SECTION</code> is arbitrary, changing it wouldn't alter the behaviour. The
+contents are bytes of text here but could be any arbitrary data.</p>
+<p>The custom sections can be read on the JS side using the
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Module/customSections"><code>WebAssembly.Module.customSections</code></a> function, it takes a wasm Module and the
+section name as arguments and returns an Array of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer"><code>ArrayBuffer</code></a>s. Multiple
+sections may be specified using the same name, in which case they will all
+appear in this array.</p>
+<pre><code class="language-js">WebAssembly.compileStreaming(fetch("sections.wasm"))
+.then(mod =&gt; {
+  const sections = WebAssembly.Module.customSections(mod, "hello");
+
+  const decoder = new TextDecoder();
+  const text = decoder.decode(sections[0]);
+
+  console.log(text); // -&gt; "This is a custom section"
+});
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="which-crates-will-work-off-the-shelf-with-webassembly"><a class="header" href="#which-crates-will-work-off-the-shelf-with-webassembly">Which Crates Will Work Off-the-Shelf with WebAssembly?</a></h1>
+<p>It is easiest to list the things that do <em>not</em> currently work with WebAssembly;
+crates which avoid these things tend to be portable to WebAssembly and usually
+<em>Just Work</em>. A good rule of thumb is that if a crate supports embedded and
+<code>#![no_std]</code> usage, it probably also supports WebAssembly.</p>
+<h2 id="things-a-crate-might-do-that-wont-work-with-webassembly"><a class="header" href="#things-a-crate-might-do-that-wont-work-with-webassembly">Things a Crate Might do that Won't Work with WebAssembly</a></h2>
+<h3 id="c-and-system-library-dependencies"><a class="header" href="#c-and-system-library-dependencies">C and System Library Dependencies</a></h3>
+<p>There are no system libraries in wasm, so any crate that tries to bind to a
+system library won't work.</p>
+<p>Using C libraries will also probably fail to work, since wasm doesn't have a
+stable ABI for cross-language communication, and cross-language linking for wasm
+is very finicky. Everyone wants this to work eventually, especially since
+<code>clang</code> is shipping their <code>wasm32</code> target by default now, but the story isn't
+quite there yet.</p>
+<h3 id="file-io"><a class="header" href="#file-io">File I/O</a></h3>
+<p>WebAssembly does not have access to a file system, so crates that assume the
+existence of a file system — and don't have wasm-specific workarounds
+— will not work.</p>
+<h3 id="spawning-threads"><a class="header" href="#spawning-threads">Spawning Threads</a></h3>
+<p>There are <a href="https://rustwasm.github.io/2018/10/24/multithreading-rust-and-wasm.html">plans to add threading to WebAssembly</a>, but it isn't
+shipping yet. Attempts to spawn on a thread on the <code>wasm32-unknown-unknown</code>
+target will panic, which triggers a wasm trap.</p>
+<h2 id="so-which-general-purpose-crates-tend-to-work-off-the-shelf-with-webassembly"><a class="header" href="#so-which-general-purpose-crates-tend-to-work-off-the-shelf-with-webassembly">So Which General Purpose Crates Tend to Work Off-the-Shelf with WebAssembly?</a></h2>
+<h3 id="algorithms-and-data-structures"><a class="header" href="#algorithms-and-data-structures">Algorithms and Data Structures</a></h3>
+<p>Crates that provide the implementation of a particular
+<a href="https://crates.io/categories/algorithms">algorithm</a> or <a href="https://crates.io/categories/data-structures">data
+structure</a>, for example A* graph
+search or splay trees, tend to work well with WebAssembly.</p>
+<h3 id="no_std"><a class="header" href="#no_std"><code>#![no_std]</code></a></h3>
+<p><a href="https://crates.io/categories/no-std">Crates that do not rely on the standard
+library</a> tend to work well with
+WebAssembly.</p>
+<h3 id="parsers"><a class="header" href="#parsers">Parsers</a></h3>
+<p><a href="https://crates.io/categories/parser-implementations">Parsers</a> — so long
+as they just take input and don't perform their own I/O — tend to work
+well with WebAssembly.</p>
+<h3 id="text-processing"><a class="header" href="#text-processing">Text Processing</a></h3>
+<p><a href="https://crates.io/categories/text-processing">Crates that deal with the complexities of human language when expressed in
+textual form</a> tend to work well
+with WebAssembly.</p>
+<h3 id="rust-patterns"><a class="header" href="#rust-patterns">Rust Patterns</a></h3>
+<p><a href="https://crates.io/categories/rust-patterns">Shared solutions for particular situations specific to programming in
+Rust</a> tend to work well with WebAssembly.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="how-to-add-webassembly-support-to-a-general-purpose-crate"><a class="header" href="#how-to-add-webassembly-support-to-a-general-purpose-crate">How to Add WebAssembly Support to a General-Purpose Crate</a></h1>
+<p>This section is for general-purpose crate authors who want to support
+WebAssembly.</p>
+<h2 id="maybe-your-crate-already-supports-webassembly"><a class="header" href="#maybe-your-crate-already-supports-webassembly">Maybe Your Crate Already Supports WebAssembly!</a></h2>
+<p>Review the information about <a href="reference/./which-crates-work-with-wasm.html">what kinds of things can make a general-purpose
+crate <em>not</em> portable for WebAssembly</a>. If
+your crate doesn't have any of those things, it likely already supports
+WebAssembly!</p>
+<p>You can always check by running <code>cargo build</code> for the WebAssembly target:</p>
+<pre><code>cargo build --target wasm32-unknown-unknown
+</code></pre>
+<p>If that command fails, then your crate doesn't support WebAssembly right now. If
+it doesn't fail, then your crate <em>might</em> support WebAssembly. You can be 100%
+sure that it does (and continues to do so!) by <a href="reference/add-wasm-support-to-crate.html#maintaining-ongoing-support-for-webassembly">adding tests for wasm and
+running those tests in CI.</a></p>
+<h2 id="adding-support-for-webassembly"><a class="header" href="#adding-support-for-webassembly">Adding Support for WebAssembly</a></h2>
+<h3 id="avoid-performing-io-directly"><a class="header" href="#avoid-performing-io-directly">Avoid Performing I/O Directly</a></h3>
+<p>On the Web, I/O is always asynchronous, and there isn't a file system. Factor
+I/O out of your library, let users perform the I/O and then pass the input
+slices to your library instead.</p>
+<p>For example, refactor this:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fs;
+use std::path::Path;
+
+pub fn parse_thing(path: &amp;Path) -&gt; Result&lt;MyThing, MyError&gt; {
+    let contents = fs::read(path)?;
+    // ...
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Into this:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn parse_thing(contents: &amp;[u8]) -&gt; Result&lt;MyThing, MyError&gt; {
+    // ...
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="add-wasm-bindgen-as-a-dependency"><a class="header" href="#add-wasm-bindgen-as-a-dependency">Add <code>wasm-bindgen</code> as a Dependency</a></h3>
+<p>If you need to interact with the outside world (i.e. you can't have library
+consumers drive that interaction for you) then you'll need to add <code>wasm-bindgen</code>
+(and <code>js-sys</code> and <code>web-sys</code> if you need them) as a dependency for when
+compilation is targeting WebAssembly:</p>
+<pre><code class="language-toml">[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2"
+js-sys = "0.3"
+web-sys = "0.3"
+</code></pre>
+<h3 id="avoid-synchronous-io"><a class="header" href="#avoid-synchronous-io">Avoid Synchronous I/O</a></h3>
+<p>If you must perform I/O in your library, then it cannot be synchronous. There is
+only asynchronous I/O on the Web. Use <a href="https://crates.io/crates/futures">the <code>futures</code>
+crate</a> and <a href="https://rustwasm.github.io/wasm-bindgen/api/wasm_bindgen_futures/">the <code>wasm-bindgen-futures</code>
+crate</a> to
+manage asynchronous I/O. If your library functions are generic over some
+future type <code>F</code>, then that future can be implemented via <code>fetch</code> on the Web or
+via non-blocking I/O provided by the operating system.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn do_stuff&lt;F&gt;(future: F) -&gt; impl Future&lt;Item = MyOtherThing&gt;
+where
+    F: Future&lt;Item = MyThing&gt;,
+{
+    // ...
+}
+<span class="boring">}</span></code></pre></pre>
+<p>You can also define a trait and implement it for WebAssembly and the Web and
+also for native targets:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait ReadMyThing {
+    type F: Future&lt;Item = MyThing&gt;;
+    fn read(&amp;self) -&gt; Self::F;
+}
+
+#[cfg(target_arch = "wasm32")]
+struct WebReadMyThing {
+    // ...
+}
+
+#[cfg(target_arch = "wasm32")]
+impl ReadMyThing for WebReadMyThing {
+    // ...
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+struct NativeReadMyThing {
+    // ...
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl ReadMyThing for NativeReadMyThing {
+    // ...
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="avoid-spawning-threads"><a class="header" href="#avoid-spawning-threads">Avoid Spawning Threads</a></h3>
+<p>Wasm doesn't support threads yet (but <a href="https://rustwasm.github.io/2018/10/24/multithreading-rust-and-wasm.html">experimental work is
+ongoing</a>),
+so attempts to spawn threads in wasm will panic.</p>
+<p>You can use <code>#[cfg(..)]</code>s to enable threaded and non-threaded code paths
+depending on if the target is WebAssembly or not:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span>#![cfg(target_arch = "wasm32")]
+<span class="boring">fn main() {
+</span>fn do_work() {
+    // Do work with only this thread...
+}
+
+#![cfg(not(target_arch = "wasm32"))]
+fn do_work() {
+    use std::thread;
+
+    // Spread work to helper threads....
+    thread::spawn(|| {
+        // ...
+    });
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Another option is to factor out thread spawning from your library and allow
+users to "bring their own threads" similar to factoring out file I/O and
+allowing users to bring their own I/O. This has the side effect of playing nice
+with applications that want to own their own custom thread pool.</p>
+<h2 id="maintaining-ongoing-support-for-webassembly"><a class="header" href="#maintaining-ongoing-support-for-webassembly">Maintaining Ongoing Support for WebAssembly</a></h2>
+<h3 id="building-for-wasm32-unknown-unknown-in-ci"><a class="header" href="#building-for-wasm32-unknown-unknown-in-ci">Building for <code>wasm32-unknown-unknown</code> in CI</a></h3>
+<p>Ensure that compilation doesn't fail when targeting WebAssembly by having your
+CI script run these commands:</p>
+<pre><code>rustup target add wasm32-unknown-unknown
+cargo check --target wasm32-unknown-unknown
+</code></pre>
+<p>For example, you can add this to your <code>.travis.yml</code> configuration for Travis CI:</p>
+<pre><code class="language-yaml">
+matrix:
+  include:
+    - language: rust
+      rust: stable
+      name: "check wasm32 support"
+      install: rustup target add wasm32-unknown-unknown
+      script: cargo check --target wasm32-unknown-unknown
+</code></pre>
+<h3 id="testing-in-nodejs-and-headless-browsers"><a class="header" href="#testing-in-nodejs-and-headless-browsers">Testing in Node.js and Headless Browsers</a></h3>
+<p>You can use <code>wasm-bindgen-test</code> and the <code>wasm-pack test</code> subcommand to run wasm
+tests in either Node.js or a headless browser. You can even integrate these
+tests into your CI.</p>
+<p><a href="https://rustwasm.github.io/wasm-bindgen/wasm-bindgen-test/index.html">Learn more about testing wasm
+here.</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="deploying-rust-and-webassembly-to-production"><a class="header" href="#deploying-rust-and-webassembly-to-production">Deploying Rust and WebAssembly to Production</a></h1>
+<blockquote>
+<p><strong>⚡ Deploying Web applications built with Rust and WebAssembly is nearly
+identical to deploying any other Web application!</strong></p>
+</blockquote>
+<p>To deploy a Web application that uses Rust-generated WebAssembly on the client,
+copy the built Web application's files to your production server's file system
+and configure your HTTP server to make them accessible.</p>
+<h2 id="ensure-that-your-http-server-uses-the-applicationwasm-mime-type"><a class="header" href="#ensure-that-your-http-server-uses-the-applicationwasm-mime-type">Ensure that Your HTTP Server Uses the <code>application/wasm</code> MIME Type</a></h2>
+<p>For the fastest page loads, you'll want to use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming">the
+<code>WebAssembly.instantiateStreaming</code> function</a> to pipeline
+wasm compilation and instantiation with network transfer (or make sure your
+bundler is able to use that function). However, <code>instantiateStreaming</code> requires
+that the HTTP response has the <code>application/wasm</code> <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME type</a> set, or else it
+will throw an error.</p>
+<ul>
+<li><a href="https://httpd.apache.org/docs/2.4/mod/mod_mime.html#addtype">How to configure MIME types for the Apache HTTP server</a></li>
+<li><a href="https://nginx.org/en/docs/http/ngx_http_core_module.html#types">How to configure MIME types for the NGINX HTTP server</a></li>
+</ul>
+<h2 id="more-resources"><a class="header" href="#more-resources">More Resources</a></h2>
+<ul>
+<li><a href="https://webpack.js.org/guides/production/">Best Practices for Webpack in Production.</a> Many Rust and
+WebAssembly projects use Webpack to bundle their Rust-generated WebAssembly,
+JavaScript, CSS, and HTML. This guide has tips for getting the most out of
+Webpack when deploying to production environments.</li>
+<li><a href="https://httpd.apache.org/docs/">Apache documentation.</a> Apache is a popular HTTP server for use in
+production.</li>
+<li><a href="https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/">NGINX documentation.</a> NGINX is a popular HTTP server for use in
+production.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
