@@ -195,12 +195,13 @@
 <p>이 책은 오픈소스입니다! 오타를 찾으셨나요? 누락된 부분이 있나요? <a href="https://github.com/rustwasm/book"><strong>풀 리퀘스트를 생성해보세요!</strong></a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="왜-rust로-webassembly-개발을-해야-하나요"><a class="header" href="#왜-rust로-webassembly-개발을-해야-하나요">왜 Rust로 WebAssembly 개발을 해야 하나요?</a></h1>
 <h2 id="저레벨-컨트롤과-고레벨-개발자-경험"><a class="header" href="#저레벨-컨트롤과-고레벨-개발자-경험">저레벨 컨트롤과 고레벨 개발자 경험</a></h2>
-<p>JavaScript 웹 앱들은 믿을수 있는 성능을 확보하고 유지하는데 어려움을 겪습니다. JavaScript 동적 타입 시스템과 가비지 콜렉션 (Garbage Collection)을 잠시 중단하는 것만으로는 크게 도움이 되지 않습니다. 보기에는 작은 내용의 코드를 수정하더라도 JIT에 치명적인 코드를 작성한다면 드라마틱한 성능 저하를 일으킬수도 있습니다.</p>
-<p>Rust는 JavaScript를 병들게 만든 비결정적인 가비지 콜렉션 중단으로부터 자유로울 뿐 아니라, 프로그래머들이 간접지정(indirection)과 단일화(monomorphization), 메모리 레이아웃을 컨트롤할수 있도록 함으로 저레벨 컨트롤과 믿을수 있는 성능을 제공합니다.</p>
+<p>JavaScript 웹 앱들은 믿을수 있는 성능을 확보하고 유지하는데 어려움을 겪습니다. JavaScript 동적 타입 시스템과 가비지 콜렉션 (Garbage Collection)을 잠시 중단하는 것만으로는 크게 도움이 되지 않습니다. 보기에는 작은 내용의 코드를 수정하더라도 JIT에 치명적인 코드를 작성한다면 드라마틱한 성능 저하를 일으킬 수도 있습니다.</p>
+<p>Rust는 JavaScript를 병들게 만든 비결정적인 가비지 콜렉션 중단으로부터 자유로울 뿐 아니라, 프로그래머들이 간접지정(indirection)과 단일화(monomorphization), 메모리 레이아웃을 컨트롤할 수 있도록 함으로 저레벨 컨트롤과 믿을 수 있는 성능을 제공합니다.</p>
 <h2 id="작은-wasm-사이즈"><a class="header" href="#작은-wasm-사이즈">작은 <code>.wasm</code> 사이즈</a></h2>
-<p><code>.wasm</code> 파일이 네트워크로 전송돼야 하는 점 때문에 코드의 파일 사이즈는 매우 중요합니다. Rust는 런타임이 작고 가비지 콜렉터와 같은 불필요한 요소가 없어 <code>.wasm</code> 사이즈를 효과적으로 줄일수 있도록 해줍니다. 이는 코드 파일 사이즈의 관점에서 실제로 사용하는 기능만 포함할 수 있도록 해줍니다.</p>
+<p><code>.wasm</code> 파일이 네트워크로 전송돼야 하는 점 때문에 코드의 파일 사이즈는 매우 중요합니다. Rust는 런타임이 작고 가비지 콜렉터와 같은 불필요한 요소가 없어 <code>.wasm</code> 사이즈를 효과적으로 줄일수 있도록 해주고, 실제로 사용하지 않는 함수들을 (빌드하는 코드 파일)에서 제외시켜줍니다.</p>
+<p>이는 코드 파일 사이즈의 관점에서 실제로 사용하는 기능만 포함할 수 있도록 해줍니다.</p>
 <h2 id="모든-내용을-다시-작성하지-말아주세요"><a class="header" href="#모든-내용을-다시-작성하지-말아주세요">모든 내용을 다시 작성하지 <strong>말아주세요</strong></a></h2>
-<p>기존에 존재하는 코드 베이스를 버릴 필요는 없습니다. 바로 효과를 볼수 있도록, 성능이 중요한 JavaScript 함수들을 Rust로 옮기는 것으로 시작해볼수도 있습니다. 원한다면 거기서 멈춰도 괜찮습니다.</p>
+<p>기존에 존재하는 코드 베이스를 버릴 필요는 없습니다. 바로 효과를 볼 수 있도록, 성능이 중요한 JavaScript 함수들을 Rust로 옮기는 것으로 시작해 볼 수도 있습니다. 원한다면 거기서 멈춰도 괜찮습니다.</p>
 <h2 id="다른-툴과-잘-작동합니다"><a class="header" href="#다른-툴과-잘-작동합니다">다른 툴과 잘 작동합니다</a></h2>
 <p>Rust와 WebAssembly는 기존에 존재하는 JavaScript 툴링과 함께 가장 잘 작동합니다. WebAssembly는 ECMAScript 모듈을 지원하고 npm과 Webpack처럼 기존에 사랑받던 툴링을 계속 사용할수 있게 해줍니다.</p>
 <h2 id="기대할수-있는-강점들"><a class="header" href="#기대할수-있는-강점들">기대할수 있는 강점들</a></h2>
@@ -252,7 +253,7 @@
 <p>WebAssembly 매우 간단한 <a href="https://webassembly.github.io/spec/core/syntax/modules.html#syntax-mem">메모리 모델</a>을 가지고 있고, 하나의 wasm 모듈은 하나의 "선형 메모리" 에 접근할수 있습니다.</p>
 <p>이 메모리는 페이지 사이즈 (64K)의 곱만큼 <a href="https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-memory">커질수 있으며</a> 이 사이즈는 줄어들 수 없습니다.</p>
 <h2 id="웹에서만-webassembly를-사용할-수-있나요"><a class="header" href="#웹에서만-webassembly를-사용할-수-있나요">웹에서만 WebAssembly를 사용할 수 있나요?</a></h2>
-<p>현재로써는 JavaScript 웹 커뮤니티에서 주목을 받고 있지만, wasm은 특정 실행 환경을 필요로 하지 않습니다. 그러므로, wasm이 미래에 다양한 맥락에서 사용할수 있는 "휴대 가능한 실행할수 있는" 포맷이라고 여겨질수도 있습니다. 하지만 오늘날 wasm은 대부분 (웹과 <a href="https://nodejs.org">Node.js</a>을 포함한) 다양한 형태로 존재하는 JavaScript(JS)와 함께 언급됩니다.</p>
+<p>현재로써는 JavaScript 웹 커뮤니티에서 주목을 받고 있지만, wasm은 특정 실행 환경을 필요로 하지 않습니다. 그러므로, wasm이 미래에 다양한 맥락에서 사용할수 있는 "휴대 가능한 실행할수 있는" 포맷이라고 여겨질수도 있습니다. 하지만 오늘날 wasm은 대부분 (웹과 <a href="https://nodejs.org">Node.js</a>을 포함한) 다양한 형태로 존재하는 JavaScript (JS)와 함께 언급됩니다.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="튜토리얼-conways-game-of-life"><a class="header" href="#튜토리얼-conways-game-of-life">튜토리얼: Conway's Game of Life</a></h1>
 <p>이 튜토리얼은 <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway's Game of Life</a>를 Rust와 WebAssembly로 구현하는 내용을 담고 있습니다.</p>
 <h2 id="누구를-위한-튜토리얼인가요"><a class="header" href="#누구를-위한-튜토리얼인가요">누구를 위한 튜토리얼인가요?</a></h2>
@@ -284,23 +285,23 @@
 <h2 id="rust-툴체인"><a class="header" href="#rust-툴체인">Rust 툴체인</a></h2>
 <p>진행을 위해 <code>rustup</code>, <code>rustc</code>, <code>cargo</code>를 포함한 스탠다드 Rust 툴체인이 필요합니다.</p>
 <p><a href="https://www.rust-lang.org/tools/install">Rust 툴체인을 설치하려면 이 지침을 따라주세요.</a></p>
-<p>Rust와 WebAssembly 개발 경험이 stable 버전의 러스트에 포함될만큼 안정화되고 있습니다! 그러므로 어떤 실험적 기능 flag도 요구되지 않습니다. 하지만 Rust 1.30이나 그 이후 버전이 요구됩니다.</p>
+<p>Rust와 WebAssembly 개발 경험이 stable 버전의 러스트에 포함될 만큼 안정화 되고 있습니다! 그러므로 어떤 실험적 기능 flag도 요구되지 않습니다. 하지만 Rust 1.30이나 그 이후 버전이 요구됩니다.</p>
 <h2 id="wasm-pack"><a class="header" href="#wasm-pack"><code>wasm-pack</code></a></h2>
 <p><code>wasm-pack</code>은 Rust로 생성된 WebAssembly를 개발, 테스팅, 배포하도록 도와주는 원스톱 샵 (one-stop shop)입니다.</p>
 <p><a href="https://rustwasm.github.io/wasm-pack/installer/">여기서 <code>wasm-pack</code> 다운로드 해보세요!</a></p>
 <h2 id="cargo-generate"><a class="header" href="#cargo-generate"><code>cargo-generate</code></a></h2>
-<p><a href="https://github.com/ashleygwilliams/cargo-generate"><code>cargo-generate</code>는 기존에 존재하는 git 레포지토리를 템플릿으로 사용하면서 새 Rust 프로젝트를 시작하고 빠르게 돌릴수 있도록 도와줍니다.</a></p>
+<p><a href="https://github.com/ashleygwilliams/cargo-generate"><code>cargo-generate</code>는 기존에 존재하는 git 레포지토리를 템플릿으로 사용하면서 새 Rust 프로젝트를 시작하고 빠르게 구동할수 있도록 도와줍니다.</a></p>
 <p>이 명령어로 <code>cargo-generate</code>를 설치해보세요:</p>
 <pre><code>cargo install cargo-generate
 </code></pre>
 <h2 id="npm"><a class="header" href="#npm"><code>npm</code></a></h2>
-<p><code>npm</code>은 JavaScript와 함께 사용되는 패키지 매니저입니다. 이 책을 진행하면서 JavaScript 번들러와 개발 서버를 설치하고 돌리는데 사용될 예정입니다. 이 튜토리얼 끝에서 컴파일된 <code>.wasm</code>을 <code>npm</code> 레지스트리로 배포해봅니다.</p>
+<p><code>npm</code>은 JavaScript와 함께 사용되는 패키지 매니저입니다. 이 책을 진행하면서 JavaScript 번들러와 개발 서버를 설치하고 구동하는데 사용될 예정입니다. 이 튜토리얼 끝에서 컴파일된 <code>.wasm</code>을 <code>npm</code> 레지스트리로 배포해봅니다.</p>
 <p><a href="https://www.npmjs.com/get-npm"><code>npm</code> 을 설치하려면 이 지침을 따라주세요.</a></p>
 <p>이미 <code>npm</code>이 설치돼 있다면, 이 명령어로 최신 버전으로 업데이트가 돼 있는지 확인해주세요:</p>
 <pre><code>npm install npm@latest -g
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world"><a class="header" href="#hello-world">Hello, World!</a></h1>
-<p>이 섹션은 어떻게 Rust와 WebAssembly 프로그램을 처음 돌려보는지 보여줍니다. "Hello, World!" 메세지를 보여주는 웹페이지를 만들어봅시다.</p>
+<p>이 섹션은 어떻게 Rust와 WebAssembly 프로그램을 처음 구동해보는지 보여줍니다. "Hello, World!" 메세지를 보여주는 웹페이지를 만들어봅시다.</p>
 <p>시작하기 전에 <a href="game-of-life/setup.html">셋업 가이드</a>을 읽고 따라왔는지 확인해주세요.</p>
 <h2 id="프로젝트-템플릿-클론하기"><a class="header" href="#프로젝트-템플릿-클론하기">프로젝트 템플릿 클론하기</a></h2>
 <p>이 프로젝트 템플릿은 합리적인 기본 설정으로 구성돼 있어 웹으로 코드를 빠르게 개발, 통합 및 패키징할수 있게 해줍니다.</p>
