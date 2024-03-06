@@ -573,22 +573,16 @@ pub fn greet(name: &amp;str) {
 <p>세상의 어떤 부분이 많은 컴퓨터 자원을 필요로 하는지 계속 확인하고 그런 부분을 필요한 만큼 확장합니다. 최악의 경우에는, 이 확장이 제한 없이 진행되고 코드가 계속해서 느려지면서 결국에는 메모리를 다 차지하게 됩니다.</p>
 </li>
 <li>
-<p>Create a fixed-size universe, where cells on the edges have fewer neighbors
-than cells in the middle. The downside with this approach is that infinite
-patterns, like gliders, that reach the end of the universe are snuffed out.</p>
+<p>모서리에 있는 세포들이 가운데에 있는 세포들과 비교해서 더 적은 이웃을 가지게 되는 사이즈가 정해져 있는 세상을 만듭니다. <a href="https://conwaylife.com/wiki/Glider">gliders</a>와 같은 무한 패턴이 모서리에서 끝나버리게 되는 단점이 있습니다.</p>
 </li>
 <li>
-<p>Create a fixed-size, periodic universe, where cells on the edges have
-neighbors that wrap around to the other side of the universe. Because
-neighbors wrap around the edges of the universe, gliders can keep running
-forever.</p>
+<p>사이즈가 정해졌지만 계속해서 연결되는 우주를 만듭니다. 세상의 끝을 반대쪽 세상의 끝으로 연결시켜 세포들이 계속 이웃을 가질수 있게 합니다. 이렇게 gliders 패턴이 계속 움직일수 있게 됩니다.</p>
 </li>
 </ol>
-<p>We will implement the third option.</p>
-<h3 id="interfacing-rust-and-javascript"><a class="header" href="#interfacing-rust-and-javascript">Interfacing Rust and JavaScript</a></h3>
+<p>세 번째 방법으로 구현을 해보도록 합시다.</p>
+<h3 id="rust와-javascript-코드끼리-연결하기"><a class="header" href="#rust와-javascript-코드끼리-연결하기">Rust와 JavaScript 코드끼리 연결하기</a></h3>
 <blockquote>
-<p>⚡ This is one of the most important concepts to understand and take away from
-this tutorial!</p>
+<p>⚡ 다음 내용은 이 튜토리얼에서 다루는 내용 중에서도 아주 중요한 내용입니다. 이 내용을 이해하면서 얻어갈 수 있는 부분이 많습니다!</p>
 </blockquote>
 <p>JavaScript's garbage-collected heap — where <code>Object</code>s, <code>Array</code>s, and DOM nodes
 are allocated — is distinct from WebAssembly's linear memory space, where our
