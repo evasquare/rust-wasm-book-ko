@@ -584,16 +584,7 @@ pub fn greet(name: &amp;str) {
 <blockquote>
 <p>⚡ 다음 내용은 이 튜토리얼에서 다루는 내용 중에서도 아주 중요한 내용입니다. 이 내용을 이해하면서 얻어갈 수 있는 부분이 많습니다!</p>
 </blockquote>
-<p>JavaScript's garbage-collected heap — where <code>Object</code>s, <code>Array</code>s, and DOM nodes
-are allocated — is distinct from WebAssembly's linear memory space, where our
-Rust values live. WebAssembly currently has no direct access to the
-garbage-collected heap (as of April 2018, this is expected to change with the
-<a href="https://github.com/WebAssembly/interface-types/blob/master/proposals/interface-types/Explainer.md">"Interface Types" proposal</a>). JavaScript, on the other hand, can
-read and write to the WebAssembly linear memory space, but only as an
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer"><code>ArrayBuffer</code></a> of scalar values (<code>u8</code>, <code>i32</code>, <code>f64</code>,
-etc...). WebAssembly functions also take and return scalar values. These are the
-building blocks from which all WebAssembly and JavaScript communication is
-constituted.</p>
+<p>JavaScript는 <code>Object</code>, <code>Array</code> 그리고 DOM 노드들이 할당되는 가비지 콜렉터가 관리하는 힙을 사용하지만, 작성하게 될 Rust 코드의 선형 메모리는 별개의 공간을 사용하게 됩니다. Webassembly는 현재로써는 가비지 콜렉터가 관리하는 힙에 직접 접근할수 없습니다. (2018년 4월 기준으로, <a href="https://github.com/WebAssembly/interface-types/blob/master/proposals/interface-types/Explainer.md">"Interface Types" proposal</a>과 함께 변경될 전망이긴 합니다.) 반면에 JavaScript는 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer"><code>ArrayBuffer</code></a>나 스칼라 값 (scalar values / <code>u8</code>, <code>i32</code>, <code>f64</code>, 등...)으로 만이라도 이 선형 메모리를 읽고 쓸수 있습니다. 이런 내용을 기반으로 모든 Webassembly와 JavaScript 사이의 커뮤니케이션이 구성되게 됩니다.</p>
 <p><code>wasm_bindgen</code> defines a common understanding of how to work with compound
 structures across this boundary. It involves boxing Rust structures, and
 wrapping the pointer in a JavaScript class for usability, or indexing into a
