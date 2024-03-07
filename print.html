@@ -590,28 +590,14 @@ pub fn greet(name: &amp;str) {
 <p>WebAssembly</p>
 <ol>
 <li>
-<p><strong>Minimizing copying into and out of the WebAssembly linear memory.</strong>
-Unnecessary copies impose unnecessary overhead.</p>
+<p><strong>JavaScript와 WebAssembly 선형 메모리 사이를 오가는 복사(copy) 최소화하기</strong>
+불필요한 복사는 오버헤드를 발생시킵니다.</p>
 </li>
 <li>
-<p><strong>Minimizing serializing and deserializing.</strong> Similar to copies, serializing
-and deserializing also imposes overhead, and often imposes copying as
-well. If we can pass opaque handles to a data structure — instead of
-serializing it on one side, copying it into some known location in the
-WebAssembly linear memory, and deserializing on the other side — we can often
-reduce a lot of overhead. <code>wasm_bindgen</code> helps us define and work with opaque
-handles to JavaScript <code>Object</code>s or boxed Rust structures.</p>
+<p><strong>직렬화 (serializing)와 역직렬화(deserializing) 최소화하기.</strong> 복사와 마찬가지로, 직렬화와 역직렬화도 복사를 발생시키기도 하고 오버헤드를 발생시킬 수 있습니다. 한곳에서 모든 직렬화 작업을 하는 대신 일반적으로 WebAssembly 선형 메모리의 알려진 위치로 <a href="https://en.wikipedia.org/wiki/Opaque_data_type">opaque handle</a>들을 넘기는 식으로 많은 오버헤드를 없앨수 있게 됩니다. <code>wasm_bindgen</code>을 통해 JavaScript의 <code>Object</code>, 박싱된 Rust 구조체(<code>struct</code>)와 함께 사용되는 opaque handle들을 더 쉽게 정의하고 관리할수 있게 됩니다.</p>
 </li>
 </ol>
-<p>As a general rule of thumb, a good JavaScript↔WebAssembly interface design is
-often one where large, long-lived data structures are implemented as Rust types
-that live in the WebAssembly linear memory, and are exposed to JavaScript as
-opaque handles. JavaScript calls exported WebAssembly functions that take these
-opaque handles, transform their data, perform heavy computations, query the
-data, and ultimately return a small, copy-able result. By only returning the
-small result of the computation, we avoid copying and/or serializing everything
-back and forth between the JavaScript garbage-collected heap and the WebAssembly
-linear memory.</p>
+<p>대부분의 경우에는, JavaScript와 WebAssembly를 오갈 때 사이즈가 크고 오래 살아있어야 하는 자료 구조를 WebAssembly 선형 메모리에 두고, JavaScript에서 opaque handle로 노출 시키는 것이 좋은 인터페이스 설계입니다. JavaScript가 이러한 opaque handle를 통해 WebAssembly 함수를 부르고, 데이터를 변형시키고, 무거운 컴퓨팅 작업을 하고, 최종적으로 작은 사이즈의 복사할수 있는 값을 반환(return)하게 됩니다. 작은 값만 반환하는 방식으로 JavaScript 가비지 콜렉터가 관리하는 힙과 WebAssembly 선형 메모리 사이의 모든 값들을 앞뒤로 복사하고 직렬화하지 않을수 있습니다.</p>
 <h3 id="interfacing-rust-and-javascript-in-our-game-of-life"><a class="header" href="#interfacing-rust-and-javascript-in-our-game-of-life">Interfacing Rust and JavaScript in our Game of Life</a></h3>
 <p>Let's start by enumerating some hazards to avoid. We don't want to copy the
 whole universe into and out of the WebAssembly linear memory on every tick. We
