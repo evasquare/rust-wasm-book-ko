@@ -276,19 +276,11 @@ pub struct Universe {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>The <code>live_neighbor_count</code> method uses deltas and modulo to avoid special casing
-the edges of the universe with <code>if</code>s. When applying a delta of <code>-1</code>, we <em>add</em>
-<code>self.height - 1</code> and let the modulo do its thing, rather than attempting to
-subtract <code>1</code>. <code>row</code> and <code>column</code> can be <code>0</code>, and if we attempted to subtract <code>1</code>
-from them, there would be an unsigned integer underflow.</p>
-<p>Now we have everything we need to compute the next generation from the current
-one! Each of the Game's rules follows a straightforward translation into a
-condition on a <code>match</code> expression. Additionally, because we want JavaScript to
-control when ticks happen, we will put this method inside a <code>#[wasm_bindgen]</code>
-block, so that it gets exposed to JavaScript.</p>
+<p><code>live_neighbor_count</code> 메서드는 델타값과 나머지 값을 확인해서 세상 끝에서 발생할 수 있는 예외를 <code>if</code>문으로 처리합니다. <code>-1</code>의 델타를 적용할 때, <code>self.height -1</code>을 추가해서 <code>1</code>을 빼는 대신 나머지 값을 계속 처리하게 합니다. <code>row</code>와 <code>column</code>은 <code>0</code>이 될수 있고, 이 값에서 <code>1</code>을 뺄려고 할때, unsigned integer underflow가 발생하게 됩니다.</p>
+<p>이제 현재 세대를 기반으로 다음 세대를 처리하는데 필요한 준비가 완료됐습니다! <code>match</code> 문을 사용해서 보기 명확하게 게임의 규칙을 나타내봅시다. 추가로, 틱이 일어날 때 JavaScript가 컨트롤하도록 할 것이기 때문에, 이 메서드 위에 <code>#[wasm_bindgen]</code> 블럭을 추가해서 JavaScript 코드에 노출시켜보도록 하겠습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>/// Public methods, exported to JavaScript.
+</span>/// Public 메서드, JavaScript로 보낼수 있게 함.
 #[wasm_bindgen]
 impl Universe {
     pub fn tick(&amp;mut self) {
@@ -301,19 +293,15 @@ impl Universe {
                 let live_neighbors = self.live_neighbor_count(row, col);
 
                 let next_cell = match (cell, live_neighbors) {
-                    // Rule 1: Any live cell with fewer than two live neighbours
-                    // dies, as if caused by underpopulation.
+                    // 규칙 1: 인구 부족으로 2개 미만의 이웃을 가진 세포는 죽게 됩니다. 
                     (Cell::Alive, x) if x &lt; 2 =&gt; Cell::Dead,
-                    // Rule 2: Any live cell with two or three live neighbours
-                    // lives on to the next generation.
+                    // 규칙 2: 2개 혹은 3개의 이웃을 가진 세포는 다음 세대에서 계속 살아있습니다.
                     (Cell::Alive, 2) | (Cell::Alive, 3) =&gt; Cell::Alive,
-                    // Rule 3: Any live cell with more than three live
-                    // neighbours dies, as if by overpopulation.
+                    // Rule 3: 과잉 인구로 3개 초과의 이웃을 가진 모든 세포는 죽게 됩니다.
                     (Cell::Alive, x) if x &gt; 3 =&gt; Cell::Dead,
-                    // Rule 4: Any dead cell with exactly three live neighbours
-                    // becomes a live cell, as if by reproduction.
+                    // 규칙 4: 세포 증식으로 정확히 3개의 이웃을 가진 세포는 살아나게 됩니다.
                     (Cell::Dead, 3) =&gt; Cell::Alive,
-                    // All other cells remain in the same state.
+                    // 규칙이 적용되지 않는 세포들의 상태는 그대로 유지되게 됩니다.
                     (otherwise, _) =&gt; otherwise,
                 };
 
