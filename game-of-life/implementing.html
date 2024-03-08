@@ -315,14 +315,9 @@ impl Universe {
     // ...
 }
 <span class="boring">}</span></code></pre></pre>
-<p>So far, the state of the universe is represented as a vector of cells. To make
-this human readable, let's implement a basic text renderer. The idea is to write
-the universe line by line as text, and for each cell that is alive, print the
-Unicode character <code>◼</code> ("black medium square"). For dead cells, we'll print <code>◻</code>
-(a "white medium square").</p>
-<p>By implementing the <a href="https://doc.rust-lang.org/1.25.0/std/fmt/trait.Display.html"><code>Display</code></a> trait from Rust's standard library, we can add a
-way to format a structure in a user-facing manner. This will also automatically
-give us a <a href="https://doc.rust-lang.org/1.25.0/std/string/trait.ToString.html"><code>to_string</code></a> method.</p>
+<p>지금까지 세상의 상태는 세포들의 벡터로 표시됐습니다. 조금 더 사람이 읽기 쉽도록 텍스트 렌더러 (text renderer)를 구현해보도록 합시다. 세상을 한줄 한줄씩 텍스트로 표현을 해보는데, 살아있는 세포들을 유니코드 문자 <code>◼</code> ("black medium square")로 나타내고 죽은 세포들을 <code>◻</code>
+(a "white medium square")로 표현하겠습니다.</p>
+<p>Rust 스탠다드 라이브러리의 <a href="https://doc.rust-lang.org/1.25.0/std/fmt/trait.Display.html"><code>Display</code></a> 트레이트를 구현해서 사람이 읽기 쉬운 방식으로 포맷할수 있도록 메서드를 추가해봅시다. 이 트레이트를 구현하면 자동적으로 Universe의 인스턴스(instance)들이 <a href="https://doc.rust-lang.org/1.25.0/std/string/trait.ToString.html"><code>to_string</code></a> 메서드를 사용할수 있게 됩니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fmt;
