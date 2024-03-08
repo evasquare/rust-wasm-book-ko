@@ -598,29 +598,16 @@ pub fn greet(name: &amp;str) {
 </ol>
 <p>대부분의 경우에는, JavaScript와 WebAssembly를 오갈 때 사이즈가 크고 오래 살아있어야 하는 자료 구조를 WebAssembly 선형 메모리에 두고, 이러한 값들을 JavaScript에서 opaque handle로써 노출 시키는 것이 좋은 인터페이스 설계입니다. JavaScript가 이러한 opaque handle를 통해 WebAssembly 함수를 부르고, 데이터를 변형시키고, 무거운 컴퓨팅 작업을 하고, 값을 검색하고, 최종적으로 작은 사이즈의 복사할수 있는 값을 반환(return)합니다. 작은 값만 반환하면 JavaScript 가비지 콜렉터가 관리하는 힙과 WebAssembly 선형 메모리 사이의 모든 값들을 앞뒤로 복사하고 직렬화할 필요가 없게 됩니다.</p>
 <h3 id="interfacing-rust-and-javascript-in-our-game-of-life"><a class="header" href="#interfacing-rust-and-javascript-in-our-game-of-life">Interfacing Rust and JavaScript in our Game of Life</a></h3>
+<!-- ### todo: translate this into Korean -->
 <p>위험한 사례를 살펴보는 것으로 시작해봅시다. 매 틱마다 세상을 WebAssembly에서 불러오거나 가져오기 위해 복사하지 않아야 하고, 세포 하나씩 객체를 모두 할당하거나 경계를 오가면서 읽고 쓰는 것도 좋지 않습니다.</p>
-<p>Where does this leave us? We can represent the universe as a flat array that
-lives in the WebAssembly linear memory, and has a byte for each cell. <code>0</code> is a
-dead cell and <code>1</code> is a live cell.</p>
-<p>Here is what a 4 by 4 universe looks like in memory:</p>
+<p>그러면 어떻게 구현하는 게 좋을까요? 죽은 세포를 <code>0</code>로 나타내고 살아있는 세포를 <code>1</code>로 나타내는 식으로 세포들을 각각 1 byte 값으로 나타낼수 있는데, WebAssembly 선형 메모리에 1차원 배열로 나타내면 좋을것 같습니다.</p>
+<p>4 x 4 사이즈의 우주를 메모리 이미지로 표현해보겠습니다:</p>
 <p><img src="game-of-life/../images/game-of-life/universe.png" alt="Screenshot of a 4 by 4 universe" /></p>
-<p>To find the array index of the cell at a given row and column in the universe,
-we can use this formula:</p>
+<p>주어진 열과 행에 해당하는 배열 인덱스를 찾을떄 이 공식을 사용할수 있습니다:</p>
 <pre><code class="language-text">index(row, column, universe) = row * width(universe) + column
 </code></pre>
-<p>We have several ways of exposing the universe's cells to JavaScript. To begin,
-we will implement <a href="https://doc.rust-lang.org/1.25.0/std/fmt/trait.Display.html"><code>std::fmt::Display</code></a> for <code>Universe</code>, which we can
-use to generate a Rust <code>String</code> of the cells rendered as text characters. This
-Rust String is then copied from the WebAssembly linear memory into a JavaScript
-String in the JavaScript's garbage-collected heap, and is then displayed by
-setting HTML <code>textContent</code>. Later in the chapter, we'll evolve this
-implementation to avoid copying the universe's cells between heaps and to render
-to <code>&lt;canvas&gt;</code>.</p>
-<p><em>Another viable design alternative would be for Rust to return a list of every
-cell that changed states after each tick, instead of exposing the whole universe
-to JavaScript. This way, JavaScript wouldn't need to iterate over the whole
-universe when rendering, only the relevant subset. The trade off is that this
-delta-based design is slightly more difficult to implement.</em></p>
+<p>세포들을 JavaScript에 노출시킬때 여러가지 방법을 사용해볼수 있는데, 우선은 Rust <code>String</code> 타입의 값으로 세포들을 문자로 표시할수 있도록 <code>Universe</code> 타입에 <code>std::fmt::Display</code> 트레이트(trait)를 구현해주도록 합시다. 이 트레이트를 통해 Rust <code>String</code> 타입의 값을 WebAssembly 선형 메모리에서 JavaScript 가비지 콜렉터가 관리하는 힙으로 복사할 수 있게 됩니다. 그 다음, 복사된 값을 HTML <code>textConent</code>에 표시해보도록 하겠습니다. 이 챕터 후반에서는 이 구현에 덧붙여서 세포들을 힙에 복사하지 않도록 해보고 세포들을 <code>&lt;canvas&gt;</code>에 표시할 예정입니다.</p>
+<p><em>하나 더 대신 해볼법한 설계가 있는데, 세상 전체를 노출시키지 않고 매 틱마다 상태가 바뀌게 되는 세포들을 목록으로 만들어서 Rust 코드에서 JavaScript로 반환을 해볼수도 있습니다. 이런 방법으로, JavaScript 코드에서 세상 전체를 순회할 필요 없이 일부만 순회할수 있게 됩니다. 단점으로는, 이 델타 기반 (delta-based)의 설계는 구현하기가 조금 더 어렵습니다.</em></p>
 <h2 id="rust-implementation"><a class="header" href="#rust-implementation">Rust Implementation</a></h2>
 <p>In the last chapter, we cloned an initial project template. We will modify that
 project template now.</p>
