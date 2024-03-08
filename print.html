@@ -621,7 +621,7 @@ pub enum Cell {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>각 세포가 1 byte 사이즈로 표현되도록 해야하기 때문에 <code>#[repr(u8)]</code>을 잊지 않고 붙여주도록 하고, 세포 주변에 살아있는 이웃들을 쉽게 셀수 있도록, <code>0</code>를 <code>Dead</code>로, <code>1</code>을 <code>Alive</code>로 정해주는 것도 중요합니다.</p>
-<p>그 다음, 세상을 정의해봅시다. 세상을 나타내는 구조체는 너비와 높이, 세포들을 나타내는 <code>width * height</code> 길이의 벡터를 필드로 가지게 됩니다.</p>
+<p>그 다음, 세상을 정의해봅시다. 세상을 나타내는 구조체는 너비와 높이, 세포들을 나타내는 <code>width * height</code> 길이의 벡터(vector)를 필드로 가지게 됩니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
