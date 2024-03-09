@@ -667,7 +667,7 @@ pub struct Universe {
 }
 <span class="boring">}</span></code></pre></pre>
 <p><code>live_neighbor_count</code> 메서드는 델타값과 나머지 값을 확인해서 세상의 끝에서 발생할 수 있는 예외를 <code>if</code>문으로 처리합니다. <code>-1</code>의 델타를 적용할 때, <code>self.height -1</code>을 추가해서 <code>1</code>을 빼는 대신 나머지 값을 계속 처리하게 합니다. <code>row</code>와 <code>column</code>은 <code>0</code>이 될수 있고, 이 값에서 <code>1</code>을 뺄려고 할때, unsigned integer underflow가 발생하게 됩니다.</p>
-<p>이제 현재 세대를 기반으로 다음 세대를 처리하는데 필요한 준비가 완료됐습니다! <code>match</code> 문을 사용해서 보기 명확하게 게임의 규칙을 나타내봅시다. 추가로, 틱이 일어날 때 JavaScript가 컨트롤하도록 할 것이기 때문에, 이 메서드 위에 <code>#[wasm_bindgen]</code> 블럭을 추가해서 JavaScript 코드에 노출시켜보도록 하겠습니다.</p>
+<p>이제 현재 세대를 기반으로 다음 세대를 처리하는데 필요한 준비가 완료됐습니다! <code>match</code> 문을 사용해서 보기 명확하게 게임의 규칙을 나타내봅시다. 추가로, 틱이 일어날 때 JavaScript가 컨트롤하도록 할 것이기 때문에, <code>#[wasm_bindgen]</code> 블럭을 추가해서 이 메서드를 JavaScript 코드에 노출시켜보도록 하겠습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Public 메서드, JavaScript로 보낼수 있게 함.
