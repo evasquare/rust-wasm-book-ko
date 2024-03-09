@@ -799,30 +799,24 @@ const universe = Universe.new();
   requestAnimationFrame(renderLoop);
 };
 </code></pre>
-<p>렌더링 처리를 시작하려면 다음 코드를 함수 밖에 추가해서 렌더링 루프를 시작해주세요:</p>
+<p>렌더링 처리를 시작하려면 다음 코드를 <code>renderLoop</code> 함수 밖에 추가해서 렌더링 루프를 시작해주세요:</p>
 <pre><code class="language-js">requestAnimationFrame(renderLoop);
 </code></pre>
 <p>다시 한번 (<code>npm run</code>을 <code>wasm-game-of-life/www</code> 디렉토리에서 실행한) 개발 서버가 아직 구동중인지 확인해주세요. <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 열면 다음 내용을 확인할수 있습니다:</p>
 <p><a href="game-of-life/../images/game-of-life/initial-game-of-life-pre.png"><img src="game-of-life/../images/game-of-life/initial-game-of-life-pre.png" alt="Screenshot of the Game of Life implementation with text rendering" /></a></p>
 <h2 id="메모리에서-바로-캔버스로-렌더링하기"><a class="header" href="#메모리에서-바로-캔버스로-렌더링하기">메모리에서 바로 캔버스로 렌더링하기</a></h2>
-<p>Rust 코드에서 <code>String</code>을 생성 (및 할당)하고 <code>wasm-bindgen</code>을 사용해서 이 값을 유효한 JavaScript 문자열로 변환하는 작업은 세포들을 불필요하게 복사합니다. JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, <code>render</code> 메서드를 수정하여 <code>cells</code> 배열의 시작을 가리키는 포인터를 반환하도록 하겠습니다.</p>
-<p>Also, instead of rendering Unicode text, we'll switch to using the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas
-API</a>. We will use this design in the rest of the tutorial.</p>
-<p>Inside <code>wasm-game-of-life/www/index.html</code>, let's replace the <code>&lt;pre&gt;</code> we added
-earlier with a <code>&lt;canvas&gt;</code> we will render into (it too should be within the
-<code>&lt;body&gt;</code>, before the <code>&lt;script&gt;</code> that loads our JavaScript):</p>
+<p>Rust 코드에서 <code>String</code>을 생성 (및 할당)하고 <code>wasm-bindgen</code>로 이 생성한 값을 유효한 JavaScript 문자열로 변환하게 되면 세포들을 불필요하게 복사하게 됩니다. JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, <code>render</code> 메서드를 수정하여 <code>cells</code> 배열의 시작을 가리키는 포인터를 반환하도록 하겠습니다.</p>
+<p>그리고 유니코드 문자를 렌더링하지 않고 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas API</a> 를 대신 사용해봅시다. 이 API를 이 부분 이후부터 계속 사용하겠습니다.</p>
+<p><code>wasm-game-of-life/www/index.html</code> 파일에서 전에 추가한 <code>&lt;pre&gt;</code>를 지우고 렌더링에 사용할 <code>&lt;canvas&gt;</code>를 추가해줍시다. (<code>&lt;body&gt;</code> 태그 내에서 JavaScript 코드를 시작시키는 <code>&lt;script&gt;</code> 태그 위에 추가돼야 합니다.)</p>
 <pre><code class="language-html">&lt;body&gt;
   &lt;canvas id="game-of-life-canvas"&gt;&lt;/canvas&gt;
   &lt;script src='./bootstrap.js'&gt;&lt;/script&gt;
 &lt;/body&gt;
 </code></pre>
-<p>To get the necessary information from the Rust implementation, we'll need to add
-some more getter functions for a universe's width, height, and pointer to its
-cells array. All of these are exposed to JavaScript as well. Make these
-additions to <code>wasm-game-of-life/src/lib.rs</code>:</p>
+<p>Rust로 구현한 코드에서 필요한 정보를 얻어올수 있도록 위해 세상의 넓이, 너비, 세포 배열을 가리키는 포인터를 반환하는 getter 함수들을 조금 더 만들어보겠습니다. 이 함수들도 JavaScript 코드로 노출시켜야 하니 잘 확인해주고 <code>wasm-game-of-life/src/lib.rs</code> 파일에 다음 코드를 추가해줍시다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>/// Public methods, exported to JavaScript.
+</span>/// Public 메서드, JavaScript로 보낼수 있게 함.
 #[wasm_bindgen]
 impl Universe {
     // ...
@@ -840,9 +834,7 @@ impl Universe {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Next, in <code>wasm-game-of-life/www/index.js</code>, let's also import <code>Cell</code> from
-<code>wasm-game-of-life</code>, and define some constants that we will use when rendering
-to the canvas:</p>
+<p>그 다음, <code>wasm-game-of-life/www/index.js</code> 파일에 <code>wasm-game-of-life</code> 모듈에서 <code>Cell</code>을 불러오는 줄을 추가해주고 캔버스를 렌더링할때 사용할 상수 몇가지를 정의해줍시다.</p>
 <pre><code class="language-js">import { Universe, Cell } from "wasm-game-of-life";
 
 const CELL_SIZE = 5; // px
@@ -850,8 +842,7 @@ const GRID_COLOR = "#CCCCCC";
 const DEAD_COLOR = "#FFFFFF";
 const ALIVE_COLOR = "#000000";
 </code></pre>
-<p>Now, let's rewrite the rest of this JavaScript code to no longer write to the
-<code>&lt;pre&gt;</code>'s <code>textContent</code> but instead draw to the <code>&lt;canvas&gt;</code>:</p>
+<p>이제 <code>&lt;pre&gt;</code> 태그의 <code>textContent</code> 대신에 <code>&lt;canvas&gt;</code>를 업데이트 할수 있도록 JavaScript 나머지 코드를 다시 작성해봅시다:</p>
 <pre><code class="language-js">// Construct the universe, and get its width and height.
 const universe = Universe.new();
 const width = universe.width();
