@@ -535,32 +535,19 @@ const drawCells = () =&gt; {
 drawCells();
 requestAnimationFrame(renderLoop);
 </code></pre>
-<p>Note that we call <code>drawGrid()</code> and <code>drawCells()</code> here <em>before</em> we call
-<code>requestAnimationFrame()</code>. The reason we do this is so that the <em>initial</em> state
-of the universe is drawn before we make modifications. If we instead simply
-called <code>requestAnimationFrame(renderLoop)</code>, we'd end up with a situation where
-the first frame that was drawn would actually be <em>after</em> the first call to
-<code>universe.tick()</code>, which is the second "tick" of the life of these cells.</p>
+<p><code>drawGrid()</code>와 <code>drawCells()</code>를 <code>requestAnimationFrame()</code> 호출 <strong>이전에</strong> 호출해야 한다는 점을 꼭 기억해주세요. <em>초기</em> 상태의 세상이 그려진 이후에 수정사항을 만들어야 합니다. <code>requestAnimationFrame(renderLoop)</code> 만 부르게 된다면 <code>universe.tick()</code>이 호출된 <em>이후</em> 시점의 두번째 틱이 그려지게 됩니다.</p>
 <h2 id="it-works"><a class="header" href="#it-works">It Works!</a></h2>
-<p>Rebuild the WebAssembly and bindings glue by running this command from within
-the root <code>wasm-game-of-life</code> directory:</p>
+<h2 id="다-됐어요"><a class="header" href="#다-됐어요">다 됐어요!</a></h2>
+<p>최상단 <code>wasm-game-of-life</code> 디렉토리에서 다음 명령어를 실행하여 WebAssembly와 바인딩 파일(bindings glue)들을 다시 빌드해줍시다:</p>
 <pre><code>wasm-pack build
 </code></pre>
-<p>Make sure your development server is still running. If it isn't, start it again
-from within the <code>wasm-game-of-life/www</code> directory:</p>
+<p>다시 한번 개발 서버가 아직 구동중인지 확인해주세요. 구동중이지 않다면 <code>wasm-game-of-life/www</code> 디렉토리에서 다시 시작해주세요:</p>
 <pre><code>npm run start
 </code></pre>
-<p>If you refresh <a href="http://localhost:8080/">http://localhost:8080/</a>, you should be
-greeted with an exciting display of life!</p>
+<p><a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 웹 브라우저에서 새로고침하면 구현된 흥미진진한 Game of Life가 시작되게 됩니다.</p>
 <p><a href="../images/game-of-life/initial-game-of-life.png"><img src="../images/game-of-life/initial-game-of-life.png" alt="Screenshot of the Game of Life implementation" /></a></p>
-<p>As an aside, there is also a really neat algorithm for implementing the Game of
-Life called <a href="https://en.wikipedia.org/wiki/Hashlife">hashlife</a>. It uses
-aggressive memoizing and can actually get <em>exponentially faster</em> to compute
-future generations the longer it runs! Given that, you might be wondering why we
-didn't implement hashlife in this tutorial. It is out of scope for this text,
-where we are focusing on Rust and WebAssembly integration, but we highly
-encourage you to go learn about hashlife on your own!</p>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<p>추가로 관심이 있다면, <a href="https://en.wikipedia.org/wiki/Hashlife">hashlife</a> 라는 엄청 멋진 Game of Life 알고리즘 구현도 있으니 한번 확인해보세요. 이 알고리즘은 공격적인 메모이제이션(aggressive memoizing)을 사용하여 코드가 더 오래 구동될수록 미래 세대들을 <em>기하급수적으로 더 빠르게</em> 계산할수 있게 해줍니다. hashlife를 이 튜토리얼에서 구현해보면 정말 재밌겠지만, 이 책은 Rust와 WebAssembly 사용에 중점을 두고 있으므로 다루지 않도록 하겠습니다. 하지만 hashlife에 대해 배워보길 적극적으로 권장합니다.</p>
+<h2 id="연습해보기"><a class="header" href="#연습해보기">연습해보기</a></h2>
 <ul>
 <li>
 <p>Initialize the universe with a single space ship.</p>
