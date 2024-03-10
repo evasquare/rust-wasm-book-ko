@@ -176,27 +176,24 @@
                         <h1 id="game-of-life-테스팅하기"><a class="header" href="#game-of-life-테스팅하기">Game of Life 테스팅하기</a></h1>
 <p>이제 브라우저 JavaScript 환경에서 실행할 수 있도록 Game of Life를 Rust로 구현했으니 Rust 코드에서 WebAssembly 함수를 테스팅하는 방법에 대해 알아봅시다.</p>
 <p><code>tick</code> 함수로 예상하는 올바른 값을 불러올수 있는지 테스팅 해보겠습니다.</p>
-<p>Next, we'll want to create some setter and getter
-functions inside our existing <code>impl Universe</code> block in the
-<code>wasm_game_of_life/src/lib.rs</code> file. We are going to create a <code>set_width</code>
-and a <code>set_height</code> function so we can create <code>Universe</code>s of different sizes.</p>
+<p>우선 테스팅을 작성하기 전에 <code>wasm_game_of_life/src/lib.rs</code> 파일에 작성한 <code>impl Universe</code> 블럭 안에 setter 함수와 getter 함수를 조금 더 만들어보겠습니다. <code>set_width</code>와 <code>set_height</code> 함수를 만들어서 다른 사이즈의 <code>Universe</code>들을 만들어볼수 있게 해봅시다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
 impl Universe { 
     // ...
 
-    /// Set the width of the universe.
+    /// 세상의 너비를 설정합니다.
     ///
-    /// Resets all cells to the dead state.
+    /// 모든 세포를 죽은 상태로 리셋합니다.
     pub fn set_width(&amp;mut self, width: u32) {
         self.width = width;
         self.cells = (0..width * self.height).map(|_i| Cell::Dead).collect();
     }
 
-    /// Set the height of the universe.
+    /// 세상의 넓이를 설정합니다.
     ///
-    /// Resets all cells to the dead state.
+    /// 모든 세포를 죽은 상태로 리셋합니다.
     pub fn set_height(&amp;mut self, height: u32) {
         self.height = height;
         self.cells = (0..self.width * height).map(|_i| Cell::Dead).collect();
@@ -204,12 +201,7 @@ impl Universe {
 
 }
 <span class="boring">}</span></code></pre></pre>
-<p>We are going to create another <code>impl Universe</code> block inside our
-<code>wasm_game_of_life/src/lib.rs</code> file without the <code>#[wasm_bindgen]</code> attribute.
-There are a few functions we need for testing that we don't want to expose to
-our JavaScript. Rust-generated WebAssembly functions cannot return
-borrowed references. Try compiling the Rust-generated WebAssembly with the
-attribute and take a look at the errors you get.</p>
+<p><code>wasm_game_of_life/src/lib.rs</code> 파일에 <code>#[wasm_bindgen]</code> 속성 없이 <code>impl Universe</code> 블럭을 하나 더 만들어봅시다. 테스팅에 사용하는데 필요한 함수가 몇개 있는데, 이 함수들은 JavaScript로 노출시키지 않아야 합니다. Rust로 생성한 WebAssembly 함수는 대여한 참조를 반환하지 못하는데, 이 함수들 위에 <code>#[wasm_bindgen]</code> 속성을 추가해보고 어떤 에러를 확인할 수 있는지 살펴봅시다.</p>
 <p>We are going to write the implementation of <code>get_cells</code> to get the contents of
 the <code>cells</code> of a <code>Universe</code>. We'll also write a <code>set_cells</code> function so we can
 set <code>cells</code> in a specific row and column of a <code>Universe</code> to be <code>Alive.</code></p>
