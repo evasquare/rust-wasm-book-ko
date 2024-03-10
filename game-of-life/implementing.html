@@ -550,23 +550,20 @@ requestAnimationFrame(renderLoop);
 <h2 id="연습해보기"><a class="header" href="#연습해보기">연습해보기</a></h2>
 <ul>
 <li>
-<p>Initialize the universe with a single space ship.</p>
+<p>"space ship" 패턴 하나를 표시하는 세상을 만들어보세요.</p>
 </li>
 <li>
-<p>Instead of hard-coding the initial universe, generate a random one, where each
-cell has a fifty-fifty chance of being alive or dead.</p>
-<p><em>Hint: use <a href="https://crates.io/crates/js-sys">the <code>js-sys</code> crate</a> to import
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random">the <code>Math.random</code> JavaScript
-function</a>.</em></p>
+<p>초기 세상을 하드코딩 하는 대신, 각 세포가 50% 확률로 살아있거나 죽어있는 상태로 랜덤하게 생성될수 있도록 해보세요.
+<em>힌트: <a href="https://crates.io/crates/js-sys">the <code>js-sys</code> crate</a> 크레이트를 사용하여 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random"><code>Math.random</code> JavaScript 함수</a>를 임포트해보세요.</em></p>
 <details>
-  <summary>Answer</summary>
-  *First, add `js-sys` as a dependency in `wasm-game-of-life/Cargo.toml`:*
+  <summary>정답</summary>
+  *먼저, `wasm-game-of-life/Cargo.toml` 파일을 열고 `js-sys`를 종속성으로 추가해주세요:*
 <pre><code class="language-toml"># ...
 [dependencies]
 js-sys = "0.3"
 # ...
 </code></pre>
-<p><em>Then, use the <code>js_sys::Math::random</code> function to flip a coin:</em></p>
+<p><em>그 다음 <code>js_sys::Math::random</code> 함수를 사용해서 50% 확률로 값을 결정해주세요:</em></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern crate js_sys;
@@ -574,20 +571,17 @@ js-sys = "0.3"
 // ...
 
 if js_sys::Math::random() &lt; 0.5 {
-    // Alive...
+    // 세포가 살아있게 함
 } else {
-    // Dead...
+    // 세포가 죽어있게 함
 }
 <span class="boring">}</span></code></pre></pre>
 </details>
 </li>
 <li>
-<p>Representing each cell with a byte makes iterating over cells easy, but it
-comes at the cost of wasting memory. Each byte is eight bits, but we only
-require a single bit to represent whether each cell is alive or dead. Refactor
-the data representation so that each cell uses only a single bit of space.</p>
+<p>각 세포를 byte 값으로 표현하면서 순회를 쉽게 할수 있지만, 메모리 자원을 낭비하는 단점이 있습니다. 1 byte는 8 bit인데, 실제로 세포 생존 여부를 표시할 때는 1 bit만 사용하고 있습니다. 이 데이터 표현을(data representation)을 리팩토링하여 각 세포가 1 bit의 사이즈만 사용할수 있도록 해보세요.</p>
 <details>
-  <summary>Answer</summary>
+  <summary>정답</summary>
 <p>In Rust, you can use <a href="https://crates.io/crates/fixedbitset">the <code>fixedbitset</code> crate and its <code>FixedBitSet</code>
 type</a> to represent cells instead of
 <code>Vec&lt;Cell&gt;</code>:</p>
