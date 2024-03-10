@@ -942,8 +942,8 @@ requestAnimationFrame(renderLoop);
 <p>"space ship" 패턴 하나를 표시하는 세상을 만들어보세요.</p>
 </li>
 <li>
-<p>초기 세상을 하드코딩 하는 대신, 각 세포가 50% 확률로 살아있거나 죽어있는 상태로 랜덤하게 생성될수 있도록 해보세요.
-<em>힌트: <a href="https://crates.io/crates/js-sys">the <code>js-sys</code> crate</a> 크레이트를 사용하여 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random"><code>Math.random</code> JavaScript 함수</a>를 임포트해보세요.</em></p>
+<p>초기 세상을 하드코딩 하는 대신, 각 세포가 50% 확률로 살아있거나 죽어있는 상태로 랜덤하게 생성될수 있도록 해보세요.</p>
+<p><em>힌트: <a href="https://crates.io/crates/js-sys">the <code>js-sys</code> crate</a> 크레이트를 사용하여 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random"><code>Math.random</code> JavaScript 함수</a>를 임포트해보세요.</em></p>
 <details>
   <summary>정답</summary>
   *먼저, `wasm-game-of-life/Cargo.toml` 파일을 열고 `js-sys`를 종속성으로 추가해주세요:*
