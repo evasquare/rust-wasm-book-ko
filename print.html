@@ -843,13 +843,12 @@ const DEAD_COLOR = "#FFFFFF";
 const ALIVE_COLOR = "#000000";
 </code></pre>
 <p>이제 <code>&lt;pre&gt;</code> 태그의 <code>textContent</code> 대신에 <code>&lt;canvas&gt;</code>를 업데이트 할수 있도록 JavaScript 나머지 코드를 다시 작성해봅시다:</p>
-<pre><code class="language-js">// Construct the universe, and get its width and height.
+<pre><code class="language-js">// Universe를 생성하고 너비와 높이를 반환받습니다.
 const universe = Universe.new();
 const width = universe.width();
 const height = universe.height();
 
-// Give the canvas room for all of our cells and a 1px border
-// around each of them.
+// 캔버스에 세포들을 표시할 공간을 만들어주고, 각 세포들이 1px 두께의 테두리를 가질수 있도록 해줍니다.
 const canvas = document.getElementById("game-of-life-canvas");
 canvas.height = (CELL_SIZE + 1) * height + 1;
 canvas.width = (CELL_SIZE + 1) * width + 1;
@@ -865,20 +864,18 @@ const renderLoop = () =&gt; {
   requestAnimationFrame(renderLoop);
 };
 </code></pre>
-<p>To draw the grid between cells, we draw a set of equally-spaced horizontal
-lines, and a set of equally-spaced vertical lines. These lines criss-cross to
-form the grid.</p>
+<p>세포들 사이에 격자를 그리려면 일정한 간격으로 나란히 놓인 수평선과 수직선을 그려줍니다. 이러한 선들은 교차하여 격자를 형성합니다.</p>
 <pre><code class="language-js">const drawGrid = () =&gt; {
   ctx.beginPath();
   ctx.strokeStyle = GRID_COLOR;
 
-  // Vertical lines.
+  // 수직줄
   for (let i = 0; i &lt;= width; i++) {
     ctx.moveTo(i * (CELL_SIZE + 1) + 1, 0);
     ctx.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * height + 1);
   }
 
-  // Horizontal lines.
+  // 수평줄
   for (let j = 0; j &lt;= height; j++) {
     ctx.moveTo(0,                           j * (CELL_SIZE + 1) + 1);
     ctx.lineTo((CELL_SIZE + 1) * width + 1, j * (CELL_SIZE + 1) + 1);
@@ -887,14 +884,8 @@ form the grid.</p>
   ctx.stroke();
 };
 </code></pre>
-<p>We can directly access WebAssembly's linear memory via <code>memory</code>, which is
-defined in the raw wasm module <code>wasm_game_of_life_bg</code>. To draw the cells, we
-get a pointer to the universe's cells, construct a <code>Uint8Array</code> overlaying the
-cells buffer, iterate over each cell, and draw a white or black rectangle
-depending on whether the cell is dead or alive, respectively. By working with
-pointers and overlays, we avoid copying the cells across the boundary on every
-tick.</p>
-<pre><code class="language-js">// Import the WebAssembly memory at the top of the file.
+<p>raw wasm 모듈인 <code>wasm_game_of_life_bg</code>에 정의된 <code>memory</code>를 임포트해서 WebAssembly의 선형 메모리에 직접 접근할수 있습니다. 세포를 그리려면 세상에 있는 세포들을 가리키는 포인터를 반환받고, 세포 버퍼(buffer)를 오버레이(overlay)하는 <code>Uint8Array</code> 객체를 생성한 다음 각 세포를 순회하여 생존 여부에 따라 흰색 또는 검은색 사각형을 그립니다. 포인터를 오버레이하게 되면서, 모든 틱마다 세포들을 복사하지 않도록 최적화 작업을 해줄수 있습니다.</p>
+<pre><code class="language-js">// WebAssembly 메모리를 파일 최상단에 임포트해줍니다.
 import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
 
 // ...
@@ -929,8 +920,7 @@ const drawCells = () =&gt; {
   ctx.stroke();
 };
 </code></pre>
-<p>To start the rendering process, we'll use the same code as above to start the
-first iteration of the rendering loop:</p>
+<p>렌더링 처리를 시작하기 위해 이전에 보여드린 코드를 사용해서 렌더링 루프를 시작해보겠습니다:</p>
 <pre><code class="language-js">drawGrid();
 drawCells();
 requestAnimationFrame(renderLoop);
