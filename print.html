@@ -496,7 +496,7 @@ wasm.greet();
 <code>wasm-pack build</code> 명령어로 <code>.wasm</code> 바이너리를 다시 빌드하고, <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침하면 브라우저에서 커스터마이징 된 인사하기 기능을 확인할수 있습니다.</p>
 <details>
   <summary>정답</summary>
-<p><code>wasm-game-of-life/src/lib.rs</code> 디렉토리의 수정된 새 <code>greet</code> 함수:</p>
+<p><code>wasm-game-of-life/src/lib.rs</code> 파일에서 새롭게 수정된 <code>greet</code> 함수:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
@@ -504,7 +504,7 @@ pub fn greet(name: &amp;str) {
     alert(&amp;format!("Hello, {}!", name));
 }
 <span class="boring">}</span></code></pre></pre>
-<p><code>wasm-game-of-life/www/index.js</code> 디렉토리에서 수정된 <code>greet</code> 부르기:</p>
+<p><code>wasm-game-of-life/www/index.js</code> 파일에서 수정된 <code>greet</code> 함수 호출:</p>
 <pre><code class="language-js">wasm.greet("Your Name");
 </code></pre>
 </details>
