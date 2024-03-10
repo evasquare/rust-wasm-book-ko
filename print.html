@@ -1074,12 +1074,9 @@ impl Universe {
 </details>
 </li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="testing-conways-game-of-life"><a class="header" href="#testing-conways-game-of-life">Testing Conway's Game of Life</a></h1>
-<p>Now that we have our Rust implementation of the Game of Life rendering in the
-browser with JavaScript, let's talk about testing our Rust-generated
-WebAssembly functions.</p>
-<p>We are going to test our <code>tick</code> function to make sure that it gives us the
-output that we expect.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="game-of-life-테스팅하기"><a class="header" href="#game-of-life-테스팅하기">Game of Life 테스팅하기</a></h1>
+<p>이제 브라우저 JavaScript 환경에서 실행할 수 있도록 Game of Life를 Rust로 구현했으니 Rust 코드에서 WebAssembly 함수를 테스팅하는 방법에 대해 알아봅시다.</p>
+<p><code>tick</code> 함수로 예상하는 올바른 값을 불러올수 있는지 테스팅 해보겠습니다.</p>
 <p>Next, we'll want to create some setter and getter
 functions inside our existing <code>impl Universe</code> block in the
 <code>wasm_game_of_life/src/lib.rs</code> file. We are going to create a <code>set_width</code>
