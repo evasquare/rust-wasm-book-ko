@@ -173,14 +173,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="debugging"><a class="header" href="#debugging">Debugging</a></h1>
-<p>Before we write much more code, we will want to have some debugging tools in our
-belt for when things go wrong. Take a moment to review the <a href="../reference/debugging.html">reference page
-listing tools and approaches available for debugging Rust-generated
-WebAssembly</a>.</p>
-<h2 id="enable-logging-for-panics"><a class="header" href="#enable-logging-for-panics">Enable Logging for Panics</a></h2>
-<p><a href="../reference/debugging.html#logging-panics">If our code panics, we want informative error messages to appear in the
-developer console.</a></p>
+                        <h1 id="디버깅"><a class="header" href="#디버깅">디버깅</a></h1>
+<p>코드를 더 작성하기 전에, 디버깅 툴들을 살펴보고 한번 장전해보도록 합시다. 관심이 있다면 <a href="../reference/debugging.html">Rust로 WebAssembly 바이너리를 생성하는 데에 사용해볼수 있는 접근방법과 툴에 대해 다루는 참조 페이지</a>도 확인해보세요!</p>
+<h2 id="패닉-로그-활성화하기"><a class="header" href="#패닉-로그-활성화하기">패닉 로그 활성화하기</a></h2>
+<p><a href="../reference/debugging.html#logging-panics">코드가 패닉할 때 개발자 콘솔에 도움이 되는 에러 메세지를 표시해보면 좋습니다.</a></p>
 <p>Our <code>wasm-pack-template</code> comes with an optional, enabled-by-default dependency
 on <a href="https://github.com/rustwasm/console_error_panic_hook">the <code>console_error_panic_hook</code> crate</a> that is configured in
 <code>wasm-game-of-life/src/utils.rs</code>. All we need to do is install the hook in an
