@@ -202,19 +202,16 @@ impl Universe {
 }
 <span class="boring">}</span></code></pre></pre>
 <p><code>wasm_game_of_life/src/lib.rs</code> 파일에 <code>#[wasm_bindgen]</code> 속성 없이 <code>impl Universe</code> 블럭을 하나 더 만들어봅시다. 테스팅에 사용하는데 필요한 함수가 몇개 있는데, 이 함수들은 JavaScript로 노출시키지 않아야 합니다. Rust로 생성한 WebAssembly 함수는 대여한 참조를 반환하지 못하는데, 이 함수들 위에 <code>#[wasm_bindgen]</code> 속성을 추가해보고 어떤 에러를 확인할 수 있는지 살펴봅시다.</p>
-<p>We are going to write the implementation of <code>get_cells</code> to get the contents of
-the <code>cells</code> of a <code>Universe</code>. We'll also write a <code>set_cells</code> function so we can
-set <code>cells</code> in a specific row and column of a <code>Universe</code> to be <code>Alive.</code></p>
+<p><code>get_cells</code> 함수를 구현해서 <code>Universe</code>의 <code>cells</code> 필드 값을 가져와보겠습니다. <code>set_cells</code>도 작성해서 주어진 행과 열에 위치한 <code>Universe</code>의 세포를 <code>Alive</code> 상태로 업데이트 할수 있도록 해봅시다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl Universe {
-    /// Get the dead and alive values of the entire universe.
+    /// 세상에 존재하는 모든 죽어있는 세포와 살아있는 세포를 반환합니다.
     pub fn get_cells(&amp;self) -&gt; &amp;[Cell] {
         &amp;self.cells
     }
 
-    /// Set cells to be alive in a universe by passing the row and column
-    /// of each cell as an array.
+    /// 배열로 주어진 행과 열들을 확인하고 세포들을 살아있는 상태로 업데이트합니다.
     pub fn set_cells(&amp;mut self, cells: &amp;[(u32, u32)]) {
         for (row, col) in cells.iter().cloned() {
             let idx = self.get_index(row, col);
@@ -224,28 +221,16 @@ set <code>cells</code> in a specific row and column of a <code>Universe</code> t
 
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Now we're going to create our test in the <code>wasm_game_of_life/tests/web.rs</code> file.</p>
-<p>Before we do that, there is already one working test in the file. You can
-confirm that the Rust-generated WebAssembly test is working by running
-<code>wasm-pack test --chrome --headless</code> in the <code>wasm-game-of-life</code> directory.
-You can also use the <code>--firefox</code>, <code>--safari</code>, and <code>--node</code> options to
-test your code in those browsers.</p>
-<p>In the <code>wasm_game_of_life/tests/web.rs</code> file, we need to export our
-<code>wasm_game_of_life</code> crate and the <code>Universe</code> type.</p>
+<p>이제 <code>wasm_game_of_life/tests/web.rs</code> 파일에 테스팅 코드를 작성해보도록 하겠습니다.</p>
+<p>진행하기 전에, 이미 완성된 테스팅 코드가 있으니 한번 살펴봅시다. <code>wasm-game-of-life</code> 디렉토리에서 <code>wasm-pack test --chrome --headless</code> 명령어를 실행하여 Rust로 작성된 WebAssembly 테스팅 코드가 잘 작동하는지 확인할수 있습니다. <code>--firefox</code>, <code>--safari</code>, <code>--node</code> 옵션을 사용하여 특정 브라우저 환경에서 코드를 테스트해볼수도 있습니다.</p>
+<p>우선 <code>wasm_game_of_life/tests/web.rs</code> 파일에서, <code>wasm_game_of_life</code> 크레이트와 <code>Universe</code>를 익스포트 해줍시다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern crate wasm_game_of_life;
 use wasm_game_of_life::Universe;
 <span class="boring">}</span></code></pre></pre>
-<p>In the <code>wasm_game_of_life/tests/web.rs</code> file we'll want to create some
-spaceship builder functions.</p>
-<p>We'll want one for our input spaceship that we'll call the <code>tick</code> function on
-and we'll want the expected spaceship we will get after one tick. We picked the
-cells that we want to initialize as <code>Alive</code> to create our spaceship in the
-<code>input_spaceship</code> function. The position of the spaceship in the
-<code>expected_spaceship</code> function after the tick of the <code>input_spaceship</code> was
-calculated manually. You can confirm for yourself that the cells of the input
-spaceship after one tick is the same as the expected spaceship.</p>
+<p><code>wasm_game_of_life/tests/web.rs</code> 파일에서 spaceship 예시 패턴을 만드는 함수들을 만들어봅시다.</p>
+<p><code>tick</code> 함수를 부를 때 사용할 패턴과 한 틱 이후에 결과값과 비교할 예상 값이 필요한데, 우선은 <code>input_spaceship</code> 함수에서 <code>Alive</code> 상태로 생성할 세포들을 정해줍시다. <code>expected_spaceship</code> 함수에서 spaceship 패턴을 만드는데 사용할 <code>input_spaceship</code> 함수 호출 이후 틱의 세포 위치들은 직접 계산해서 배열에 넣어주도록 하겠습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[cfg(test)]
