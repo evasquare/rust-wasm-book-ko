@@ -1152,32 +1152,23 @@ pub fn expected_spaceship() -&gt; Universe {
     universe
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Now we will write the implementation for our <code>test_tick</code> function. First, we
-create an instance of our <code>input_spaceship()</code> and our <code>expected_spaceship()</code>.
-Then, we call <code>tick</code> on the <code>input_universe</code>. Finally, we use the <code>assert_eq!</code>
-macro to call <code>get_cells()</code> to ensure that <code>input_universe</code> and
-<code>expected_universe</code> have the same <code>Cell</code> array values. We add the
-<code>#[wasm_bindgen_test]</code> attribute to our code block so we can test our
-Rust-generated WebAssembly code and use <code>wasm-pack test</code> to test the
-WebAssembly code.</p>
+<p>마지막으로 <code>test_tick</code> 함수를 구현해주도록 하겠습니다. 먼저 <code>input_spaceship()</code>와 <code>expected_spaceship()</code>를 호출해서 인스턴스들을 만들어줍시다. 그 다음에 <code>input_universe</code> 인스턴스의 <code>tick</code> 함수를 호출해주도록 합시다. 마지막으로, <code>assert_eq!</code> 매크로를 사용해서 <code>get_cells()</code>를 부른 다음에 <code>input_universe</code>와 <code>expected_universe</code> 가 동일한 <code>Cell</code> 타입 배열 값을 가지고 있는지 확인합니다. 이 코드 블럭 위에 <code>#[wasm_bindgen_test]</code> 속성을 추가해서 <code>wasm-pack test</code> 명령어로 Rust로 생성한 WebAssembly 코드를 테스트할수 있도록 해줍시다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen_test]
 pub fn test_tick() {
-    // Let's create a smaller Universe with a small spaceship to test!
+    // 작은 사이즈의 Universe과 spaceship 패턴을 생성해봅시다.
     let mut input_universe = input_spaceship();
 
-    // This is what our spaceship should look like
-    // after one tick in our universe.
+    // `input_universe` 인스턴스의 다음 틱 결과값과 비교하게 될 spaceship 패턴입니다.
     let expected_universe = expected_spaceship();
 
-    // Call `tick` and then see if the cells in the `Universe`s are the same.
+    // `tick` 함수를 실행하고 두 `Universe`의 세포들이 동일한지 확인합니다.
     input_universe.tick();
     assert_eq!(&amp;input_universe.get_cells(), &amp;expected_universe.get_cells());
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Run the tests within the <code>wasm-game-of-life</code> directory by running
-<code>wasm-pack test --firefox --headless</code>.</p>
+<p>이제 <code>wasm-game-of-life</code> 디렉토리에서 <code>wasm-pack test --firefox --headless</code> 명령어를 실행하여 테스팅 코드를 실행해주세요.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="debugging"><a class="header" href="#debugging">Debugging</a></h1>
 <p>Before we write much more code, we will want to have some debugging tools in our
 belt for when things go wrong. Take a moment to review the <a href="game-of-life/../reference/debugging.html">reference page
