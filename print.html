@@ -174,7 +174,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="rust--와-webassembly-"><a class="header" href="#rust--와-webassembly-">Rust 🦀 와 WebAssembly 🕸</a></h1>
+                        <h1 id="rust--and-webassembly-"><a class="header" href="#rust--and-webassembly-">Rust 🦀 and WebAssembly 🕸</a></h1>
 <p>이 간결한 책은 <a href="https://www.rust-lang.org">Rust</a>와 <a href="https://webassembly.org/">WebAssembly</a>를 어떻게 함께 사용할 수 있는지 설명해줍니다.</p>
 <blockquote>
 <p>번역된 버전에 이슈나 풀 리퀘스트를 생성하고자 하시나요? <a href="https://github.com/polyecho/rust-wasm-book-ko">번역 버전의 레포지토리</a>를 확인해주세요.</p>
@@ -536,7 +536,7 @@ pub fn greet(name: &amp;str) {
 <p>가운데에 있는 살아있는 세포는 위 아래로 두 개의 살아있는 이웃을 가지고 있습니다. 그러므로 규칙 (2)가 적용이 되어 다음 세대에서도 살아있게 됩니다.</p>
 <p>마지막으로 가운데에 살아있는 세포들의 왼쪽과 오른쪽 이웃들을 보면 정말 흥미로운 부분을 확인할 수 있는데, 이 3개의 살아있는 세포들은 양쪽 방향으로 두 세포들과 이웃해 있기 때문에 규칙 (4)가 적용이 됩니다. 그러므로 이 세포들은 다음 세대에서 살아있게 됩니다.</p>
 <p>위에서 다룬 내용을 토대로, 다음 틱의 세상은 이렇게 보이게 됩니다:</p>
-<img src='../images/game-of-life/next-universe.png' alt='Next Universe' width=80 />
+<img src='../images/game-of-life/next-universe.png' alt='다음 세상' width=80 />
 <p>이러한 간단하고 결정적인 규칙을 적용하는 것으로 다음과 같은 이상하지만 흥미로운 동작을 볼수 있습니다:</p>
 <div class="table-wrapper"><table><thead><tr><th>Gosper's glider gun</th><th>Pulsar</th><th>Space ship</th></tr></thead><tbody>
 <tr><td><img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Gospers_glider_gun.gif" alt="Gosper&#39;s glider gun" /></td><td><img src="https://upload.wikimedia.org/wikipedia/commons/0/07/Game_of_life_pulsar.gif" alt="Pulsar" /></td><td><img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Game_of_life_animated_LWSS.gif" alt="Lighweight space ship" /></td></tr>
@@ -551,7 +551,7 @@ pub fn greet(name: &amp;str) {
 <details>
   <summary>정답</summary>
 <p>초기 상태의 우주로 다시 돌아가게 됩니다.</p>
-  <img src='../images/game-of-life/initial-universe.png' alt='Initial Universe' width=80 />
+  <img src='../images/game-of-life/initial-universe.png' alt='초기 상태의 우주' width=80 />
 <p>이 패턴은 주기적입니다. 그러므로 두 틱마다 처음 상태로 돌아가게 됩니다.</p>
 </details>
 </li>
@@ -601,7 +601,7 @@ pub fn greet(name: &amp;str) {
 <p>위험한 사례를 살펴보는 것으로 시작해봅시다. 매 틱마다 세상을 WebAssembly에서 불러오거나 가져오기 위해 복사하지 않아야 하고, 세포 하나씩 객체를 모두 할당하거나 경계를 오가면서 읽고 쓰는 것도 좋지 않습니다.</p>
 <p>그러면 어떻게 구현하는 게 좋을까요? 죽은 세포를 <code>0</code>로 나타내고 살아있는 세포를 <code>1</code>로 나타내는 식으로 세포들을 각각 1 byte 값으로 나타낼수 있는데, WebAssembly 선형 메모리에 1차원 배열로 나타내봅시다.</p>
 <p>4 x 4 사이즈의 우주를 메모리 이미지로 표현해보겠습니다:</p>
-<p><img src="game-of-life/../images/game-of-life/universe.png" alt="Screenshot of a 4 by 4 universe" /></p>
+<p><img src="game-of-life/../images/game-of-life/universe.png" alt="4 x 4 사이즈 세상의 스크린샷" /></p>
 <p>주어진 열과 행에 해당하는 배열 인덱스를 찾을 때는 이 공식을 사용할 수 있습니다:</p>
 <pre><code class="language-text">index(row, column, universe) = row * width(universe) + column
 </code></pre>
@@ -802,7 +802,7 @@ const universe = Universe.new();
 <pre><code class="language-js">requestAnimationFrame(renderLoop);
 </code></pre>
 <p>다시 한번 (<code>npm run</code>을 <code>wasm-game-of-life/www</code> 디렉토리에서 실행한) 개발 서버가 아직 구동중인지 확인해주세요. <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 열면 다음 내용을 확인할 수 있습니다:</p>
-<p><a href="game-of-life/../images/game-of-life/initial-game-of-life-pre.png"><img src="game-of-life/../images/game-of-life/initial-game-of-life-pre.png" alt="Screenshot of the Game of Life implementation with text rendering" /></a></p>
+<p><a href="game-of-life/../images/game-of-life/initial-game-of-life-pre.png"><img src="game-of-life/../images/game-of-life/initial-game-of-life-pre.png" alt="텍스트를 렌더하는 Game of Life 구현 스크린샷" /></a></p>
 <h2 id="메모리에서-바로-캔버스로-렌더링하기"><a class="header" href="#메모리에서-바로-캔버스로-렌더링하기">메모리에서 바로 캔버스로 렌더링하기</a></h2>
 <p>Rust 코드에서 <code>String</code>을 생성 (및 할당)하고 <code>wasm-bindgen</code>로 이 생성한 값을 유효한 JavaScript 문자열로 변환하게 되면 세포들을 불필요하게 복사하게 됩니다. JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, <code>render</code> 메서드를 수정하여 <code>cells</code> 배열의 시작을 가리키는 포인터를 반환하도록 합시다.</p>
 <p>그리고 유니코드 문자를 렌더링하지 않고 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas API</a> 를 대신 사용해봅시다. 이 API를 이 부분 이후부터 계속 사용하겠습니다.</p>
@@ -933,7 +933,7 @@ requestAnimationFrame(renderLoop);
 <pre><code>npm run start
 </code></pre>
 <p><a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 웹 브라우저에서 새로고침하면 구현된 흥미진진한 Game of Life가 시작되게 됩니다.</p>
-<p><a href="game-of-life/../images/game-of-life/initial-game-of-life.png"><img src="game-of-life/../images/game-of-life/initial-game-of-life.png" alt="Screenshot of the Game of Life implementation" /></a></p>
+<p><a href="game-of-life/../images/game-of-life/initial-game-of-life.png"><img src="game-of-life/../images/game-of-life/initial-game-of-life.png" alt="Game of Life 구현 스크린샷" /></a></p>
 <p>추가로 관심이 있다면, <a href="https://en.wikipedia.org/wiki/Hashlife">hashlife</a> 라는 엄청 멋진 Game of Life 알고리즘 구현도 있으니 한번 확인해보세요. 이 알고리즘은 공격적인 메모이제이션(aggressive memoizing)을 사용하여 코드가 더 오래 구동될수록 미래 세대들을 <em>기하급수적으로 더 빠르게</em> 계산할수 있게 해줍니다. hashlife를 이 튜토리얼에서 구현해보면 정말 재밌겠지만, 이 책은 Rust와 WebAssembly 사용에 중점을 두고 있으므로 다루지 않도록 하겠습니다. 하지만 hashlife에 대해 배워보길 적극적으로 권장합니다.</p>
 <h2 id="연습해보기-2"><a class="header" href="#연습해보기-2">연습해보기</a></h2>
 <ul>
@@ -1206,9 +1206,7 @@ macro_rules! log {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Now, we can start logging messages to the console by inserting calls to <code>log</code> in
-Rust code. For example, to log each cell's state, live neighbors count, and next
-state, we could modify <code>wasm-game-of-life/src/lib.rs</code> like this:</p>
+<p>이제 Rust 코드에 <code>log</code> 매크로 호출을 추가해서 콘솔에 메세지를 로그해봅시다. 예를 들어서, 세포의 상태, 이웃 수, 다음 상태를 로그할수 있도록 <code>wasm-game-of-life/src/lib.rs</code> 수정해주세요:</p>
 <pre><code class="language-diff">diff --git a/src/lib.rs b/src/lib.rs
 index f757641..a30e107 100755
 --- a/src/lib.rs
@@ -1226,8 +1224,7 @@ index f757641..a30e107 100755
 +                );
 +
                  let next_cell = match (cell, live_neighbors) {
-                     // Rule 1: Any live cell with fewer than two live neighbours
-                     // dies, as if caused by underpopulation.
+                     // 규칙 1: 인구 부족으로 2개 미만의 이웃을 가진 세포는 죽게 됩니다. 
 @@ -140,6 +147,8 @@ impl Universe {
                      (otherwise, _) =&gt; otherwise,
                  };
@@ -1238,13 +1235,9 @@ index f757641..a30e107 100755
              }
          }
 </code></pre>
-<h2 id="using-a-debugger-to-pause-between-each-tick"><a class="header" href="#using-a-debugger-to-pause-between-each-tick">Using a Debugger to Pause Between Each Tick</a></h2>
-<p><a href="game-of-life/../reference/debugging.html#using-a-debugger">Browser's stepping debuggers are useful for inspecting the JavaScript that our
-Rust-generated WebAssembly interacts
-with.</a></p>
-<p>For example, we can use the debugger to pause on each iteration of our
-<code>renderLoop</code> function by placing <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger">a JavaScript <code>debugger;</code> statement</a>
-above our call to <code>universe.tick()</code>.</p>
+<h2 id="디버깅-툴debugger-를-사용하여-매-틱마다-일시정지-시키기"><a class="header" href="#디버깅-툴debugger-를-사용하여-매-틱마다-일시정지-시키기">디버깅 툴(debugger) 를 사용하여 매 틱마다 일시정지 시키기</a></h2>
+<p><a href="game-of-life/../reference/debugging.html#using-a-debugger">브라우저 디버깅 툴은 Rust로 작성한 WebAssembly와 상호작용하는 JavaScript 코드를 살펴볼 때 유용합니다.</a></p>
+<p>예를 들어서, <code>universe.tick()</code> 호출 이전에 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger">JavaScript 코드의 <code>debugger;</code> 줄</a>을 추가하면 디버깅 툴을 사용하여 <code>renderLoop</code>의 매 순회마다 코드 실행을 일시정지 시킬 수 있게 됩니다.</p>
 <pre><code class="language-js">const renderLoop = () =&gt; {
   debugger;
   universe.tick();
@@ -1255,20 +1248,15 @@ above our call to <code>universe.tick()</code>.</p>
   requestAnimationFrame(renderLoop);
 };
 </code></pre>
-<p>This provides us with a convenient checkpoint for inspecting logged messages,
-and comparing the currently rendered frame to the previous one.</p>
-<p><a href="game-of-life/../images/game-of-life/debugging.png"><img src="game-of-life/../images/game-of-life/debugging.png" alt="Screenshot of debugging the Game of Life" /></a></p>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<p>이제 로그 메세지를 쉽게 살펴볼수 있도록 간편한 체크포인트(checkpoint) 기능을 사용할수 있게 되고 현재 렌더된 프레임과 이전 프레임을 비교할수 있게 됐습니다.</p>
+<p><a href="game-of-life/../images/game-of-life/debugging.png"><img src="game-of-life/../images/game-of-life/debugging.png" alt="Game of Life 디버깅 화면 스크린샷" /></a></p>
+<h2 id="연습해보기-3"><a class="header" href="#연습해보기-3">연습해보기</a></h2>
 <ul>
 <li>
-<p>Add logging to the <code>tick</code> function that records the row and column of each
-cell that transitioned states from live to dead or vice versa.</p>
+<p>죽게 되거나 살아나게 되는 식으로 상태가 바뀌는 매 세포의 행과 열을 기록하는 <code>tick</code> 함수를 로그할수 있도록 코드를 추가해보세요.</p>
 </li>
 <li>
-<p>Introduce a <code>panic!()</code> in the <code>Universe::new</code> method. Inspect the panic's
-backtrace in your Web browser's JavaScript debugger. Disable debug symbols,
-rebuild without the <code>console_error_panic_hook</code> optional dependency, and
-inspect the stack trace again. Not as useful is it?</p>
+<p><code>Universe::new</code> 메서드에 <code>panic!()</code> 매크로를 추가해서 웹 브라우저의 JavaScript 디버깅 툴에서 패닉의 백트레이스(backtrace) 확인할 수 있게 해보세요. debug 심볼을 비활성화하고 <code>console_error_panic_hook</code> 선택적 종속성을 다시 빌드한 다음 스택 트레이스(stack trace)를 다시 확인해보세요. 그렇게 유용하진 않은것 같은데, 안그런가요?</p>
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="adding-interactivity"><a class="header" href="#adding-interactivity">Adding Interactivity</a></h1>
@@ -1415,7 +1403,7 @@ canvas-relative coordinates, and then into a row and column, invoke the
 <p>Rebuild with <code>wasm-pack build</code> in <code>wasm-game-of-life</code>, then refresh
 <a href="http://localhost:8080/">http://localhost:8080/</a> again and we can now draw our
 own patterns by clicking on the cells and toggling their state.</p>
-<h2 id="exercises-1"><a class="header" href="#exercises-1">Exercises</a></h2>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ul>
 <li>
 <p>Introduce an <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range"><code>&lt;input type="range"&gt;</code></a> widget to control how many
@@ -1909,7 +1897,7 @@ browser's profiler reveals that each animation frame is taking about ten
 milliseconds.</p>
 <p>Success!</p>
 <p><a href="game-of-life/../images/game-of-life/waterfall-after-branches-and-unrolling.png"><img src="game-of-life/../images/game-of-life/waterfall-after-branches-and-unrolling.png" alt="Screenshot of a waterfall view of rendering a frame after replacing modulos with branches" /></a></p>
-<h2 id="exercises-2"><a class="header" href="#exercises-2">Exercises</a></h2>
+<h2 id="exercises-1"><a class="header" href="#exercises-1">Exercises</a></h2>
 <ul>
 <li>
 <p>At this point, the next lowest hanging fruit for speeding up <code>Universe::tick</code>
@@ -1953,7 +1941,7 @@ down to a measly 9,045 bytes!</p>
 <pre><code>$ gzip -9 &lt; pkg/wasm_game_of_life_bg.wasm | wc -c
 9045
 </code></pre>
-<h2 id="exercises-3"><a class="header" href="#exercises-3">Exercises</a></h2>
+<h2 id="exercises-2"><a class="header" href="#exercises-2">Exercises</a></h2>
 <ul>
 <li>
 <p>Use <a href="game-of-life/../reference/code-size.html#use-the-wasm-snip-tool">the <code>wasm-snip</code> tool</a>
