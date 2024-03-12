@@ -1259,14 +1259,10 @@ index f757641..a30e107 100755
 <p><code>Universe::new</code> 메서드에 <code>panic!()</code> 매크로를 추가해서 웹 브라우저의 JavaScript 디버깅 툴에서 패닉의 백트레이스(backtrace) 확인할 수 있게 해보세요. debug 심볼을 비활성화하고 <code>console_error_panic_hook</code> 선택적 종속성을 다시 빌드한 다음 스택 트레이스(stack trace)를 다시 확인해보세요. 그렇게 유용하진 않은것 같은데, 안그런가요?</p>
 </li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="adding-interactivity"><a class="header" href="#adding-interactivity">Adding Interactivity</a></h1>
-<p>We will continue to explore the JavaScript and WebAssembly interface by adding
-some interactive features to our Game of Life implementation. We will enable
-users to toggle whether a cell is alive or dead by clicking on it, and
-allow pausing the game, which makes drawing cell patterns a lot easier.</p>
-<h2 id="pausing-and-resuming-the-game"><a class="header" href="#pausing-and-resuming-the-game">Pausing and Resuming the Game</a></h2>
-<p>Let's add a button to toggle whether the game is playing or paused. To
-<code>wasm-game-of-life/www/index.html</code>, add the button right above the <code>&lt;canvas&gt;</code>:</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="상호작용-추가하기"><a class="header" href="#상호작용-추가하기">상호작용 추가하기</a></h1>
+<p>만들었던 Game of Life에 상호작용을 더 추가해보면서 JavaScript와 WebAssembly 인터페이스를 조금 더 살펴보도록 합시다. 유저들이 세포를 클릭해서 살아나게 하거나 죽게 상태를 전환시킬수 있도록 해보고, 코드를 일시정지 시킬수도 있도록 기능을 더 추가해서 패턴을 더 쉽게 그릴수 있도록 해보겠습니다.</p>
+<h2 id="일시정지-기능"><a class="header" href="#일시정지-기능">일시정지 기능</a></h2>
+<p>게임을 일시정지 시킬수 있도록 버튼을 하나 만들어 봅시다. <code>wasm-game-of-life/www/index.html</code> 파일 내의 <code>&lt;canvas&gt;</code> 바로 위에 버튼을 추가해주세요:</p>
 <pre><code class="language-html">&lt;button id="play-pause"&gt;&lt;/button&gt;
 </code></pre>
 <p>In the <code>wasm-game-of-life/www/index.js</code> JavaScript, we will make the following
