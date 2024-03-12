@@ -177,11 +177,7 @@
 <p>코드를 더 작성하기 전에, 디버깅 툴들을 살펴보고 한번 장전해보도록 합시다. 관심이 있다면 <a href="../reference/debugging.html">Rust로 WebAssembly 바이너리를 생성하는 데에 사용해볼수 있는 접근방법과 툴에 대해 다루는 참조 페이지</a>도 확인해보세요!</p>
 <h2 id="패닉-로그-활성화하기"><a class="header" href="#패닉-로그-활성화하기">패닉 로그 활성화하기</a></h2>
 <p><a href="../reference/debugging.html#logging-panics">코드가 패닉할 때 개발자 콘솔에 도움이 되는 에러 메세지를 표시해보면 좋습니다.</a></p>
-<p>Our <code>wasm-pack-template</code> comes with an optional, enabled-by-default dependency
-on <a href="https://github.com/rustwasm/console_error_panic_hook">the <code>console_error_panic_hook</code> crate</a> that is configured in
-<code>wasm-game-of-life/src/utils.rs</code>. All we need to do is install the hook in an
-initialization function or common code path. We can call it inside the
-<code>Universe::new</code> constructor in <code>wasm-game-of-life/src/lib.rs</code>:</p>
+<p>필수로 사용해야 하진 않지만 <code>wasm-pack-template</code>은 <code>wasm-game-of-life/src/utils.rs</code> 파일에 기본으로 활성화 돼 있는 종속성인 <a href="https://github.com/rustwasm/console_error_panic_hook">the <code>console_error_panic_hook</code> 크레이트</a>를 포함합니다. 이 훅(hook)을 생성자에 포함시켜주면 이 기능을 사용할 수 있습니다. <code>wasm-game-of-life/src/lib.rs</code> 파일 내의 <code>Universe::new</code> 생성자에서 불러보도록 하겠습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn new() -&gt; Universe {
@@ -190,11 +186,9 @@ initialization function or common code path. We can call it inside the
     // ...
 }
 <span class="boring">}</span></code></pre></pre>
-<h2 id="add-logging-to-our-game-of-life"><a class="header" href="#add-logging-to-our-game-of-life">Add Logging to our Game of Life</a></h2>
-<p>Let's <a href="../reference/debugging.html#logging-with-the-console-apis">use the <code>console.log</code> function via the <code>web-sys</code> crate to add some
-logging</a> about each cell in our <code>Universe::tick</code> function.</p>
-<p>First, add <code>web-sys</code> as a dependency and enable its <code>"console"</code> feature in
-<code>wasm-game-of-life/Cargo.toml</code>:</p>
+<h2 id="game-of-life-구현에-로그-기능-추가하기"><a class="header" href="#game-of-life-구현에-로그-기능-추가하기">Game of Life 구현에 로그 기능 추가하기</a></h2>
+<p><a href="../reference/debugging.html#logging-with-the-console-apis"><code>web-sys</code> 크레이트를 사용하여 <code>console.log</code> 함수를 사용하고, 매 세포들의 정보를 로그</a>할수 있도록 기능을 추가해봅시다.</p>
+<p>우선, <code>wasm-game-of-life/Cargo.toml</code>파일을 열고 <code>web-sys</code>를 종속성으로 추가한 다음 <code>"console"</code> 기능을 활성해주세요:</p>
 <pre><code class="language-toml">[dependencies]
 
 # ...
@@ -205,13 +199,12 @@ features = [
   "console",
 ]
 </code></pre>
-<p>For ergonomics, we'll wrap the <code>console.log</code> function up in a <code>println!</code>-style
-macro:</p>
+<p>개발자 경험을 위해 <code>console.log</code> 함수를 <code>println!</code> 스타일의 매크로로 만들어(wrap)보겠습니다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern crate web_sys;
 
-// A macro to provide `println!(..)`-style syntax for `console.log` logging.
+// `println!(...)` 스타일의 문법을 `console.log`에 사용할수 있게 해주는 매크로.
 macro_rules! log {
     ( $( $t:tt )* ) =&gt; {
         web_sys::console::log_1(&amp;format!( $( $t )* ).into());
