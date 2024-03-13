@@ -1536,9 +1536,7 @@ impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
 </blockquote>
 <p><a href="game-of-life/../images/game-of-life/drawCells-before-flamegraph.png"><img src="game-of-life/../images/game-of-life/drawCells-before-flamegraph.png" alt="페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
 <p><a href="game-of-life/../images/game-of-life/drawCells-before-flamegraph.png"><img src="game-of-life/../images/game-of-life/drawCells-before-flamegraph.png" alt="페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
-<p>And we can confirm that this isn't an abnormality by looking at the call tree's
-aggregation of many frames:</p>
-<p>많이 표시되는 호출 트리의 집계(call tree's aggregation)를 살펴보면 이게 전혀 이상한 동작이 아님을 확인할 수 있습니다.</p>
+<p>많이 표시되는 호출 트리의 집계(call tree's aggregation)를 살펴보면 이게 전혀 이상한 동작이 아님을 확인할 수 있습니다:</p>
 <p><a href="game-of-life/../images/game-of-life/drawCells-before-calltree.png"><img src="game-of-life/../images/game-of-life/drawCells-before-calltree.png" alt="페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
 <p>거의 40% 분량을 이 setter에 사용해버렸네요!</p>
 <blockquote>
