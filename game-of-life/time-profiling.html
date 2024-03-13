@@ -221,7 +221,7 @@ max of last 100 = ${Math.round(max)}
   }
 };
 </code></pre>
-<p><code>fps</code> 객체의 <code>render</code> 함수를 매 <code>renderLoop</code> 순회마다 불러보겠습니다:</p>
+<p><code>fps</code> 객체의 <code>render</code> 함수를 매 <code>renderLoop</code> 반복마다 불러보겠습니다:</p>
 <pre><code class="language-js">const renderLoop = () =&gt; {
     fps.render(); //new
 
@@ -279,20 +279,16 @@ impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
 </span><span class="boring">fn main() {
 </span>let _timer = Timer::new("Universe::tick");
 <span class="boring">}</span></code></pre></pre>
-<p>이제 콘솔에 <code>Universe::tick</code>를 호출하는데 얼마나 오래 걸렸는지 로그가 되는 것을 확인할수 있습니다:</p>
+<p>콘솔에 <code>Universe::tick</code>를 호출하는데 얼마나 오래 걸렸는지 로그를 표시합니다:</p>
 <p><a href="../images/game-of-life/console-time.png"><img src="../images/game-of-life/console-time.png" alt="console.time 로그 스크린샷" /></a></p>
-<p>추가로, 브라우저 프로파일러(profiler)의 timeline 혹은 waterfall 뷰에서 <code>console.time</code>과 <code>console.timeEnd</code>가 같이 실행되는 것을 확인할수 있습니다:</p>
+<p>추가로, 브라우저 프로파일러(profiler)의 timeline 혹은 waterfall 뷰에서 <code>console.time</code>과 <code>console.timeEnd</code>가 같이 실행된 부분을 확인할 수 있습니다:</p>
 <p><a href="../images/game-of-life/console-time-in-profiler.png"><img src="../images/game-of-life/console-time-in-profiler.png" alt="console.time 로그 스크린샷" /></a></p>
 <h2 id="game-of-life-세상의-사이즈-키워보기"><a class="header" href="#game-of-life-세상의-사이즈-키워보기">Game of Life 세상의 사이즈 키워보기</a></h2>
 <blockquote>
-<p>⚠️ 이 섹션은 FireFox의 스크린샷을 예시로 보여줍니다. 거의 모든 모던 브라우저가 비슷한 기능들을 가지고 있지만, 개발자 도구에 약간의 차이가 있을 수 있습니다. 추출하게 될 프로파일 정보는 기본적으로 같지만, 보게 될 뷰나 도구 이름 등이 다를수 있는 점을 확인해주세요.</p>
+<p>⚠️ 이 섹션은 FireFox의 스크린샷을 예시로 보여줍니다. 거의 모든 모던 브라우저가 비슷한 기능들을 가지고 있지만, 개발자 도구에 브라우저마다 약간의 차이가 있을 수 있습니다. 추출하게 될 프로파일 정보는 기본적으로 같지만, 보게 될 뷰나 도구 이름 등이 다를수 있는 점을 확인해주세요.</p>
 </blockquote>
 <p>구현한 Game of Life 세상을 더 크게 만들어보면 어떨까요? 64 x 64 사이즈의 세상을 128 x 128 사이즈로 늘려봅시다. (<code>wasm-game-of-life/src/lib.rs</code> 파일에서 <code>Universe::new</code>를 수정해주세요.) 사이즈를 늘리게 되면 부드럽게 작동하던 60fps 화면이 버벅이면서 40fps 처럼 보이는 것을 확인할수 있게 됩니다.</p>
-<p>If we record a profile and look at the waterfall view, we see that each
-animation frame is taking over 20 milliseconds. Recall that 60 frames per second
-leaves sixteen milliseconds for the whole process of rendering a frame. That's
-not just our JavaScript and WebAssembly, but also everything else the browser is
-doing, such as painting.</p>
+<p>프로파일을 기록하고 waterfall 뷰를 확인하면, 각 애니메이션이 20 밀리초 이상 걸리는 것을 확인할 수 있습니다. 60fps로 작동했을 때 프레임 전체를 렌더하는데 16 밀리초가 걸린 것을 떠올려보면 확실히 차이가 있습니다. 참고로, JavaScript와 WebAssembly외에도 페이지를 그리는 등 브라우저가 수행하는 작업의 영향도 있습니다.</p>
 <p><a href="../images/game-of-life/drawCells-before-waterfall.png"><img src="../images/game-of-life/drawCells-before-waterfall.png" alt="Screenshot of a waterfall view of rendering a frame" /></a></p>
 <p>If we look at what happens within a single animation frame, we see that the
 <code>CanvasRenderingContext2D.fillStyle</code> setter is very expensive!</p>
