@@ -281,21 +281,13 @@ impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
 <span class="boring">}</span></code></pre></pre>
 <p>이제 콘솔에 <code>Universe::tick</code>를 호출하는데 얼마나 오래 걸렸는지 로그가 되는 것을 확인할수 있습니다:</p>
 <p><a href="../images/game-of-life/console-time.png"><img src="../images/game-of-life/console-time.png" alt="console.time 로그 스크린샷" /></a></p>
-<p>Additionally, <code>console.time</code> and <code>console.timeEnd</code> pairs will show up in your
-browser's profiler's "timeline" or "waterfall" view:</p>
-<p><a href="../images/game-of-life/console-time-in-profiler.png"><img src="../images/game-of-life/console-time-in-profiler.png" alt="Screenshot of console.time logs" /></a></p>
-<h2 id="growing-our-game-of-life-universe"><a class="header" href="#growing-our-game-of-life-universe">Growing our Game of Life Universe</a></h2>
+<p>추가로, 브라우저 프로파일러(profiler)의 timeline 혹은 waterfall 뷰에서 <code>console.time</code>과 <code>console.timeEnd</code>가 같이 실행되는 것을 확인할수 있습니다:</p>
+<p><a href="../images/game-of-life/console-time-in-profiler.png"><img src="../images/game-of-life/console-time-in-profiler.png" alt="console.time 로그 스크린샷" /></a></p>
+<h2 id="game-of-life-세상의-사이즈-키워보기"><a class="header" href="#game-of-life-세상의-사이즈-키워보기">Game of Life 세상의 사이즈 키워보기</a></h2>
 <blockquote>
-<p>⚠️ This section utilizes example screenshots from Firefox. While all modern
-browsers have similar tools, there might be slight nuances to working with
-different developer tools. The profile information you extract will be
-essentially the same, but your mileage might vary in terms of the views you
-see and the naming of different tools.</p>
+<p>⚠️ 이 섹션은 FireFox의 스크린샷을 예시로 보여줍니다. 거의 모든 모던 브라우저가 비슷한 기능들을 가지고 있지만, 개발자 도구에 약간의 차이가 있을 수 있습니다. 추출하게 될 프로파일 정보는 기본적으로 같지만, 보게 될 뷰나 도구 이름 등이 다를수 있는 점을 확인해주세요.</p>
 </blockquote>
-<p>What happens if we make our Game of Life universe larger? Replacing the 64 by 64
-universe with a 128 by 128 universe (by modifying <code>Universe::new</code> in
-<code>wasm-game-of-life/src/lib.rs</code>) results in FPS dropping from a smooth 60 to a
-choppy 40-ish on my machine.</p>
+<p>구현한 Game of Life 세상을 더 크게 만들어보면 어떨까요? 64 x 64 사이즈의 세상을 128 x 128 사이즈로 늘려봅시다. (<code>wasm-game-of-life/src/lib.rs</code> 파일에서 <code>Universe::new</code>를 수정해주세요.) 사이즈를 늘리게 되면 부드럽게 작동하던 60fps 화면이 버벅이면서 40fps 처럼 보이는 것을 확인할수 있게 됩니다.</p>
 <p>If we record a profile and look at the waterfall view, we see that each
 animation frame is taking over 20 milliseconds. Recall that 60 frames per second
 leaves sixteen milliseconds for the whole process of rendering a frame. That's
