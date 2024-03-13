@@ -1526,7 +1526,7 @@ impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
 <blockquote>
 <p>⚠️ 이 섹션은 FireFox의 스크린샷을 예시로 보여줍니다. 거의 모든 모던 브라우저가 비슷한 기능들을 가지고 있지만, 개발자 도구에 브라우저마다 약간의 차이가 있을 수 있습니다. 추출하게 될 프로파일 정보는 기본적으로 같지만, 보게 될 뷰나 도구 이름 등이 다를수 있는 점을 확인해주세요.</p>
 </blockquote>
-<p>구현한 Game of Life 세상을 더 크게 만들어보면 어떨까요? 64 x 64 사이즈의 세상을 128 x 128 사이즈로 늘려봅시다. (<code>wasm-game-of-life/src/lib.rs</code> 파일에서 <code>Universe::new</code>를 수정해주세요.) 사이즈를 늘리게 되면 부드럽게 작동하던 60fps 화면이 버벅이면서 40fps 처럼 보이는 것을 확인할수 있게 됩니다.</p>
+<p>구현한 Game of Life 세상을 더 크게 만들어보면 어떨까요? 64 x 64 사이즈의 세상을 128 x 128 사이즈로 늘려봅시다. (<code>wasm-game-of-life/src/lib.rs</code> 파일에서 <code>Universe::new</code>를 수정해주세요.) 제 컴퓨터에서는 사이즈를 이렇게 늘리게 되면 부드럽게 작동하던 60fps 화면이 버벅이면서 40fps 처럼 보이는 것 같습니다.</p>
 <p>프로파일을 기록하고 waterfall 뷰를 확인하면, 각 애니메이션이 20 밀리초 이상 걸리는 것을 확인할 수 있습니다. 60fps로 작동했을 때 프레임 전체를 렌더하는데 16 밀리초가 걸린 것을 떠올려보면 확실히 차이가 있습니다. 참고로, JavaScript와 WebAssembly외에도 페이지를 그리는 등 브라우저가 수행하는 작업의 영향도 있습니다.</p>
 <p><a href="game-of-life/../images/game-of-life/drawCells-before-waterfall.png"><img src="game-of-life/../images/game-of-life/drawCells-before-waterfall.png" alt="페이지 렌더링 처리의 waterfall 뷰 스크린샷" /></a></p>
 <p>한 애니메이션 프레임동안 어떤 일이 일어나는지 확인해보면, <code>CanvasRenderingContext2D.fillStyle</code> setter가 성능 차원에서 많은 비용을 요구하는 것을 확인할 수 있습니다.</p>
@@ -1539,7 +1539,7 @@ impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
 <p><a href="game-of-life/../images/game-of-life/drawCells-before-calltree.png"><img src="game-of-life/../images/game-of-life/drawCells-before-calltree.png" alt="페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
 <p>거의 40% 분량을 이 setter에 사용해버렸네요!</p>
 <blockquote>
-<p>⚡ <code>tick</code> 메소드가 성능 병목을 일으키는데 특별한 이유가 있을 것 같았지만, 사실 그렇지 않은 부분을 확인했습니다. 작업을 하다 보면 예상치 못한 부분에서 시간을 많이 쓰게 될수도 있으니, 항상 프로파일링 도구를 먼저 살펴보도록 합시다.</p>
+<p>⚡ <code>tick</code> 메소드가 성능 병목을 일으키는데 특별한 이유가 있을 것 같았지만, 사실 그렇지 않은 부분을 확인했습니다. 작업을 하다 보면 예상치 못한 부분에서 시간을 많이 쓰게 될수도 있으니, 항상 <strong>정말 중요한</strong> 프로파일링 도구를 먼저 살펴보도록 합시다.</p>
 </blockquote>
 <p><code>wasm-game-of-life/www/index.js</code> 파일 내의 <code>drawCells</code> 함수에서 <code>fillStyle</code> 프로퍼티가 한번 정해지고 세상 내의 모든 세포와 모든 애니메이션에 이 프로퍼티가 사용되게 됩니다.</p>
 <pre><code class="language-js">for (let row = 0; row &lt; height; row++) {
@@ -1559,13 +1559,8 @@ impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
   }
 }
 </code></pre>
-<p>Now that we have discovered that setting <code>fillStyle</code> is so expensive, what can
-we do to avoid setting it so often? We need to change <code>fillStyle</code> depending on
-whether a cell is alive or dead. If we set <code>fillStyle = ALIVE_COLOR</code> and then
-draw every alive cell in one pass, and then set <code>fillStyle = DEAD_COLOR</code> and
-draw every dead cell in another pass, then we only end setting <code>fillStyle</code>
-twice, rather than once for every cell.</p>
-<pre><code class="language-js">// Alive cells.
+<p><code>fillStyle</code>가 많은 성능을 요구하는 부분을 확인했는데, 대신에 어떤 식으로 코드를 작성해야 할까요? 세포의 생존 여부에 따라 <code>fillStyle</code>를 사용하도록 바꿔봅시다. <code>fillStyle = ALIVE_COLOR</code>를 적어줘서 살아있는 세포만 그리게 하고 <code>fillStyle = DEAD_COLOR</code>를 적어줘서 죽은 세포도 동일한 방식으로 처리를 해준다면, 세포들을 모두 한번에 그리지 않고 <code>fillStyle</code>을 두번만 설정할수 있게 됩니다.</p>
+<pre><code class="language-js">// 살아있는 세포 처리.
 ctx.fillStyle = ALIVE_COLOR;
 for (let row = 0; row &lt; height; row++) {
   for (let col = 0; col &lt; width; col++) {
@@ -1583,7 +1578,7 @@ for (let row = 0; row &lt; height; row++) {
   }
 }
 
-// Dead cells.
+// 죽어있는 세포 처리.
 ctx.fillStyle = DEAD_COLOR;
 for (let row = 0; row &lt; height; row++) {
   for (let col = 0; col &lt; width; col++) {
@@ -1601,31 +1596,19 @@ for (let row = 0; row &lt; height; row++) {
   }
 }
 </code></pre>
-<p>After saving these changes and refreshing
-<a href="http://localhost:8080/">http://localhost:8080/</a>, rendering is back to a smooth
-60 frames per second.</p>
-<p>If we take another profile, we can see that only about ten milliseconds are
-spent in each animation frame now.</p>
-<p><a href="game-of-life/../images/game-of-life/drawCells-after-waterfall.png"><img src="game-of-life/../images/game-of-life/drawCells-after-waterfall.png" alt="Screenshot of a waterfall view of rendering a frame after the drawCells changes" /></a></p>
-<p>Breaking down a single frame, we see that the <code>fillStyle</code> cost is gone, and most
-of our frame's time is spent within <code>fillRect</code>, drawing each cell's rectangle.</p>
-<p><a href="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png"><img src="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png" alt="Screenshot of a flamegraph view of rendering a frame after the drawCells changes" /></a></p>
-<h2 id="making-time-run-faster"><a class="header" href="#making-time-run-faster">Making Time Run Faster</a></h2>
-<p>Some folks don't like waiting around, and would prefer if instead of one tick of
-the universe occurred per animation frame, nine ticks did. We can modify the
-<code>renderLoop</code> function in <code>wasm-game-of-life/www/index.js</code> to do this quite
-easily:</p>
+<p>코드 파일을 저장하고 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침 해주면, 웹사이트가 60fps로 다시 부드럽게 렌더링을 하는 것을 볼수 있습니다.</p>
+<p>프로파일을 다시 확인해보면, 각 애니메이션 프레임마다 오직 10 밀리초만 걸리는 부분을 확인할 수 있습니다.</p>
+<p><a href="game-of-life/../images/game-of-life/drawCells-after-waterfall.png"><img src="game-of-life/../images/game-of-life/drawCells-after-waterfall.png" alt="drawCells 함수를 업데이트 한 이후 페이지 렌더링 처리의 waterfall 뷰 스크린샷" /></a></p>
+<p>한 프레임을 다시 분석해보면, <code>fillStyle</code> 이 더이상 성능을 많이 사용하지 않고, <code>fillRect</code>가 각 세포 사각형을 그리는데 대부분의 시간을 사용하는 것을 확인할 수 있습니다.</p>
+<p><a href="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png"><img src="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png" alt="drawCells 함수를 업데이트 한 이후 페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
+<h2 id="game-of-life가-더-빠르게-흘러가도록-만들어보기"><a class="header" href="#game-of-life가-더-빠르게-흘러가도록-만들어보기">Game of Life가 더 빠르게 흘러가도록 만들어보기</a></h2>
+<p>어떤 사람들은 빨리 빨리 하는걸 더 좋아해서, 매 프레임마다 1틱이 아니라 9틱씩 넘어가는걸 선호하기도 합니다. <code>wasm-game-of-life/www/index.js</code> 파일의 <code>renderLoop</code> 함수를 수정해서 생각외로 쉽게 할수 있긴 합니다:</p>
 <pre><code class="language-js">for (let i = 0; i &lt; 9; i++) {
   universe.tick();
 }
 </code></pre>
-<p>On my machine, this brings us back down to only 35 frames per second. No
-good. We want that buttery 60!</p>
-<p>Now we know that time is being spent in <code>Universe::tick</code>, so let's add some
-<code>Timer</code>s to wrap various bits of it in <code>console.time</code> and <code>console.timeEnd</code>
-calls, and see where that leads us. My hypothesis is that allocating a new
-vector of cells and freeing the old vector on every tick is costly, and taking
-up a significant portion of our time budget.</p>
+<p>제 컴퓨터에서는 이 코드가 35fps 속도로 다시 느려지는것 같습니다. 좋지 않은 현상이니 다시 60fps 로 만들어보겠습니다!</p>
+<p><code>Universe::tick</code> 에서 시간이 많이 소요되는 것으로 보이므로, <code>console.time</code>과 <code>console.timeEnd</code>를 호출해서 래핑(wrapping)할수 있도록 <code>Timer</code>를 추가해보고 어떻게 되는지 살펴보겠습니다. 제 가설대로라면 매 틱마다 세포의 새 벡터를 할당하고 기존 벡터를 해제(freeing)하는 작업은 성능을 많이 사용하고 시간도 많이 소비하게 됩니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn tick(&amp;mut self) {
@@ -1645,19 +1628,15 @@ up a significant portion of our time budget.</p>
                 let live_neighbors = self.live_neighbor_count(row, col);
 
                 let next_cell = match (cell, live_neighbors) {
-                    // Rule 1: Any live cell with fewer than two live neighbours
-                    // dies, as if caused by underpopulation.
+                    // 규칙 1: 인구 부족으로 2개 미만의 이웃을 가진 세포는 죽게 됩니다.
                     (Cell::Alive, x) if x &lt; 2 =&gt; Cell::Dead,
-                    // Rule 2: Any live cell with two or three live neighbours
-                    // lives on to the next generation.
+                    // 규칙 2: 2개 혹은 3개의 이웃을 가진 세포는 다음 세대에서 계속 살아있습니다.
                     (Cell::Alive, 2) | (Cell::Alive, 3) =&gt; Cell::Alive,
-                    // Rule 3: Any live cell with more than three live
-                    // neighbours dies, as if by overpopulation.
+                    // 규칙 3: 과잉 인구로 3개 초과의 이웃을 가진 모든 세포는 죽게 됩니다.
                     (Cell::Alive, x) if x &gt; 3 =&gt; Cell::Dead,
-                    // Rule 4: Any dead cell with exactly three live neighbours
-                    // becomes a live cell, as if by reproduction.
+                    // 규칙 4: 세포 증식으로 정확히 3개의 이웃을 가진 세포는 살아나게 됩니다.
                     (Cell::Dead, 3) =&gt; Cell::Alive,
-                    // All other cells remain in the same state.
+                    // 규칙이 적용되지 않는 세포들의 상태는 그대로 유지되게 됩니다.
                     (otherwise, _) =&gt; otherwise,
                 };
 
@@ -1670,6 +1649,7 @@ up a significant portion of our time budget.</p>
     self.cells = next;
 }
 <span class="boring">}</span></code></pre></pre>
+<p>브라우저 개발자 도구에서 타이밍(timing)을 확인해보면 이 가설이 사실은 명백하게 틀린 것을 알수 있습니다. 실제로는, 대부분의 시간이 다음 세대 세포들을 계산하는데 사용되게 됩니다. 그리고 매 틱마다 벡터 값을 할당하고 해제하는 작업이 놀랍게도 그렇게 성능이 많이 들지 않습니다. 다시 한번 <strong>정말 중요한</strong> 프로파일링을 해보겠습니다!</p>
 <p>Looking at the timings, it is clear that my hypothesis is incorrect: the vast
 majority of time is spent actually calculating the next generation of
 cells. Allocating and freeing a vector on every tick appears to have negligible
