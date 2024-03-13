@@ -289,9 +289,8 @@ impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
 </blockquote>
 <p>구현한 Game of Life 세상을 더 크게 만들어보면 어떨까요? 64 x 64 사이즈의 세상을 128 x 128 사이즈로 늘려봅시다. (<code>wasm-game-of-life/src/lib.rs</code> 파일에서 <code>Universe::new</code>를 수정해주세요.) 사이즈를 늘리게 되면 부드럽게 작동하던 60fps 화면이 버벅이면서 40fps 처럼 보이는 것을 확인할수 있게 됩니다.</p>
 <p>프로파일을 기록하고 waterfall 뷰를 확인하면, 각 애니메이션이 20 밀리초 이상 걸리는 것을 확인할 수 있습니다. 60fps로 작동했을 때 프레임 전체를 렌더하는데 16 밀리초가 걸린 것을 떠올려보면 확실히 차이가 있습니다. 참고로, JavaScript와 WebAssembly외에도 페이지를 그리는 등 브라우저가 수행하는 작업의 영향도 있습니다.</p>
-<p><a href="../images/game-of-life/drawCells-before-waterfall.png"><img src="../images/game-of-life/drawCells-before-waterfall.png" alt="Screenshot of a waterfall view of rendering a frame" /></a></p>
-<p>If we look at what happens within a single animation frame, we see that the
-<code>CanvasRenderingContext2D.fillStyle</code> setter is very expensive!</p>
+<p><a href="../images/game-of-life/drawCells-before-waterfall.png"><img src="../images/game-of-life/drawCells-before-waterfall.png" alt="페이지 렌더링 처리의 waterfall 뷰 스크린샷" /></a></p>
+<p>한 애니메이션 프레임동안 어떤 일이 일어나는지 확인해보면, <code>CanvasRenderingContext2D.fillStyle</code> setter가 성능 차원에서 많은 비용을 요구하는 것을 확인할 수 있습니다.</p>
 <blockquote>
 <p>⚠️ In Firefox, if you see a line that simply says "DOM" instead of the
 <code>CanvasRenderingContext2D.fillStyle</code> mentioned above, you may need to turn on
