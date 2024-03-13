@@ -292,24 +292,20 @@ impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
 <p><a href="../images/game-of-life/drawCells-before-waterfall.png"><img src="../images/game-of-life/drawCells-before-waterfall.png" alt="페이지 렌더링 처리의 waterfall 뷰 스크린샷" /></a></p>
 <p>한 애니메이션 프레임동안 어떤 일이 일어나는지 확인해보면, <code>CanvasRenderingContext2D.fillStyle</code> setter가 성능 차원에서 많은 비용을 요구하는 것을 확인할 수 있습니다.</p>
 <blockquote>
-<p>⚠️ In Firefox, if you see a line that simply says "DOM" instead of the
-<code>CanvasRenderingContext2D.fillStyle</code> mentioned above, you may need to turn on
-the option for "Show Gecko Platform Data" in your performance developer tools
-options:</p>
-<p><a href="../images/game-of-life/profiler-firefox-show-gecko-platform.png"><img src="../images/game-of-life/profiler-firefox-show-gecko-platform.png" alt="Turning on Show Gecko Platform Data" /></a></p>
+<p>⚠️ FireFox 브라우저에서 위에서 언급된 <code>CanvasRenderingContext2D.fillStyle</code> 대신에 "DOM"이 표시된다면, 성능 개발자 도구(performance developer tools)에서 "Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)" 옵션을 활성화해줘야 합니다:</p>
+<p><a href="../images/game-of-life/profiler-firefox-show-gecko-platform.png"><img src="../images/game-of-life/profiler-firefox-show-gecko-platform.png" alt="&quot;Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)&quot; 옵션 활성화하기" /></a></p>
 </blockquote>
-<p><a href="../images/game-of-life/drawCells-before-flamegraph.png"><img src="../images/game-of-life/drawCells-before-flamegraph.png" alt="Screenshot of a flamegraph view of rendering a frame" /></a></p>
+<p><a href="../images/game-of-life/drawCells-before-flamegraph.png"><img src="../images/game-of-life/drawCells-before-flamegraph.png" alt="페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
+<p><a href="../images/game-of-life/drawCells-before-flamegraph.png"><img src="../images/game-of-life/drawCells-before-flamegraph.png" alt="페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
 <p>And we can confirm that this isn't an abnormality by looking at the call tree's
 aggregation of many frames:</p>
-<p><a href="../images/game-of-life/drawCells-before-calltree.png"><img src="../images/game-of-life/drawCells-before-calltree.png" alt="Screenshot of a flamegraph view of rendering a frame" /></a></p>
-<p>Nearly 40% of our time is spent in this setter!</p>
+<p>많이 표시되는 호출 트리의 집계(call tree's aggregation)를 살펴보면 이게 전혀 이상한 동작이 아님을 확인할 수 있습니다.</p>
+<p><a href="../images/game-of-life/drawCells-before-calltree.png"><img src="../images/game-of-life/drawCells-before-calltree.png" alt="페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
+<p>거의 40% 분량을 이 setter에 사용해버렸네요!</p>
 <blockquote>
-<p>⚡ We might have expected something in the <code>tick</code> method to be the performance
-bottleneck, but it wasn't. Always let profiling guide your focus, since time
-may be spent in places you don't expect it to be.</p>
+<p>⚡ <code>tick</code> 메소드가 성능 병목을 일으키는데 특별한 이유가 있을 것 같았지만, 사실 그렇지 않은 부분을 확인했습니다. 작업을 하다 보면 예상치 못한 부분에서 시간을 많이 쓰게 될수도 있으니, 항상 프로파일링 도구를 먼저 살펴보도록 합시다.</p>
 </blockquote>
-<p>In the <code>drawCells</code> function in <code>wasm-game-of-life/www/index.js</code>, the <code>fillStyle</code>
-property is set once for every cell in the universe, on every animation frame:</p>
+<p><code>wasm-game-of-life/www/index.js</code> 파일 내의 <code>drawCells</code> 함수에서 <code>fillStyle</code> 프로퍼티가 한번 정해지고 세상 내의 모든 세포와 모든 애니메이션에 이 프로퍼티가 사용되게 됩니다.</p>
 <pre><code class="language-js">for (let row = 0; row &lt; height; row++) {
   for (let col = 0; col &lt; width; col++) {
     const idx = getIndex(row, col);
