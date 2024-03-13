@@ -1650,18 +1650,9 @@ for (let row = 0; row &lt; height; row++) {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>브라우저 개발자 도구에서 타이밍(timing)을 확인해보면 이 가설이 사실은 명백하게 틀린 것을 알수 있습니다. 실제로는, 대부분의 시간이 다음 세대 세포들을 계산하는데 사용되게 됩니다. 그리고 매 틱마다 벡터 값을 할당하고 해제하는 작업이 놀랍게도 그렇게 성능이 많이 들지 않습니다. 다시 한번 <strong>정말 중요한</strong> 프로파일링을 해보겠습니다!</p>
-<p>Looking at the timings, it is clear that my hypothesis is incorrect: the vast
-majority of time is spent actually calculating the next generation of
-cells. Allocating and freeing a vector on every tick appears to have negligible
-cost, surprisingly. Another reminder to always guide our efforts with profiling!</p>
-<p><a href="game-of-life/../images/game-of-life/console-time-in-universe-tick.png"><img src="game-of-life/../images/game-of-life/console-time-in-universe-tick.png" alt="Screenshot of a Universe::tick timer results" /></a></p>
-<p>The next section requires the <code>nightly</code> compiler. It's required because of
-the <a href="https://doc.rust-lang.org/unstable-book/library-features/test.html">test feature gate</a>
-we're going to use for the benchmarks. Another tool we will install is <a href="https://github.com/BurntSushi/cargo-benchcmp">cargo benchcmp</a>.
-It's a small utility for comparing micro-benchmarks produced by <code>cargo bench</code>.</p>
-<p>Let's write a native code <code>#[bench]</code> doing the same thing that our WebAssembly
-is doing, but where we can use more mature profiling tools. Here is the new
-<code>wasm-game-of-life/benches/bench.rs</code>:</p>
+<p><a href="game-of-life/../images/game-of-life/console-time-in-universe-tick.png"><img src="game-of-life/../images/game-of-life/console-time-in-universe-tick.png" alt="Universe::tick 타이머 결과 값의 스크린샷" /></a></p>
+<p>다음 섹션에서는 <code>nightly</code> 컴파일러가 필요합니다. 필요한 <a href="https://doc.rust-lang.org/unstable-book/library-features/test.html">테스트 기능 게이트(test feature gate)</a>가 <code>nightly</code> 버전에 포함돼 있어서 그런데, 벤치마킹에 이 기능을 사용해보겠습니다. <a href="https://github.com/BurntSushi/cargo-benchcmp">cargo benchcmp</a>이라는 툴도 필요하니 설치해주도록 합시다. <code>cargo bench</code>로 생성한 마이크로 벤치마크들(micro-benchmarks)을 비교하는데 사용하는 작은 사이즈의 유틸리티입니다.</p>
+<p>WebAssembly랑 동일한 작업을 수행하는 네이티브 코드인 <code>#[bench]</code>를 작성해봅시다. 이렇게 작성하는 대신에 더 많은 기능을 사용할수 있게 됩니다. 이제 새롭게 작성된 <code>wasm-game-of-life/benches/bench.rs</code>을 확인해주세요:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>#![feature(test)]
 
@@ -1678,12 +1669,8 @@ fn universe_ticks(b: &amp;mut test::Bencher) {
     });
 }
 <span class="boring">}</span></code></pre></pre>
-<p>We also have to comment out all the <code>#[wasm_bindgen]</code> annotations, and the
-<code>"cdylib"</code> bits from <code>Cargo.toml</code> or else building native code will fail and
-have link errors.</p>
-<p>With all that in place, we can run <code>cargo bench | tee before.txt</code> to compile and run our
-benchmark! The <code>| tee before.txt</code> part will take the output from <code>cargo bench</code> and put in a file
-called <code>before.txt</code>.</p>
+<p>그리고 <code>#[wasm_bindgen]</code> 속성을 모두 주석처리 해주도록 하고, <code>Cargo.toml</code> 파일의 <code>"cdylib"</code>도 주석처리 해주겠습니다. 이렇게 하지 않으면 빌드가 실패하고 링크 오류(link errors)가 발생하게 됩니다.</p>
+<p>준비가 다 됐다면, <code>cargo bench | tee before.txt</code> 명령어를 실행해서 코드를 컴파일하고 벤치마크를 실행해봅시다. <code>| tee before.txt</code>를 포함하면서 <code>cargo bench</code> 명령어의 출력값을 가져와서 <code>before.txt</code> 파일에 저장하게 되니 이 부분도 확인해주세요.</p>
 <pre><code>$ cargo bench | tee before.txt
     Finished release [optimized + debuginfo] target(s) in 0.0 secs
      Running target/release/deps/wasm_game_of_life-91574dfbe2b5a124
