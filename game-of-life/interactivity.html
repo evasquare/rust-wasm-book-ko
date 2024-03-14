@@ -173,43 +173,27 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="adding-interactivity"><a class="header" href="#adding-interactivity">Adding Interactivity</a></h1>
-<p>We will continue to explore the JavaScript and WebAssembly interface by adding
-some interactive features to our Game of Life implementation. We will enable
-users to toggle whether a cell is alive or dead by clicking on it, and
-allow pausing the game, which makes drawing cell patterns a lot easier.</p>
-<h2 id="pausing-and-resuming-the-game"><a class="header" href="#pausing-and-resuming-the-game">Pausing and Resuming the Game</a></h2>
-<p>Let's add a button to toggle whether the game is playing or paused. To
-<code>wasm-game-of-life/www/index.html</code>, add the button right above the <code>&lt;canvas&gt;</code>:</p>
+                        <h1 id="상호작용-추가하기"><a class="header" href="#상호작용-추가하기">상호작용 추가하기</a></h1>
+<p>만들었던 Game of Life에 상호작용을 더 추가해보면서 JavaScript와 WebAssembly 인터페이스를 조금 더 살펴보도록 합시다. 유저들이 세포를 클릭해서 살아나게 하거나 죽게 상태를 전환시킬수 있도록 해보고, 코드를 일시정지 시킬수도 있도록 기능을 더 추가해서 패턴을 더 쉽게 그릴수 있도록 해보겠습니다.</p>
+<h2 id="일시정지-기능"><a class="header" href="#일시정지-기능">일시정지 기능</a></h2>
+<p>게임을 일시정지 시킬수 있도록 버튼을 하나 만들어 봅시다. <code>wasm-game-of-life/www/index.html</code> 파일 내의 <code>&lt;canvas&gt;</code> 바로 위에 버튼을 추가해주세요:</p>
 <pre><code class="language-html">&lt;button id="play-pause"&gt;&lt;/button&gt;
 </code></pre>
-<p>In the <code>wasm-game-of-life/www/index.js</code> JavaScript, we will make the following
-changes:</p>
+<p><code>wasm-game-of-life/www/index.js</code> JavaScript 파일에서 다음 변경사항들을 적용해보겠습니다:</p>
 <ul>
 <li>
-<p>Keep track of the identifier returned by the latest call to
-<code>requestAnimationFrame</code>, so that we can cancel the animation by calling
-<code>cancelAnimationFrame</code> with that identifier.</p>
+<p><code>cancelAnimationFrame</code> 인자로 보내는 식별자(identifier)에 해당하는 애니메이션을 취소시킬수 있도록 제일 최근에 호출한 <code>requestAnimationFrame</code> 함수가 반환하는 식별자를 추적합니다.</p>
 </li>
 <li>
-<p>When the play/pause button is clicked, check for whether we have the
-identifier for a queued animation frame. If we do, then the game is currently
-playing, and we want to cancel the animation frame so that <code>renderLoop</code> isn't
-called again, effectively pausing the game. If we do not have an identifier
-for a queued animation frame, then we are currently paused, and we would like
-to call <code>requestAnimationFrame</code> to resume the game.</p>
+<p>재생/일시정지 버튼을 눌렀을 때, 대기 중인 애니메이션 프레임의 식별자를 가지고 있는지 확인합니다. 가지고 있다면 게임이 실행되고 있는 것이니 <code>renderLoop</code>가 다시 호출되지 않도록 애니메이션을 일시정지 시킵니다. 식별자를 가지고 있지 않다면 게임이 멈춰있는 것이니 <code>requestAnimationFrame</code> 함수를 사용하여 게임을 다시 시작해주도록 합니다.</p>
 </li>
 </ul>
-<p>Because the JavaScript is driving the Rust and WebAssembly, this is all we need
-to do, and we don't need to change the Rust sources.</p>
-<p>We introduce the <code>animationId</code> variable to keep track of the identifier returned
-by <code>requestAnimationFrame</code>. When there is no queued animation frame, we set this
-variable to <code>null</code>.</p>
+<p>이 작업은 JavaScript로 해야 하기 때문에 따로 Rust 소스 코드를 수정하지 않아도 됩니다.</p>
+<p><code>animationId</code> 변수를 추가하여 <code>requestAnimationFrame</code> 함수가 반환하는 식별자를 추적해봅시다. 대기 중인 애니메이션이 없다면, 이 값을 <code>null</code>로 설정해주겠습니다.</p>
 <pre><code class="language-js">let animationId = null;
 
-// This function is the same as before, except the
-// result of `requestAnimationFrame` is assigned to
-// `animationId`.
+// 이 함수가 `requestAnimationFrame`의 반환값이 `animationId`에 할당되는
+// 부분 외에는 변경된 부분이 없습니다.
 const renderLoop = () =&gt; {
   drawGrid();
   drawCells();
@@ -219,16 +203,12 @@ const renderLoop = () =&gt; {
   animationId = requestAnimationFrame(renderLoop);
 };
 </code></pre>
-<p>At any instant in time, we can tell whether the game is paused or not by
-inspecting the value of <code>animationId</code>:</p>
+<p>언제든 <code>animationId</code>의 값을 확인해서 게임이 멈춰있는지 확인할 수 있습니다:</p>
 <pre><code class="language-js">const isPaused = () =&gt; {
   return animationId === null;
 };
 </code></pre>
-<p>Now, when the play/pause button is clicked, we check whether the game is
-currently paused or playing, and resume the <code>renderLoop</code> animation or cancel the
-next animation frame respectively. Additionally, we update the button's text
-icon to reflect the action that the button will take when clicked next.</p>
+<p>이제 재생/일시정지 버튼일 클릭 됐을 때 게임이 재생중인지 일시정지 돼 있는지 확인할 수 있고, 마찬가지로 <code>renderLoop</code> 애니메이션을 다시 시작하거나 일시정지 할수도 있습니다. 추가로, 버튼이 수행하는 동작을 반영하여 버튼의 텍스트 아이콘을 업데이트 해주도록 하겠습니다.</p>
 <pre><code class="language-js">const playPauseButton = document.getElementById("play-pause");
 
 const play = () =&gt; {
