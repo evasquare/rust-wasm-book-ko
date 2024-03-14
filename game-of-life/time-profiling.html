@@ -447,9 +447,7 @@ test universe_ticks ... bench:     664,421 ns/iter (+/- 51,926)
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 </code></pre>
-<p>This also tells us where the binary lives, and we can run the benchmarks again,
-but this time under our operating system's profiler. In my case, I'm running
-Linux, so <a href="https://perf.wiki.kernel.org/index.php/Main_Page"><code>perf</code></a> is the profiler I'll use:</p>
+<p>바이너리 파일의 위치도 같이 표시되는 부분을 확인할 수 있습니다. 이번에는 사용하는 운영체제(operating system)의 프로파일러를 사용하여 벤치마킹을 다시 해보겠습니다. 제 컴퓨터는 리눅스(Linux)를 사용하고 있으니 <a href="https://perf.wiki.kernel.org/index.php/Main_Page"><code>perf</code></a>를 예제로 사용해보겠습니다:</p>
 <pre><code>$ perf record -g target/release/deps/bench-8474091a05cfa2d9 --bench
 running 1 test
 test universe_ticks ... bench:     635,061 ns/iter (+/- 38,764)
@@ -459,18 +457,14 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 [ perf record: Woken up 1 times to write data ]
 [ perf record: Captured and wrote 0.178 MB perf.data (2349 samples) ]
 </code></pre>
-<p>Loading up the profile with <code>perf report</code> shows that all of our time is spent in
-<code>Universe::tick</code>, as expected:</p>
-<p><a href="../images/game-of-life/bench-perf-report.png"><img src="../images/game-of-life/bench-perf-report.png" alt="Screenshot of perf report" /></a></p>
+<p><code>perf report</code> 명령어로 프로파일을 로드하면, 예상한 대로 대부분의 시간이 <code>Universe::tick</code>를 실행하는데 소비되는 것을 볼수 있습니다:</p>
+<p><a href="../images/game-of-life/bench-perf-report.png"><img src="../images/game-of-life/bench-perf-report.png" alt="perf report 스크린샷" /></a></p>
 <p><code>perf</code> will annotate which instructions in a function time is being spent at if
-you press <code>a</code>:</p>
-<p><a href="../images/game-of-life/bench-perf-annotate.png"><img src="../images/game-of-life/bench-perf-annotate.png" alt="Screenshot of perf&#39;s instruction annotation" /></a></p>
-<p>This tells us that 26.67% of time is being spent summing neighboring cells'
-values, 23.41% of time is spent getting the neighbor's column index, and another
-15.42% of time is spent getting the neighbor's row index. Of these top three
-most expensive instructions, the second and third are both costly <code>div</code>
-instructions. These <code>div</code>s implement the modulo indexing logic in
-<code>Universe::live_neighbor_count</code>.</p>
+you press <code>a</code>:
+<code>a</code> 키를 누르면 함수를 실행하는데 어떤 어셈블리(Assembly) 명령어(instruction)를 실행하고 있는지 표시되는 것을 볼
+수 있습니다:</p>
+<p><a href="../images/game-of-life/bench-perf-annotate.png"><img src="../images/game-of-life/bench-perf-annotate.png" alt="perf 화면에서 어셈블리 명령어를 표시하는 화면의 스크린샷" /></a></p>
+<p>위 내용을 확인하면 26.67%의 시간이 이웃 세포들을 만들어내는 데 사용되고, 23.41%를 이웃들의 열 인덱스, 그리고 나머지 15.42%를 행 인덱스를 구하는데 사용되는 것을 알수 있습니다. 제일 많은 성능을 사용하는 세 명령어들 중, 두번째와 세번째가 비용이 많이 드는 <code>div</code> 명령어인 부분도 볼수 있습니다. 이 <code>div</code>들이 <code>Universe::live_neighbor_count</code> 함수에서 모듈로 인덱싱 로직(modulo indexing logic)을 구현했던 부분입니다.</p>
 <p>Recall the <code>live_neighbor_count</code> definition inside
 <code>wasm-game-of-life/src/lib.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
