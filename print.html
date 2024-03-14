@@ -1703,9 +1703,8 @@ you press <code>a</code>:
 <code>a</code> 키를 누르면 함수를 실행하는데 어떤 어셈블리(Assembly) 명령어(instruction)를 실행하고 있는지 표시되는 것을 볼
 수 있습니다:</p>
 <p><a href="game-of-life/../images/game-of-life/bench-perf-annotate.png"><img src="game-of-life/../images/game-of-life/bench-perf-annotate.png" alt="perf 화면에서 어셈블리 명령어를 표시하는 화면의 스크린샷" /></a></p>
-<p>위 내용을 확인하면 26.67%의 시간이 이웃 세포들을 만들어내는 데 사용되고, 23.41%를 이웃들의 열 인덱스, 그리고 나머지 15.42%를 행 인덱스를 구하는데 사용되는 것을 알수 있습니다. 제일 많은 성능을 사용하는 세 명령어들 중, 두번째와 세번째가 비용이 많이 드는 <code>div</code> 명령어인 부분도 볼수 있습니다. 이 <code>div</code>들이 <code>Universe::live_neighbor_count</code> 함수에서 모듈로 인덱싱 로직(modulo indexing logic)을 구현했던 부분입니다.</p>
-<p>Recall the <code>live_neighbor_count</code> definition inside
-<code>wasm-game-of-life/src/lib.rs</code>:</p>
+<p>위 내용을 확인하면 26.67%의 시간이 이웃 세포들을 만들어내는 데 사용되고, 23.41%를 이웃들의 열 인덱스, 그리고 나머지 15.42%를 행 인덱스를 구하는데 사용되는 것을 알수 있습니다. 제일 많은 성능을 사용하는 세 명령어들 중, 두번째와 세번째가 비용이 많이 드는 <code>div</code> 명령어인 부분도 볼수 있습니다. 이 <code>div</code>들이 <code>Universe::live_neighbor_count</code> 함수에서 나머지 연산자로 인덱싱 하도록 구현했던 부분입니다. (modulo indexing logic)</p>
+<p><code>wasm-game-of-life/src/lib.rs</code> 파일에서 <code>live_neighbor_count</code>를 정의했던 내용을 다시 떠올려봅시다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn live_neighbor_count(&amp;self, row: u32, column: u32) -&gt; u8 {
@@ -1725,13 +1724,8 @@ you press <code>a</code>:
     count
 }
 <span class="boring">}</span></code></pre></pre>
-<p>The reason we used modulo was to avoid cluttering up the code with <code>if</code> branches
-for the first or last row or column edge cases. But we are paying the cost of a
-<code>div</code> instruction even for the most common case, when neither <code>row</code> nor <code>column</code>
-is on the edge of the universe and they don't need the modulo wrapping
-treatment. Instead, if we use <code>if</code>s for the edge cases and unroll this loop, the
-branches <em>should</em> be very well-predicted by the CPU's branch predictor.</p>
-<p>Let's rewrite <code>live_neighbor_count</code> like this:</p>
+<p>코드를 확인해보면 <code>if</code> 블럭들로 첫째와 마지막 행과 열의 엣지 케이스(edge case)를 처리하는데 코드를 불필요하게 길게 쓰지 않도록 나머지 연산자 (modulo operator)를 사용하고 있는 부분을 확인할 수 있습니다. <code>row</code>과 <code>column</code> 둘 다 세상의 끝에 있지 않고 나머지 연산자를 쓸 필요가 없는 일반적인 케이스를 처리하는데도 <code>div</code> 명령어를 사용해서 많은 성능을 사용하고 있습니다. 반복문을 사용하는 대신에 <code>if</code> 문으로 이 엣지 케이스들을 처리해서 여러 분기들을 CPU의 분기 예측기(branch predictor)가 예측하기 쉽도록 만들어보겠습니다.</p>
+<p><code>live_neighbor_count</code>를 다음과 같이 다시 작성해봅시다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn live_neighbor_count(&amp;self, row: u32, column: u32) -&gt; u8 {
@@ -1788,7 +1782,7 @@ branches <em>should</em> be very well-predicted by the CPU's branch predictor.</
     count
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Now let's run the benchmarks again! This time output it to <code>after.txt</code>.</p>
+<p>벤치마킹을 다시 실행해봅시다! 이번에는 출력되는 메세지들을 <code>after.txt</code>로 출력해보겠습니다.</p>
 <pre><code>$ cargo bench | tee after.txt
    Compiling wasm_game_of_life v0.1.0 (file:///home/fitzgen/wasm_game_of_life)
     Finished release [optimized + debuginfo] target(s) in 0.82 secs
@@ -1805,22 +1799,16 @@ test universe_ticks ... bench:      87,258 ns/iter (+/- 14,632)
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 </code></pre>
-<p>That looks a whole lot better! We can see just how much better it is with the <code>benchcmp</code> tool and the two text files we created before:</p>
+<p>훨씬 나은것 같습니다! <code>benchcmp</code> 툴과 방금 생성한 두 텍스트 파일을 확인해보면 얼마나 나이졌는지 볼수 있습니다:</p>
 <pre><code>$ cargo benchcmp before.txt after.txt
  name            before.txt ns/iter  after.txt ns/iter  diff ns/iter   diff %  speedup
  universe_ticks  664,421             87,258                 -577,163  -86.87%   x 7.61
 </code></pre>
-<p>Wow! 7.61x speed up!</p>
-<p>WebAssembly intentionally maps closely to common hardware architectures, but we
-do need to make sure that this native code speed up translates into a
-WebAssembly speed up as well.</p>
-<p>Let's rebuild the <code>.wasm</code> with <code>wasm-pack build</code> and refresh
-<a href="http://localhost:8080/">http://localhost:8080/</a>. On my machine, the page is
-running at 60 frames per second again, and recording another profile with the
-browser's profiler reveals that each animation frame is taking about ten
-milliseconds.</p>
-<p>Success!</p>
-<p><a href="game-of-life/../images/game-of-life/waterfall-after-branches-and-unrolling.png"><img src="game-of-life/../images/game-of-life/waterfall-after-branches-and-unrolling.png" alt="Screenshot of a waterfall view of rendering a frame after replacing modulos with branches" /></a></p>
+<p>우와! 7.61 배나 빨라졌네요!</p>
+<p>WebAssembly는 일반적인 하드웨어 아키텍쳐(architecture)와 밀접하게 매핑(mapping)돼 있지만, 이러한 네이티브 코드의 속도 향상이 WebAssembly 성능 향상으로도 전환될 수 있는지 확인해봐야 합니다.</p>
+<p><code>wasm-pack build</code> 명령어를 실행해서 <code>.wasm</code> 파일을 다시 빌드하고 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침 해주세요. 제 컴퓨터에서는 60 fps의 속도로 다시 작동하고 있는것 같습니다. 브라우저의 프로파일러를 다시 사용해보니 각 애니메이션 프레임이 10 밀리초씩 걸리는 것으로 보입니다.</p>
+<p>성공적으로 잘 마무리한것 같습니다!</p>
+<p><a href="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png"><img src="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png" alt="나머지 연산자를 if문 분기들로 바꾼 이후 페이지 렌더링 처리의 waterfall 뷰 스크린샷" /></a></p>
 <h2 id="exercises-1"><a class="header" href="#exercises-1">Exercises</a></h2>
 <ul>
 <li>
