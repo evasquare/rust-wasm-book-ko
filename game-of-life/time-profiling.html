@@ -570,25 +570,16 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 <p><code>wasm-pack build</code> 명령어를 실행해서 <code>.wasm</code> 파일을 다시 빌드하고 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침 해주세요. 제 컴퓨터에서는 60 fps의 속도로 다시 작동하고 있는것 같습니다. 브라우저의 프로파일러를 다시 사용해보니 각 애니메이션 프레임이 10 밀리초씩 걸리는 것으로 보입니다.</p>
 <p>성공적으로 잘 마무리한것 같습니다!</p>
 <p><a href="../images/game-of-life/drawCells-after-flamegraph.png"><img src="../images/game-of-life/drawCells-after-flamegraph.png" alt="나머지 연산자를 if문 분기들로 바꾼 이후 페이지 렌더링 처리의 waterfall 뷰 스크린샷" /></a></p>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<h2 id="연습해보기"><a class="header" href="#연습해보기">연습해보기</a></h2>
 <ul>
 <li>
-<p>At this point, the next lowest hanging fruit for speeding up <code>Universe::tick</code>
-is removing the allocation and free. Implement double buffering of cells,
-where the <code>Universe</code> maintains two vectors, never frees either of them, and
-never allocates new buffers in <code>tick</code>.</p>
+<p>현재로는 할당과 해제를 처리하는 코드를 지우는 게 <code>Universe::tick</code> 속도를 향상시키는 가장 쉬운 방법입니다. <code>Universe</code>가 두 벡터만 관리하도록 하고, 두 벡터를 코드가 실행되는 내내 해제하거나 <code>tick</code> 함수에서 새 버퍼를 할당하지 않도록 세포들을 이중 버퍼링(double buffering)으로 구현해보세요.</p>
 </li>
 <li>
-<p>Implement the alternative, delta-based design from the "Implementing Life"
-chapter, where the Rust code returns a list of cells that changed states to
-JavaScript. Does this make rendering to <code>&lt;canvas&gt;</code> faster? Can you implement
-this design without allocating a new list of deltas on every tick?</p>
+<p>"Game of Life 구현하기" 챕터에서 델타 기반으로 설계한 내용을 Rust 코드가 상태가 바뀐 세포들의 목록을 반환하도록 다시 설계해보세요. <code>&lt;canvas&gt;</code> 가 더 빨리 렌더되는 게 보이시나요? 매 틱마다 새 델타 목록을 할당하지 않으면서 구현하실수 있는 것 같으신가요?</p>
 </li>
 <li>
-<p>As our profiling has shown us, 2D <code>&lt;canvas&gt;</code> rendering is not particularly
-fast. Replace the 2D canvas renderer with a <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a> renderer. How much faster is
-the WebGL version? How large can you make the universe before WebGL rendering
-is a bottleneck?</p>
+<p>프로파일링 툴로 확인할 수 있듯, 2D <code>&lt;canvas&gt;</code> 렌더링이 특별히 빠르지는 않습니다. 2D 캔버스 렌더러 대신 <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a> 렌더러를 사용해서 구현해보세요. WebGL로 구현한 버전은 얼마나 더 빠른가요? 답답했던 WebGL가 비교하면 얼마나 세상을 더 크게 만들수 있게 됐나요?</p>
 </li>
 </ul>
 
