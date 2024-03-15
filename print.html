@@ -1823,40 +1823,35 @@ default = ["wee_alloc"]
 <p>튜토리얼을 진행하는 내내 한 <code>Universe</code>만 페이지에 포함시켰는데, 생성자를 제공하는 대신 단 한개의 <code>static mut</code> 전역 인스턴스 (global instance)만 수정하는 작업을 익스포트 해볼수도 있습니다. 이전 챕터에서 다룬 이중 버퍼링 기법 (double buffering technique)을 사용하고 싶다면, 이 버퍼도 <code>static mut</code> 키워드를 사용하여 전역적으로 만들수도 있습니다. 이런 식으로, 구현한 게임에서 모든 동적 할당 (dynamic allocation)을 없앨 수 있고, <code>#![no_std]</code> 속성을 추가하여 할당기(allocator)가 없는 크레이트를 만들어볼수도 있습니다. 동적 할당에 필요한 종속성을 다 없애면 <code>.wasm</code> 파일의 사이즈가 얼마나 줄어드나요?</p>
 </li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="publishing-to-npm"><a class="header" href="#publishing-to-npm">Publishing to npm</a></h1>
-<p>Now that we have a working, fast, <em>and</em> small <code>wasm-game-of-life</code> package, we
-can publish it to npm so other JavaScript developers can reuse it, if they ever
-need an off-the-shelf Game of Life implementation.</p>
-<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
-<p>First, <a href="https://www.npmjs.com/signup">make sure you have an npm account</a>.</p>
-<p>Second, make sure you are logged into your account locally, by running this
-command:</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="npm에-배포하기"><a class="header" href="#npm에-배포하기">npm에 배포하기</a></h1>
+<p>이제 잘 작동하는 빠르고 작은 <code>wasm-game-of-life</code> 패키지가 있으니, 다른 JavaScript 개발자들이 Game of Life 코드를 바로 받아 사용해야 할 때 종속성으로 사용할수 있도록 npm에 배포해보겠습니다.</p>
+<h2 id="준비-사항"><a class="header" href="#준비-사항">준비 사항</a></h2>
+<p>우선, <a href="https://www.npmjs.com/signup">npm 계정이 있는지 확인해주세요</a>.</p>
+<p>그 다음, 다음 명령어를 실행하여 로컬 머신에서 계정에 로그인돼 있는지 확인해주세요:</p>
 <pre><code>wasm-pack login
 </code></pre>
-<h2 id="publishing"><a class="header" href="#publishing">Publishing</a></h2>
-<p>Make sure that the <code>wasm-game-of-life/pkg</code> build is up to date by running
-<code>wasm-pack</code> inside the <code>wasm-game-of-life</code> directory:</p>
+<h2 id="배포하기"><a class="header" href="#배포하기">배포하기</a></h2>
+<p><code>wasm-game-of-life</code> 디렉토리에서 <code>wasm-pack</code> 명령어를 실행하여 <code>wasm-game-of-life/pkg</code> 작성한 코드가 잘 빌드돼 있는지 확인해주세요:</p>
 <pre><code>wasm-pack build
 </code></pre>
-<p>Take a moment to check out the contents of <code>wasm-game-of-life/pkg</code> now, this is
-what we are publishing to npm in the next step!</p>
-<p>When you're ready, run <code>wasm-pack publish</code> to upload the package to npm:</p>
+<p><code>wasm-game-of-life/pkg</code> 폴더 안의 내용물을 한변 살펴보겠습니다. 이 폴더에 있는 파일들을 바로 다음 단계에서 npm에 배포해볼 예정입니다!</p>
+<p>준비가 됐다면, <code>wasm-pack publish</code> 를 실행해서 패키지를 npm에 업로드 해보세요:</p>
 <pre><code>wasm-pack publish
 </code></pre>
-<p>That's all it takes to publish to npm!</p>
+<p>정말 놀랍게도 이게 답니다! 이렇게 npm에 패키지를 업로드할수 있는데...</p>
 <p>...except other folks have also done this tutorial, and therefore the
 <code>wasm-game-of-life</code> name is taken on npm, and that last command probably didn't
-work.</p>
-<p>Open up <code>wasm-game-of-life/Cargo.toml</code> and add your username to the end of the
-<code>name</code> to disambiguate the package in a unique way:</p>
+work.
+이 튜토리얼을 끝낸 다른 사람들도 npm에 배포를 할테니 <code>wasm-game-of-life</code> 라는 패키지 이름이 높은 확률로 이미 사용중일 것이기 때문에 마지막으로 실행한 명령어가 실패했을 확률이 높습니다.</p>
+<p><code>wasm-game-of-life/Cargo.toml</code> 파일을 열고 고유한 패키지 이름을 만들수 있도록 <code>name</code> 필드에 유저네임(username)을 추가해주세요.</p>
 <pre><code class="language-toml">[package]
 name = "wasm-game-of-life-my-username"
 </code></pre>
-<p>Then, rebuild and publish again:</p>
+<p>이제 다시 빌드하고 배포해보겠습니다:</p>
 <pre><code>wasm-pack build
 wasm-pack publish
 </code></pre>
-<p>This time it should work!</p>
+<p>이번에는 잘 작동될겁니다!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="reference"><a class="header" href="#reference">Reference</a></h1>
 <p>This section contains reference material for Rust and WebAssembly
 development. It is not intended to provide a narrative and be read start to
