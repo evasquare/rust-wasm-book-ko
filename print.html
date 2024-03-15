@@ -195,7 +195,7 @@
 <p>이 책은 오픈소스입니다! 오타를 찾으셨나요? 누락된 부분이 있나요? <a href="https://github.com/rustwasm/book"><strong>풀 리퀘스트를 생성해보세요!</strong></a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="왜-rust로-webassembly-개발을-해야-하나요"><a class="header" href="#왜-rust로-webassembly-개발을-해야-하나요">왜 Rust로 WebAssembly 개발을 해야 하나요?</a></h1>
 <h2 id="저레벨-컨트롤과-고레벨-개발자-경험"><a class="header" href="#저레벨-컨트롤과-고레벨-개발자-경험">저레벨 컨트롤과 고레벨 개발자 경험</a></h2>
-<p>JavaScript 웹 앱들은 안정된 성능을 확보하고 유지하는데 어려움을 겪습니다. JavaScript 동적 타입 시스템과 가비지 콜렉션 (Garbage Collection)을 잠시 중단하는 것만으로는 크게 도움이 되지 않습니다. 보기에는 작은 내용의 코드를 수정하더라도 JIT에 치명적인 코드를 작성한다면 드라마틱한 성능 저하를 일으킬수도 있습니다.</p>
+<p>JavaScript 웹 앱들은 안정된 성능을 확보하고 유지하는데 어려움을 겪습니다. JavaScript 동적 타입 시스템과 가비지 콜렉션 (Garbage Collection) 을 잠시 중단하는 것만으로는 크게 도움이 되지 않습니다. 보기에는 작은 내용의 코드를 수정하더라도 JIT에 치명적인 코드를 작성한다면 드라마틱한 성능 저하를 일으킬수도 있습니다.</p>
 <p>Rust는 JavaScript를 병들게 만든 비결정적인 가비지 콜렉션 중단으로부터 자유로울 뿐 아니라, 프로그래머들이 간접지정(indirection)과 단일화(monomorphization), 메모리 레이아웃을 컨트롤할수 있도록 함으로 저레벨 컨트롤과 안정된 성능을 제공합니다.</p>
 <h2 id="작은-wasm-사이즈"><a class="header" href="#작은-wasm-사이즈">작은 <code>.wasm</code> 사이즈</a></h2>
 <p><code>.wasm</code> 파일이 네트워크로 전송돼야 하는 점 때문에 코드의 파일 사이즈는 매우 중요합니다. Rust는 런타임이 작고 가비지 콜렉터와 같은 불필요한 요소가 없어 <code>.wasm</code> 사이즈를 효과적으로 줄일수 있도록 해주고, 실제로 사용하지 않는 함수들을 (빌드하는 코드 파일)에서 제외시켜줍니다.</p>
@@ -804,7 +804,7 @@ const universe = Universe.new();
 <p>다시 한번 (<code>npm run</code>을 <code>wasm-game-of-life/www</code> 디렉토리에서 실행한) 개발 서버가 아직 구동중인지 확인해주세요. <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 열면 다음 내용을 확인할 수 있습니다:</p>
 <p><a href="game-of-life/../images/game-of-life/initial-game-of-life-pre.png"><img src="game-of-life/../images/game-of-life/initial-game-of-life-pre.png" alt="텍스트를 렌더하는 Game of Life 구현 스크린샷" /></a></p>
 <h2 id="메모리에서-바로-캔버스로-렌더링하기"><a class="header" href="#메모리에서-바로-캔버스로-렌더링하기">메모리에서 바로 캔버스로 렌더링하기</a></h2>
-<p>Rust 코드에서 <code>String</code>을 생성 (및 할당)하고 <code>wasm-bindgen</code>로 이 생성한 값을 유효한 JavaScript 문자열로 변환하게 되면 세포들을 불필요하게 복사하게 됩니다. JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, <code>render</code> 메소드를 수정하여 <code>cells</code> 배열의 시작을 가리키는 포인터를 반환하도록 합시다.</p>
+<p>Rust 코드에서 <code>String</code>을 생성 (및 할당) 하고 <code>wasm-bindgen</code>로 이 생성한 값을 유효한 JavaScript 문자열로 변환하게 되면 세포들을 불필요하게 복사하게 됩니다. JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, <code>render</code> 메소드를 수정하여 <code>cells</code> 배열의 시작을 가리키는 포인터를 반환하도록 합시다.</p>
 <p>그리고 유니코드 문자를 렌더링하지 않고 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas API</a> 를 대신 사용해봅시다. 이 API를 이 부분 이후부터 계속 사용하겠습니다.</p>
 <p><code>wasm-game-of-life/www/index.html</code> 파일에서 전에 추가한 <code>&lt;pre&gt;</code>를 지우고 렌더링에 사용할 <code>&lt;canvas&gt;</code>를 추가해주세요. (<code>&lt;body&gt;</code> 태그 내에서 JavaScript 코드를 시작시키는 <code>&lt;script&gt;</code> 태그 위에 추가돼야 합니다.)</p>
 <pre><code class="language-html">&lt;body&gt;
@@ -934,7 +934,7 @@ requestAnimationFrame(renderLoop);
 </code></pre>
 <p><a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 웹 브라우저에서 새로고침하면 구현된 흥미진진한 Game of Life가 시작되게 됩니다.</p>
 <p><a href="game-of-life/../images/game-of-life/initial-game-of-life.png"><img src="game-of-life/../images/game-of-life/initial-game-of-life.png" alt="Game of Life 구현 스크린샷" /></a></p>
-<p>추가로 관심이 있다면, <a href="https://en.wikipedia.org/wiki/Hashlife">hashlife</a> 라는 엄청 멋진 Game of Life 알고리즘 구현도 있으니 한번 확인해보세요. 이 알고리즘은 공격적인 메모이제이션(aggressive memoizing)을 사용하여 코드가 더 오래 구동될수록 미래 세대들을 <em>기하급수적으로 더 빠르게</em> 계산할수 있게 해줍니다. hashlife를 이 튜토리얼에서 구현해보면 정말 재밌겠지만, 이 책은 Rust와 WebAssembly 사용에 중점을 두고 있으므로 다루지 않도록 하겠습니다. 하지만 hashlife에 대해 배워보길 적극적으로 권장합니다.</p>
+<p>추가로 관심이 있다면, <a href="https://en.wikipedia.org/wiki/Hashlife">hashlife</a> 라는 엄청 멋진 Game of Life 알고리즘 구현도 있으니 한번 확인해보세요. 이 알고리즘은 공격적인 메모이제이션 (aggressive memoizing)을 사용하여 코드가 더 오래 구동될수록 미래 세대들을 <em>기하급수적으로 더 빠르게</em> 계산할수 있게 해줍니다. hashlife를 이 튜토리얼에서 구현해보면 정말 재밌겠지만, 이 책은 Rust와 WebAssembly 사용에 중점을 두고 있으므로 다루지 않도록 하겠습니다. 하지만 hashlife에 대해 배워보길 적극적으로 권장합니다.</p>
 <h2 id="연습해보기-2"><a class="header" href="#연습해보기-2">연습해보기</a></h2>
 <ul>
 <li>
@@ -967,7 +967,7 @@ if js_sys::Math::random() &lt; 0.5 {
 </details>
 </li>
 <li>
-<p>각 세포를 byte 값으로 표현하면서 순회를 쉽게 할수 있지만, 메모리 자원을 낭비하는 단점이 있습니다. 1 byte는 8 bit인데, 실제로 세포 생존 여부를 표시할 때는 1 bit만 사용하고 있습니다. 이 데이터 표현을(data representation)을 리팩토링하여 각 세포가 1 bit의 사이즈만 사용할수 있도록 해보세요.</p>
+<p>각 세포를 byte 값으로 표현하면서 순회를 쉽게 할수 있지만, 메모리 자원을 낭비하는 단점이 있습니다. 1 byte는 8 bit인데, 실제로 세포 생존 여부를 표시할 때는 1 bit만 사용하고 있습니다. 이 데이터 표현을 (data representation) 을 리팩토링하여 각 세포가 1 bit의 사이즈만 사용할수 있도록 해보세요.</p>
 <details>
   <summary>정답</summary>
 <p>Rust 언어에서는 <code>Vec&lt;Cell&gt;</code> 타입 대신 (추가 기능을 제공하는 라이브러리인) <a href="https://crates.io/crates/fixedbitset"><code>fixedbitset</code> 크레이트의 <code>FixedBitSet</code> 타입</a>을 사용하여 세포를 나타낼수도 있습니다.</p>
@@ -1501,11 +1501,11 @@ impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
 <p><a href="game-of-life/../images/game-of-life/drawCells-before-waterfall.png"><img src="game-of-life/../images/game-of-life/drawCells-before-waterfall.png" alt="페이지 렌더링 처리의 waterfall 뷰 스크린샷" /></a></p>
 <p>한 애니메이션 프레임동안 어떤 일이 일어나는지 확인해보면, <code>CanvasRenderingContext2D.fillStyle</code> setter가 성능 차원에서 많은 비용을 요구하는 것을 확인할 수 있습니다.</p>
 <blockquote>
-<p>⚠️ FireFox 브라우저에서 위에서 언급된 <code>CanvasRenderingContext2D.fillStyle</code> 대신에 "DOM"이 표시된다면, 성능 개발자 도구(performance developer tools)에서 "Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)" 옵션을 활성화해줘야 합니다:</p>
+<p>⚠️ FireFox 브라우저에서 위에서 언급된 <code>CanvasRenderingContext2D.fillStyle</code> 대신에 "DOM"이 표시된다면, 성능 개발자 도구 (performance developer tools) 에서 "Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)" 옵션을 활성화해줘야 합니다:</p>
 <p><a href="game-of-life/../images/game-of-life/profiler-firefox-show-gecko-platform.png"><img src="game-of-life/../images/game-of-life/profiler-firefox-show-gecko-platform.png" alt="&quot;Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)&quot; 옵션 활성화하기" /></a></p>
 </blockquote>
 <p><a href="game-of-life/../images/game-of-life/drawCells-before-flamegraph.png"><img src="game-of-life/../images/game-of-life/drawCells-before-flamegraph.png" alt="페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
-<p>많이 표시되는 호출 트리의 집계(call tree's aggregation)를 살펴보면 이게 전혀 이상한 동작이 아님을 확인할 수 있습니다:</p>
+<p>많이 표시되는 호출 트리의 집계 (call tree's aggregation) 를 살펴보면 이게 전혀 이상한 동작이 아님을 확인할 수 있습니다:</p>
 <p><a href="game-of-life/../images/game-of-life/drawCells-before-calltree.png"><img src="game-of-life/../images/game-of-life/drawCells-before-calltree.png" alt="페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
 <p>거의 40% 분량을 이 setter에 사용해버렸네요!</p>
 <blockquote>
@@ -1621,7 +1621,7 @@ for (let row = 0; row &lt; height; row++) {
 <span class="boring">}</span></code></pre></pre>
 <p>브라우저 개발자 도구에서 타이밍(timing)을 확인해보면 이 가설이 사실은 명백하게 틀린 것을 알수 있습니다. 실제로는, 대부분의 시간이 다음 세대 세포들을 계산하는데 사용되게 됩니다. 그리고 매 틱마다 벡터 값을 할당하고 해제하는 작업이 놀랍게도 그렇게 성능이 많이 들지 않습니다. 다시 한번 <strong>정말 중요한</strong> 프로파일링을 해보겠습니다!</p>
 <p><a href="game-of-life/../images/game-of-life/console-time-in-universe-tick.png"><img src="game-of-life/../images/game-of-life/console-time-in-universe-tick.png" alt="Universe::tick 타이머 결과 값의 스크린샷" /></a></p>
-<p>다음 섹션에서는 <code>nightly</code> 컴파일러가 필요합니다. 필요한 <a href="https://doc.rust-lang.org/unstable-book/library-features/test.html">테스트 기능 게이트(test feature gate)</a>가 <code>nightly</code> 버전에 포함돼 있어서 그런데, 벤치마킹에 이 기능을 사용해보겠습니다. <a href="https://github.com/BurntSushi/cargo-benchcmp">cargo benchcmp</a>이라는 툴도 필요하니 설치해주도록 합시다. <code>cargo bench</code>로 생성한 마이크로 벤치마크들(micro-benchmarks)을 비교하는데 사용하는 작은 사이즈의 유틸리티입니다.</p>
+<p>다음 섹션에서는 <code>nightly</code> 컴파일러가 필요합니다. 필요한 <a href="https://doc.rust-lang.org/unstable-book/library-features/test.html">테스트 기능 게이트(test feature gate)</a>가 <code>nightly</code> 버전에 포함돼 있어서 그런데, 벤치마킹에 이 기능을 사용해보겠습니다. <a href="https://github.com/BurntSushi/cargo-benchcmp">cargo benchcmp</a>이라는 툴도 필요하니 설치해주도록 합시다. <code>cargo bench</code>로 생성한 마이크로 벤치마크들(micro-benchmarks) 을 비교하는데 사용하는 작은 사이즈의 유틸리티입니다.</p>
 <p>WebAssembly랑 동일한 작업을 수행하는 네이티브 코드인 <code>#[bench]</code>를 작성해봅시다. 이렇게 작성하는 대신에 더 많은 기능을 사용할수 있게 됩니다. 이제 새롭게 작성된 <code>wasm-game-of-life/benches/bench.rs</code>을 확인해주세요:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>#![feature(test)]
@@ -1694,7 +1694,7 @@ you press <code>a</code>:
     count
 }
 <span class="boring">}</span></code></pre></pre>
-<p>코드를 확인해보면 <code>if</code> 블럭들로 첫째와 마지막 행과 열의 엣지 케이스(edge case)를 처리하는데 코드를 불필요하게 길게 쓰지 않도록 나머지 연산자 (modulo operator)를 사용하고 있는 부분을 확인할 수 있습니다. <code>row</code>과 <code>column</code> 둘 다 세상의 끝에 있지 않고 나머지 연산자를 쓸 필요가 없는 일반적인 케이스를 처리하는데도 <code>div</code> 명령어를 사용해서 많은 성능을 사용하고 있습니다. 반복문을 사용하는 대신에 <code>if</code> 문으로 이 엣지 케이스들을 처리해서 여러 분기들을 CPU의 분기 예측기(branch predictor)가 예측하기 쉽도록 만들어보겠습니다.</p>
+<p>코드를 확인해보면 <code>if</code> 블럭들로 첫째와 마지막 행과 열의 엣지 케이스(edge case) 를 처리하는데 코드를 불필요하게 길게 쓰지 않도록 나머지 연산자 (modulo operator) 를 사용하고 있는 부분을 확인할 수 있습니다. <code>row</code>과 <code>column</code> 둘 다 세상의 끝에 있지 않고 나머지 연산자를 쓸 필요가 없는 일반적인 케이스를 처리하는데도 <code>div</code> 명령어를 사용해서 많은 성능을 사용하고 있습니다. 반복문을 사용하는 대신에 <code>if</code> 문으로 이 엣지 케이스들을 처리해서 여러 분기들을 CPU의 분기 예측기(branch predictor)가 예측하기 쉽도록 만들어보겠습니다.</p>
 <p><code>live_neighbor_count</code>를 다음과 같이 다시 작성해봅시다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1782,7 +1782,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 <h2 id="연습해보기-5"><a class="header" href="#연습해보기-5">연습해보기</a></h2>
 <ul>
 <li>
-<p>현재로는 할당과 해제를 처리하는 코드를 지우는 게 <code>Universe::tick</code> 속도를 향상시키는 가장 쉬운 방법입니다. <code>Universe</code>가 두 벡터만 관리하도록 하고, 두 벡터를 코드가 실행되는 내내 해제하거나 <code>tick</code> 함수에서 새 버퍼를 할당하지 않도록 세포들을 이중 버퍼링(double buffering)으로 구현해보세요.</p>
+<p>현재로는 할당과 해제를 처리하는 코드를 지우는 게 <code>Universe::tick</code> 속도를 향상시키는 가장 쉬운 방법입니다. <code>Universe</code>가 두 벡터만 관리하도록 하고, 두 벡터를 코드가 실행되는 내내 해제하거나 <code>tick</code> 함수에서 새 버퍼를 할당하지 않도록 세포들을 이중 버퍼링 (double buffering) 으로 구현해보세요.</p>
 </li>
 <li>
 <p>"Game of Life 구현하기" 챕터에서 델타 기반으로 설계한 내용을 Rust 코드가 상태가 바뀐 세포들의 목록을 반환하도록 다시 설계해보세요. <code>&lt;canvas&gt;</code> 가 더 빨리 렌더되는 게 보이시나요? 매 틱마다 새 델타 목록을 할당하지 않으면서 구현하실수 있는 것 같으신가요?</p>
@@ -1820,7 +1820,7 @@ default = ["wee_alloc"]
 <p><code>wee_alloc</code>을 활성화하면 <code>.wasm</code> 바이너리 사이즈가 얼마나 줄어드나요?</p>
 </li>
 <li>
-<p>튜토리얼을 진행하는 내내 한 <code>Universe</code>만 페이지에 포함시켰는데, 생성자를 제공하는 대신 단 한개의 <code>static mut</code> 전역 인스턴스 (global instance)만 수정하는 작업을 익스포트 해볼수도 있습니다. 이전 챕터에서 다룬 이중 버퍼링 기법 (double buffering technique)을 사용하고 싶다면, 이 버퍼도 <code>static mut</code> 키워드를 사용하여 전역적으로 만들수도 있습니다. 이런 식으로, 구현한 게임에서 모든 동적 할당 (dynamic allocation)을 없앨 수 있고, <code>#![no_std]</code> 속성을 추가하여 할당기(allocator)가 없는 크레이트를 만들어볼수도 있습니다. 동적 할당에 필요한 종속성을 다 없애면 <code>.wasm</code> 파일의 사이즈가 얼마나 줄어드나요?</p>
+<p>튜토리얼을 진행하는 내내 한 <code>Universe</code>만 페이지에 포함시켰는데, 생성자를 제공하는 대신 단 한개의 <code>static mut</code> 전역 인스턴스 (global instance)만 수정하는 작업을 익스포트 해볼수도 있습니다. 이전 챕터에서 다룬 이중 버퍼링 기법 (double buffering technique) 을 사용하고 싶다면, 이 버퍼도 <code>static mut</code> 키워드를 사용하여 전역적으로 만들수도 있습니다. 이런 식으로, 구현한 게임에서 모든 동적 할당 (dynamic allocation)을 없앨 수 있고, <code>#![no_std]</code> 속성을 추가하여 할당기(allocator)가 없는 크레이트를 만들어볼수도 있습니다. 동적 할당에 필요한 종속성을 다 없애면 <code>.wasm</code> 파일의 사이즈가 얼마나 줄어드나요?</p>
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="npm에-배포하기"><a class="header" href="#npm에-배포하기">npm에 배포하기</a></h1>
@@ -1875,7 +1875,7 @@ wasm-pack publish
 <h3 id="parity-wasm--cratesio--repository"><a class="header" href="#parity-wasm--cratesio--repository"><code>parity-wasm</code> | <a href="https://crates.io/crates/parity-wasm">crates.io</a> | <a href="https://github.com/paritytech/parity-wasm">repository</a></a></h3>
 <p>직렬화(serializing)과 역직렬화(deserializing), 그리고 <code>.wasm</code> 바이너리를 빌드하는데 사용하는 저레벨 WebAssembly 포맷입니다. "names" 및 "reloc.WHATEVER"과 같이 잘 알려진 섹션들이 잘 지원돼 있습니다.</p>
 <h3 id="wasmparser--cratesio--repository"><a class="header" href="#wasmparser--cratesio--repository"><code>wasmparser</code> | <a href="https://crates.io/crates/wasmparser">crates.io</a> | <a href="https://github.com/yurydelendik/wasmparser.rs">repository</a></a></h3>
-<p>WebAssembly 바이너리 파일을 읽는데 사용하는 간단한 이벤트 기반(event-driven) 라이브러리입니다. 각각 파싱한 내용의 바이트 오프셋 (byte offset)을 제공하는데, 예를 들어 reloc을 읽는 작업 등을 할때 필요합니다.</p>
+<p>WebAssembly 바이너리 파일을 읽는데 사용하는 간단한 이벤트 기반 (event-driven)  라이브러리입니다. 각각 파싱한 내용의 바이트 오프셋 (byte offset) 을 제공하는데, 예를 들어 reloc을 읽는 작업 등을 할때 필요합니다.</p>
 <h2 id="webassembly-컴파일하고-인터프리팅interpreting하기"><a class="header" href="#webassembly-컴파일하고-인터프리팅interpreting하기">WebAssembly 컴파일하고 인터프리팅(Interpreting)하기</a></h2>
 <h3 id="wasmi--cratesio--repository"><a class="header" href="#wasmi--cratesio--repository"><code>wasmi</code> | <a href="https://crates.io/crates/wasmi">crates.io</a> | <a href="https://github.com/paritytech/wasmi">repository</a></a></h3>
 <p>Parity 라는 회사에서 만든 임베딩 할수 있는 WebAssembly 인터프리터입니다.</p>
@@ -1957,7 +1957,7 @@ npm init wasm-app
 </code></pre>
 <p>이 템플릿은 주로 <code>wasm-pack-template</code>이라는 종속성괴 함께 사용되는데, <code>create-wasm-app</code>으로 프로젝트를 생성하면 <code>npm link</code> 기능으로 생성한 프로젝트와 연결하는데 사용됩니다.</p>
 <h2 id="rust-webpack-template"><a class="header" href="#rust-webpack-template"><code>rust-webpack-template</code></a></h2>
-<p><a href="https://github.com/rustwasm/rust-webpack-template">이 템플릿</a>은 Rust 코드를 WebAssembly로 컴파일한 다음 출력물을 Webpack의 <a href="https://github.com/wasm-tool/rust-loader/"><code>rust-loader</code></a>를 사용해서 바로 파이프라인으로 연결(hooking)할수 있도록 거의 모든 보일러 플레이트 (boilder plate)를 대신 설정해줍니다.</p>
+<p><a href="https://github.com/rustwasm/rust-webpack-template">이 템플릿</a>은 Rust 코드를 WebAssembly로 컴파일한 다음 출력물을 Webpack의 <a href="https://github.com/wasm-tool/rust-loader/"><code>rust-loader</code></a>를 사용해서 바로 파이프라인으로 연결(hooking)할수 있도록 거의 모든 보일러 플레이트 (boilder plate) 를 대신 설정해줍니다.</p>
 <p><code>npm init</code> 명령어로 사용해보세요:</p>
 <pre><code>mkdir my-project
 cd my-project/
