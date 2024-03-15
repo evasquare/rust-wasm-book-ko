@@ -176,7 +176,7 @@
                         <h1 id="알면-좋은-크레이트들"><a class="header" href="#알면-좋은-크레이트들">알면 좋은 크레이트들</a></h1>
 <p>Rust와 WebAssembly로 개발할 때 알면 정말 좋은 크레이트들을 모아놓은 목록입니다.</p>
 <p><a href="https://crates.io/categories/wasm">creates.io 웹사이트에서 WebAssembly 카테고리로 등록된 크레이트들을 필터링해서 볼수도 있습니다.</a></p>
-<h2 id="javascript과-dom-조작하기"><a class="header" href="#javascript과-dom-조작하기">JavaScript과 DOM 조작하기</a></h2>
+<h2 id="javascript과-dom-조작"><a class="header" href="#javascript과-dom-조작">JavaScript과 DOM 조작</a></h2>
 <h3 id="wasm-bindgen--cratesio--레포지토리"><a class="header" href="#wasm-bindgen--cratesio--레포지토리"><code>wasm-bindgen</code> | <a href="https://crates.io/crates/wasm-bindgen">crates.io</a> | <a href="https://github.com/rustwasm/wasm-bindgen">레포지토리</a></a></h3>
 <p><code>wasm-bindgen</code>은 Rust와 JavaScript 사이의 고레벨 상호작용을 도와주는 크레이트입니다. JavaScript와 Rust를 넘나드는 임포트를 할수 있도록 도와줍니다.</p>
 <h3 id="wasm-bindgen-futures--cratesio--레포지토리"><a class="header" href="#wasm-bindgen-futures--cratesio--레포지토리"><code>wasm-bindgen-futures</code> | <a href="https://crates.io/crates/wasm-bindgen-futures">crates.io</a> | <a href="https://github.com/rustwasm/wasm-bindgen/tree/master/crates/futures">레포지토리</a></a></h3>
@@ -192,7 +192,7 @@
 <p><a href="https://crates.io/crates/log"><code>log</code> 크레이트</a>의 백엔드(backend)를 제공해주는 크레이트입니다. 로그된 메세지들을 개발자 도구(devtools) 콘솔로 넘겨줍니다.</p>
 <h2 id="동적-할당"><a class="header" href="#동적-할당">동적 할당</a></h2>
 <h3 id="wee_alloc--cratesio--repository"><a class="header" href="#wee_alloc--cratesio--repository"><code>wee_alloc</code> | <a href="https://crates.io/crates/wee_alloc">crates.io</a> | <a href="https://github.com/rustwasm/wee_alloc">repository</a></a></h3>
-<p>이 크레이트의 이름은 <strong>W</strong>asm-<strong>E</strong>nabled, <strong>E</strong>lfin Allocator 에서 유래했는데, (1000 bytes 이하 사이즈의 압축되지 않은 <code>.wasm</code> 바이너리로 구성된) 코드 사이즈가 할당 성능보다 더 중요할 때 사용할만한 할당자 구현 (allocator implementation) 코드입니다.</p>
+<p>이 크레이트의 이름은 <strong>W</strong>asm-<strong>E</strong>nabled, <strong>E</strong>lfin Allocator 에서 유래됐는데, (1000 bytes 이하 사이즈의 압축되지 않은 <code>.wasm</code> 바이너리로 구성된) 코드 사이즈가 할당 성능보다 더 중요할 때 사용할만한 할당자 구현 (allocator implementation) 코드입니다.</p>
 <h2 id="wasm-바이너리를-파싱하고parsing-생성하기"><a class="header" href="#wasm-바이너리를-파싱하고parsing-생성하기"><code>.wasm</code> 바이너리를 파싱하고(parsing) 생성하기</a></h2>
 <h3 id="parity-wasm--cratesio--repository"><a class="header" href="#parity-wasm--cratesio--repository"><code>parity-wasm</code> | <a href="https://crates.io/crates/parity-wasm">crates.io</a> | <a href="https://github.com/paritytech/parity-wasm">repository</a></a></h3>
 <p>직렬화(serializing)과 역직렬화(deserializing), 그리고 <code>.wasm</code> 바이너리를 빌드하는데 사용하는 저레벨 WebAssembly 포맷입니다. "names" 및 "reloc.WHATEVER"과 같이 잘 알려진 섹션들이 잘 지원돼 있습니다.</p>
