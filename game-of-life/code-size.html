@@ -173,57 +173,36 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="shrinking-wasm-size"><a class="header" href="#shrinking-wasm-size">Shrinking <code>.wasm</code> Size</a></h1>
-<p>For <code>.wasm</code> binaries that we ship to clients over the network, such as our Game
-of Life Web application, we want to keep an eye on code size. The smaller our
-<code>.wasm</code> is, the faster our page loads get, and the happier our users are.</p>
-<h2 id="how-small-can-we-get-our-game-of-life-wasm-binary-via-build-configuration"><a class="header" href="#how-small-can-we-get-our-game-of-life-wasm-binary-via-build-configuration">How small can we get our Game of Life <code>.wasm</code> binary via build configuration?</a></h2>
-<p><a href="../reference/code-size.html#optimizing-builds-for-code-size">Take a moment to review the build configuration options we can tweak to get
-smaller <code>.wasm</code> code
-sizes.</a></p>
-<p>With the default release build configuration (without debug symbols), our
-WebAssembly binary is 29,410 bytes:</p>
+                        <h1 id="wasm-파일-사이즈-줄이기"><a class="header" href="#wasm-파일-사이즈-줄이기"><code>.wasm</code> 파일 사이즈 줄이기</a></h1>
+<p>구현했던 Game of Life 프로그램같은 <code>.wasm</code> 바이너리를 유저들에게 네트워크로 전송할 때, 코드 사이즈를 신경 쓰는 편이 좋습니다. <code>.wasm</code> 파일의 사이즈가 작을수록 페이지가 빨리 로드되고 유저 경험이 더 나아집니다.</p>
+<h2 id="빌드-설정으로-wasm-바이너리-사이즈를-얼마나-작게-줄일수-있나요"><a class="header" href="#빌드-설정으로-wasm-바이너리-사이즈를-얼마나-작게-줄일수-있나요">빌드 설정으로 <code>.wasm</code> 바이너리 사이즈를 얼마나 작게 줄일수 있나요?</a></h2>
+<p><a href="../reference/code-size.html#optimizing-builds-for-code-size"><code>wasm</code> 바이너리 사이즈를 줄이고자 할때 어떤 빌드 설정을 수정해볼수 있는지 한번 살펴보세요.</a></p>
+<p>(debug 심볼이 빠져있는) 빌드 설정 기본값으로 구현한 Game of Life를 빌드하면 29,410 bytes 사이즈의 바이너리를 출력하게 됩니다:</p>
 <pre><code>$ wc -c pkg/wasm_game_of_life_bg.wasm
 29410 pkg/wasm_game_of_life_bg.wasm
 </code></pre>
-<p>After enabling LTO, setting <code>opt-level = "z"</code>, and running <code>wasm-opt -Oz</code>, the
-resulting <code>.wasm</code> binary shrinks to only 17,317 bytes:</p>
+<p>LTO를 활성화한 다음 <code>opt-level = "z"</code>를 설정하고 <code>wasm-opt -Oz</code> 명령어를 실행해서 빌드하면 출력되는 <code>.wasm</code> 바이너리의 사이즈가 17,317 bytes 정도로 줄어들게 됩니다.</p>
 <pre><code>$ wc -c pkg/wasm_game_of_life_bg.wasm
 17317 pkg/wasm_game_of_life_bg.wasm
 </code></pre>
-<p>And if we compress it with <code>gzip</code> (which nearly every HTTP server does) we get
-down to a measly 9,045 bytes!</p>
+<p>(거의 모든 HTTP 서버가 하는 대로) 출력된 바이너리를 <code>gzip</code>를 사용하여 압축하면 정말 귀엽게도 9,045 bytes 까지 줄일수 있게 됩니다!</p>
 <pre><code>$ gzip -9 &lt; pkg/wasm_game_of_life_bg.wasm | wc -c
 9045
 </code></pre>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<h2 id="연습해보기"><a class="header" href="#연습해보기">연습해보기</a></h2>
 <ul>
 <li>
-<p>Use <a href="../reference/code-size.html#use-the-wasm-snip-tool">the <code>wasm-snip</code> tool</a>
-to remove the panicking infrastructure functions from our Game of Life's
-<code>.wasm</code> binary. How many bytes does it save?</p>
+<p><a href="../reference/code-size.html#use-the-wasm-snip-tool"><code>wasm-snip</code> 툴</a>을 사용해서 패닉 디버깅 함수를 구현한 게임의 <code>.wasm</code> 바이너리에서 제외시켜보세요. 사이즈가 얼마나 줄어드나요?</p>
 </li>
 <li>
-<p>Build our Game of Life crate with and without <a href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> as its global
-allocator</a>. The
-<code>rustwasm/wasm-pack-template</code> template that we cloned to start this project
-has a "wee_alloc" cargo feature that you can enable by adding it to the
-<code>default</code> key in the <code>[features]</code> section of <code>wasm-game-of-life/Cargo.toml</code>:</p>
+<p><a href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> 를 전역 할당자 (global allocator)</a>를 써보고 이전과 비교해보세요. 프로젝트를 시작할 때 클론 했던 <code>rustwasm/wasm-pack-template</code> 템플릿은 "wee_alloc" 이라는 카고(cargo) 기능(feature)을 포함하고 있는데, 이 기능은 <code>wasm-game-of-life/Cargo.toml</code> 파일의 <code>[features]</code> 섹션에 위치한 <code>default</code> 필드에 추가해서 활성화 할수 있습니다.</p>
 <pre><code class="language-toml">[features]
 default = ["wee_alloc"]
 </code></pre>
-<p>How much size does using <code>wee_alloc</code> shave off of the <code>.wasm</code>
-binary?</p>
+<p><code>wee_alloc</code>을 활성화하면 <code>.wasm</code> 바이너리 사이즈가 얼마나 줄어드나요?</p>
 </li>
 <li>
-<p>We only ever instantiate a single <code>Universe</code>, so rather than providing a
-constructor, we can export operations that manipulate a single <code>static mut</code>
-global instance. If this global instance also uses the double buffering
-technique discussed in earlier chapters, we can make those buffers also be
-<code>static mut</code> globals. This removes all dynamic allocation from our Game of
-Life implementation, and we can make it a <code>#![no_std]</code> crate that doesn't
-include an allocator. How much size was removed from the <code>.wasm</code> by completely
-removing the allocator dependency?</p>
+<p>튜토리얼을 진행하는 내내 한 <code>Universe</code>만 페이지에 포함시켰는데, 생성자를 제공하는 대신 단 한개의 <code>static mut</code> 전역 인스턴스 (global instance)만 수정하는 작업을 익스포트 해볼수도 있습니다. 이전 챕터에서 다룬 이중 버퍼링 기법 (double buffering technique)을 사용하고 싶다면, 이 버퍼도 <code>static mut</code> 키워드를 사용하여 전역적으로 만들수도 있습니다. 이런 식으로, 구현한 게임에서 모든 동적 할당 (dynamic allocation)을 없앨 수 있고, <code>#![no_std]</code> 속성을 추가하여 할당기(allocator)가 없는 크레이트를 만들어볼수도 있습니다. 동적 할당에 필요한 종속성을 다 없애면 <code>.wasm</code> 파일의 사이즈가 얼마나 줄어드나요?</p>
 </li>
 </ul>
 
