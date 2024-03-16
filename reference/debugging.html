@@ -173,18 +173,14 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="debugging-rust-generated-webassembly"><a class="header" href="#debugging-rust-generated-webassembly">Debugging Rust-Generated WebAssembly</a></h1>
-<p>This section contains tips for debugging Rust-generated WebAssembly.</p>
-<h2 id="building-with-debug-symbols"><a class="header" href="#building-with-debug-symbols">Building with Debug Symbols</a></h2>
+                        <h1 id="rust로-생성한-webassembly-디버깅하기"><a class="header" href="#rust로-생성한-webassembly-디버깅하기">Rust로 생성한 WebAssembly 디버깅하기</a></h1>
+<p>이 섹션은 Rust로 생성한 WebAssembly를 디버깅하는데 유용한 정보를 담고 있습니다.</p>
+<h2 id="debug-심볼을-포함해서-빌드하기"><a class="header" href="#debug-심볼을-포함해서-빌드하기">debug 심볼을 포함해서 빌드하기</a></h2>
 <blockquote>
-<p>⚡ When debugging, always make sure you are building with debug symbols!</p>
+<p>⚡ 디버깅 할때 항상 debug 심볼을 포함하고 빌드하는지 확인해주세요!</p>
 </blockquote>
-<p>If you don't have debug symbols enabled, then the <code>"name"</code> custom section won't
-be present in the compiled <code>.wasm</code> binary, and stack traces will have function
-names like <code>wasm-function[42]</code> rather than the Rust name of the function, like
-<code>wasm_game_of_life::Universe::live_neighbor_count</code>.</p>
-<p>When using a "debug" build (aka <code>wasm-pack build --debug</code> or <code>cargo build</code>)
-debug symbols are enabled by default.</p>
+<p>debug 심볼이 활성화 돼 있지 않다면 <code>"name"</code> 커스텀 섹션이 컴파일된 <code>.wasm</code> 파일에 반영되지 않을 수도 있습니다. 이런 경우에는 스택 트레이스의 함수 이름이 Rust 함수 이름 대신 <code>wasm-function[42]</code> 와 같이 표시됩니다. 정상적으로 활성화 된 경우에는 <code>wasm_game_of_life::Universe::live_neighbor_count</code> 와 같이 표시됩니다.</p>
+<p>(<code>wasm-pack build --debug</code> 혹은 <code>cargo build</code> 명령어로) "debug" 빌드를 할 경우 이 심볼이 기본값으로 활성화되게 됩니다.</p>
 <p>With a "release" build, debug symbols are not enabled by default. To enable
 debug symbols, ensure that you <code>debug = true</code> in the <code>[profile.release]</code> section
 of your <code>Cargo.toml</code>:</p>
