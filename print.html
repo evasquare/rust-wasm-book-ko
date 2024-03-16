@@ -1882,7 +1882,7 @@ wasm-pack publish
 <h3 id="cranelift-wasm--cratesio--레포지토리"><a class="header" href="#cranelift-wasm--cratesio--레포지토리"><code>cranelift-wasm</code> | <a href="https://crates.io/crates/cranelift-wasm">crates.io</a> | <a href="https://github.com/bytecodealliance/wasmtime/tree/master/cranelift">레포지토리</a></a></h3>
 <p>WebAssembly 코드를 네이티브 호스트의 기계어(machine code)로 컴파일해주는 크레이트. Cranelift (né Cretonne) 코드 생성기 프로젝트의 일부입니다.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="알면-좋은-툴들"><a class="header" href="#알면-좋은-툴들">알면 좋은 툴들</a></h1>
-<p>Rust와 WebAssembly로 개발할 때 알면 정말 좋은 툴들을 모아놓은 목록입니다.</p>
+<p>Rust와 WebAssembly로 개발할 때 알면 좋은 툴들을 모아놓은 목록입니다.</p>
 <h2 id="개발-빌드-및-워크플로우-관리orchestration"><a class="header" href="#개발-빌드-및-워크플로우-관리orchestration">개발, 빌드 및 워크플로우 관리(Orchestration)</a></h2>
 <h3 id="wasm-pack--레포지토리"><a class="header" href="#wasm-pack--레포지토리"><code>wasm-pack</code> | <a href="https://github.com/rustwasm/wasm-pack">레포지토리</a></a></h3>
 <p><code>wasm-pack</code>은 Web과 Node.js 환경에서 JavaScript와 상호 운용하면서 Rust로 WebAssembly 작업을 할때 사용할수 있는 만능 툴입니다. <code>wasm-pack</code>을 사용해서 WebAssembly를 빌드하고 npm 레지스트리에 배포하고, 기존에 이미 사용하는 워크플로우가 사용하는 패키지들과 같이 사용할 수 있도록 도와줍니다.</p>
@@ -1893,40 +1893,35 @@ wasm-pack publish
 <p><code>wasm2js</code> 툴은 WebAssembly 파일을 "거의 asm.js"처럼 컴파일 해줍니다. Internet Explorer 11처럼 WebAssembly 기능이 구현되지 않은 브라우저를 지원할 때 좋습니다. 이 툴은 <code>binaryen</code> 프로젝트의 일부입니다.</p>
 <h3 id="wasm-gc--레포지토리"><a class="header" href="#wasm-gc--레포지토리"><code>wasm-gc</code> | <a href="https://github.com/alexcrichton/wasm-gc">레포지토리</a></a></h3>
 <p>WebAssembly를 가비지 콜렉팅하고 필요하지 않은 익스포트, 임포트, 함수 등을 지울 때 사용할수 있는 심플한 툴입니다. WebAssembly 파일과 함께 <code>--gc-sections</code> 링커 플래그 (linker flag) 를 사용하면 더 효과적입니다.</p>
-<p>You don't usually need to use this tool yourself because of two reasons:</p>
+<p>보통은 다음과 같은 이유로 이 툴을 개발자가 "직접" 프로젝트에 포함시키지 않습니다:</p>
 <ol>
-<li><code>rustc</code> now has a new enough version of <code>lld</code> that it supports the
-<code>--gc-sections</code> flag for WebAssembly. This is automatically enabled for LTO
-builds.</li>
-<li>The <code>wasm-bindgen</code> CLI tool runs <code>wasm-gc</code> for you automatically.</li>
+<li><code>rustc</code> 컴파일러가 이제 새 버전의 <code>lid</code>를 지원하는데, 이 버전이 <code>--gc-sections</code> 라는 플래그를 지원합니다. 이 플래그는 LTO 빌드를 하는데 자동으로 활성화되게 됩니다.</li>
+<li><code>wasm-bindgen</code> CLI (커맨드 라인 인터페이스 / Command Line Interface) 툴이 자동으로 <code>wasm-gc</code> 를 실행시켜줍니다.</li>
 </ol>
-<h3 id="wasm-snip--repository"><a class="header" href="#wasm-snip--repository"><code>wasm-snip</code> | <a href="https://github.com/rustwasm/wasm-snip">repository</a></a></h3>
-<p><code>wasm-snip</code> replaces a WebAssembly function's body with an <code>unreachable</code>
-instruction.</p>
-<p>Maybe you know that some function will never be called at runtime, but the
-compiler can't prove that at compile time? Snip it! Then run <code>wasm-gc</code> again and
-all the functions it transitively called (which could also never be called at
-runtime) will get removed too.</p>
-<p>This is useful for forcibly removing Rust's panicking infrastructure in
-non-debug production builds.</p>
+<h3 id="wasm-snip--레포지토리"><a class="header" href="#wasm-snip--레포지토리"><code>wasm-snip</code> | <a href="https://github.com/rustwasm/wasm-snip">레포지토리</a></a></h3>
+<p><code>wasm-snip</code>는 WebAssembly 함수의 내용을 <code>unreachable</code> 명령어(instruction)으로 바꿔줍니다.</p>
+<p>어떤 함수가 실제로 호출되지 않는걸 아는데 컴파일러가 이걸 모를때가 있나요? 일단 컴파일하고 <code>wasm-gc</code>를 실행해보세요! (런타임(runtime)에서 호출되지 않는) 다른 간접적으로 호출되는 다른 함수들도 모두 제거됩니다.</p>
+<p>디버깅 코드가 없는 실제로 배포하는 빌드 (production build) 에서 강제로 Rust 의 패닉 인프라(infrastructure)를 제외할 때 유용합니다.</p>
 <h2 id="inspecting-wasm-binaries"><a class="header" href="#inspecting-wasm-binaries">Inspecting <code>.wasm</code> Binaries</a></h2>
-<h3 id="twiggy--repository"><a class="header" href="#twiggy--repository"><code>twiggy</code> | <a href="https://github.com/rustwasm/twiggy">repository</a></a></h3>
-<p><code>twiggy</code> is a code size profiler for <code>.wasm</code> binaries. It analyzes a binary's
-call graph to answer questions like:</p>
+<h3 id="twiggy--레포지토리"><a class="header" href="#twiggy--레포지토리"><code>twiggy</code> | <a href="https://github.com/rustwasm/twiggy">레포지토리</a></a></h3>
+<p><code>twiggy</code>는 <code>.wasm</code> 바이너리에 사용하는 코드 프로파일러입니다. 바이너리의 호출 그래프 (call graph) 를 분석하고 다음과 같은 내용을 알려줍니다:</p>
 <ul>
-<li>Why was this function included in the binary in the first place? I.e. which
-exported functions are transitively calling it?</li>
-<li>What is the retained size of this function? I.e. how much space would be saved
-if I removed it and all the functions that become dead code after its removal.</li>
+<li>
+<p>애초에 빌드할 때 어떤 함수가 왜 바이너리에 포함됐나요? 예: 어떤 익스포트한 함수들이 간접적으로 호출되고 있나요?</p>
+</li>
+<li>
+<p>What is the retained size of this function? I.e. how much space would be saved
+if I removed it and all the functions that become dead code after its removal.</p>
+</li>
+<li>
+<p>어떤 함수를 지우면 얼마나 공간을 아낄수 있나요? 예: 이 함수와 다른 사용되던 함수들까지 지우면 얼마나 공간이 절약되나요?</p>
+</li>
 </ul>
-<p>Use <code>twiggy</code> to make your binaries slim!</p>
-<h3 id="wasm-objdump--repository"><a class="header" href="#wasm-objdump--repository"><code>wasm-objdump</code> | <a href="https://github.com/WebAssembly/wabt">repository</a></a></h3>
-<p>Print low-level details about a <code>.wasm</code> binary and each of its sections. Also
-supports disassembling into the WAT text format. It's like <code>objdump</code> but for
-WebAssembly. This is a part of the WABT project.</p>
-<h3 id="wasm-nm--repository"><a class="header" href="#wasm-nm--repository"><code>wasm-nm</code> | <a href="https://github.com/fitzgen/wasm-nm">repository</a></a></h3>
-<p>List the imported, exported, and private function symbols defined within a
-<code>.wasm</code> binary. It's like <code>nm</code> but for WebAssembly.</p>
+<p><code>twiggy</code>를 사용해서 바이너리를 더 가볍게 만들어보세요!</p>
+<h3 id="wasm-objdump--레포지토리"><a class="header" href="#wasm-objdump--레포지토리"><code>wasm-objdump</code> | <a href="https://github.com/WebAssembly/wabt">레포지토리</a></a></h3>
+<p><code>wasm</code> 바이너리의 저레벨 상세 정보와 섹션들을 출력합니다. WAT 텍스트 포맷으로 디어셈블링(disassembling)할수도 있습니다. WebAssembly에 사용하는 <code>objdump</code>으로 생각해도 좋습니다. 이 툴은 WABT 프로젝트의 일부입니다.</p>
+<h3 id="wasm-nm--레포지토리"><a class="header" href="#wasm-nm--레포지토리"><code>wasm-nm</code> | <a href="https://github.com/fitzgen/wasm-nm">레포지토리</a></a></h3>
+<p><code>.wasm</code> 바이너리 내의 임포트되고, 익스포트되고, 그리고 private인 함수 심볼들 (function symbols) 을 나열합니다. WebAssembly에 사용하는 <code>nm</code>으로 생각해도 좋습니다.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="프로젝트-템플릿"><a class="header" href="#프로젝트-템플릿">프로젝트 템플릿</a></h1>
 <p>"The Rust and WebAssembly Working Group"은 개발자들이 빠르게 새 프로젝트를 시작하고 작동시킬수 있도록 여러 가지의 프로젝트 템플릿 목록을 만들고 관리합니다.</p>
 <h2 id="wasm-pack-template"><a class="header" href="#wasm-pack-template"><code>wasm-pack-template</code></a></h2>
