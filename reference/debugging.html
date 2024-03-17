@@ -181,19 +181,14 @@
 </blockquote>
 <p>debug 심볼이 활성화 돼 있지 않다면 <code>"name"</code> 커스텀 섹션이 컴파일된 <code>.wasm</code> 파일에 반영되지 않을 수도 있습니다. 이런 경우에는 스택 트레이스의 함수 이름이 Rust 함수 이름 대신 <code>wasm-function[42]</code> 와 같이 표시됩니다. 정상적으로 활성화 된 경우에는 <code>wasm_game_of_life::Universe::live_neighbor_count</code> 와 같이 표시됩니다.</p>
 <p>(<code>wasm-pack build --debug</code> 혹은 <code>cargo build</code> 명령어로) "debug" 빌드를 할 경우 이 심볼이 기본값으로 활성화되게 됩니다.</p>
-<p>With a "release" build, debug symbols are not enabled by default. To enable
-debug symbols, ensure that you <code>debug = true</code> in the <code>[profile.release]</code> section
-of your <code>Cargo.toml</code>:</p>
+<p>"release" 빌드를 할 때는 debug 심볼이 기본값으로 활성화 되지 않으니 참고해주세요. 활성화 하고 싶다면 <code>Cargo.toml</code> 파일을 열고 <code>[profile.release]</code> 섹션에 <code>debug = true</code>가 포함돼 있는지 확인해주세요.</p>
 <pre><code class="language-toml">[profile.release]
 debug = true
 </code></pre>
-<h2 id="logging-with-the-console-apis"><a class="header" href="#logging-with-the-console-apis">Logging with the <code>console</code> APIs</a></h2>
-<p>Logging is one of the most effective tools we have for proving and disproving
-hypotheses about why our programs are buggy. On the Web, <a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/log">the <code>console.log</code>
-function</a> is the
-way to log messages to the browser's developer tools console.</p>
-<p>We can use <a href="https://rustwasm.github.io/wasm-bindgen/web-sys/index.html">the <code>web-sys</code> crate</a> to get access to the <code>console</code> logging
-functions:</p>
+<h2 id="console-api로-로깅-하기"><a class="header" href="#console-api로-로깅-하기"><code>console</code> API로 로깅 하기</a></h2>
+<p>로깅(Logging) 작업은 코드를 설계하면서 만든 가설들을 증명하고 프로그램의 버그를 해결하는데 매우 효과적입니다. 웹 환경에서 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/log"><code>console.log</code>
+함수</a>를 호출하여 브라우저의 개발자 콘솔에 메세지를 로그할수 있습니다.</p>
+<p><a href="https://rustwasm.github.io/wasm-bindgen/web-sys/index.html"><code>web-sys</code> 크레이트</a>를 사용하여 <code>console</code> 로깅 함수를 사용할수 있습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern crate web_sys;
