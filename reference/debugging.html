@@ -254,7 +254,7 @@ pub fn init_panic_hook() {
 <h2 id="처음부터-webassembly-디버깅을-최소화할수-있도록-해주세요"><a class="header" href="#처음부터-webassembly-디버깅을-최소화할수-있도록-해주세요">처음부터 WebAssembly 디버깅을 최소화할수 있도록 해주세요</a></h2>
 <p>고쳐야 할 버그가 JavaScript 조작이나 Web API와 더 관련이 있다면 <a href="https://rustwasm.github.io/wasm-bindgen/wasm-bindgen-test/index.html"><code>wasm-bindgen-test</code>으로 테스팅 코드를 작성해보세요.</a></p>
 <p>그렇지 <em>않다면</em> <code>#[test]</code> 속성을 포함해서 일반적인 Rust 코드처럼 재현해보세요. 이렇게 하면 운영체제의 성숙한 네이티브 툴링을 최대한 활용하여 디버깅할 수 있습니다. <a href="https://crates.io/crates/quickcheck"><code>quickcheck</code></a>과 같은 테스팅 크레이트와 테스팅 코드 축소기도 사용해보면서 기계적으로 테스트 코드의 사이즈를 줄여보세요. 최종적으로는, JavaScript 환경이 요구되지 않도록 더 작은 Rust 테스트 코드로 분리시키면 버그를 찾아서 잡기가 쉬워집니다.</p>
-<p>컴파일러와 링커 오류(linker errors)없이 네이티브 <code>#[test]</code> 속성을 사용하려면, <code>Cargo.toml</code> 파일의 <code>[lib.crate-type]</code> 배열에 <code>rlib</code>가 포함돼 있는지 확인해주세요.</p>
+<p>컴파일러와 링커 오류(linker error)없이 네이티브 <code>#[test]</code> 속성을 사용하려면, <code>Cargo.toml</code> 파일의 <code>[lib.crate-type]</code> 배열에 <code>rlib</code>가 포함돼 있는지 확인해주세요.</p>
 <pre><code class="language-toml">[lib]
 crate-type ["cdylib", "rlib"]
 </code></pre>
