@@ -179,7 +179,7 @@
 <blockquote>
 <p>⚡ 디버깅 할때 항상 debug 심볼을 포함하고 빌드하는지 확인해주세요!</p>
 </blockquote>
-<p>debug 심볼이 활성화 돼 있지 않다면 <code>"name"</code> 커스텀 섹션이 컴파일된 <code>.wasm</code> 파일에 반영되지 않을 수도 있습니다. 이런 경우에는 스택 트레이스의 함수 이름이 Rust 함수 이름 대신 <code>wasm-function[42]</code> 와 같이 표시됩니다. 정상적으로 활성화 된 경우에는 <code>wasm_game_of_life::Universe::live_neighbor_count</code> 와 같이 표시됩니다.</p>
+<p>debug 심볼이 활성화 돼 있지 않다면 <code>"name"</code> 커스텀 섹션이 컴파일된 <code>.wasm</code> 파일에 반영되지 않을 수도 있습니다. 이런 경우에는 <a href="https://ko.wikipedia.org/wiki/%EC%8A%A4%ED%83%9D_%EC%B6%94%EC%A0%81">스택 추적 (stack trace)</a> 의 함수 이름이 Rust 함수 이름 대신 <code>wasm-function[42]</code> 와 같이 표시됩니다. 정상적으로 활성화 된 경우에는 <code>wasm_game_of_life::Universe::live_neighbor_count</code> 와 같이 표시됩니다.</p>
 <p>(<code>wasm-pack build --debug</code> 혹은 <code>cargo build</code> 명령어로) "debug" 빌드를 할 경우 이 심볼이 기본값으로 활성화되게 됩니다.</p>
 <p>"release" 빌드를 할 때는 debug 심볼이 기본값으로 활성화 되지 않으니 참고해주세요. 활성화 하고 싶다면 <code>Cargo.toml</code> 파일을 열고 <code>[profile.release]</code> 섹션에 <code>debug = true</code>가 포함돼 있는지 확인해주세요.</p>
 <pre><code class="language-toml">[profile.release]
@@ -195,42 +195,43 @@ debug = true
 
 web_sys::console::log_1(&amp;"Hello, world!".into());
 <span class="boring">}</span></code></pre></pre>
-<p>Alternatively, <a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/error">the <code>console.error</code>
-function</a> has
-the same signature as <code>console.log</code>, but developer tools tend to also capture
-and display a stack trace alongside the logged message when <code>console.error</code> is
-used.</p>
-<h3 id="references"><a class="header" href="#references">References</a></h3>
+<p>대신 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/error"><code>console.error</code> 함수</a>을 사용해볼수도 있습니다. <code>console.error</code>는 <code>console.log</code>와 같은 타입 시그니처(signature)를 가지고 있지만 개발자 툴에서 로그 메세지와 함께 스택 추적을 찾고 표시하는데 사용할 수 있습니다.</p>
+<h3 id="레퍼런스"><a class="header" href="#레퍼런스">레퍼런스</a></h3>
 <ul>
-<li>Using <code>console.log</code> with the <code>web-sys</code> crate:
+<li>
+<p><code>web-sys</code> 크레이트로 <code>console.log</code> 함수 사용하기:</p>
 <ul>
-<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log.html"><code>web_sys::console::log</code> takes an array of values to log</a></li>
-<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log_1.html"><code>web_sys::console::log_1</code> logs a single value</a></li>
-<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log_2.html"><code>web_sys::console::log_2</code> logs two values</a></li>
-<li>Etc...</li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log.html">로그할 값들을 배열로 받는 <code>web_sys::console::log</code></a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log_1.html">한 값만 로그하는 <code>web_sys::console::log_1</code></a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log_2.html">두 값을 로그하는 <code>web_sys::console::log_2</code></a></li>
+<li>등...</li>
 </ul>
 </li>
-<li>Using <code>console.error</code> with the <code>web-sys</code> crate:
+<li>
+<p><code>web-sys</code> 크레이트로 <code>console.error</code> 함수 사용하기:</p>
 <ul>
-<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error.html"><code>web_sys::console::error</code> takes an array of values to log</a></li>
-<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error_1.html"><code>web_sys::console::error_1</code> logs a single value</a></li>
-<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error_2.html"><code>web_sys::console::error_2</code> logs two values</a></li>
-<li>Etc...</li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error.html">로그할 값들을 배열로 받는 <code>web_sys::console::error</code></a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error_1.html">한 값만 로그하는 <code>web_sys::console::error_1</code></a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error_2.html">두 값을 로그하는 <code>web_sys::console::error_2</code></a></li>
+<li>등...</li>
 </ul>
 </li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Console">The <code>console</code> object on MDN</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Tools/Web_Console">Firefox Developer Tools — Web Console</a></li>
-<li><a href="https://docs.microsoft.com/en-us/microsoft-edge/devtools-guide/console">Microsoft Edge Developer Tools — Console</a></li>
-<li><a href="https://developers.google.com/web/tools/chrome-devtools/console/get-started">Get Started with the Chrome DevTools Console</a></li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Console"><code>console</code> 객체에 대해 설명해주는 MDN 문서</a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Tools/Web_Console">Firefox 개발자 도구 — 웹 콘솔</a></p>
+</li>
+<li>
+<p><a href="https://docs.microsoft.com/en-us/microsoft-edge/devtools-guide/console">Microsoft Edge 개발자 도구 — 콘솔</a></p>
+</li>
+<li>
+<p><a href="https://developers.google.com/web/tools/chrome-devtools/console/get-started">Console Chrome DevTools 콘솔을 사용하여 시작해보기</a></p>
+</li>
 </ul>
-<h2 id="logging-panics"><a class="header" href="#logging-panics">Logging Panics</a></h2>
-<p><a href="https://github.com/rustwasm/console_error_panic_hook">The <code>console_error_panic_hook</code> crate logs unexpected panics to the developer
-console via <code>console.error</code>.</a> Rather than getting cryptic,
-difficult-to-debug <code>RuntimeError: unreachable executed</code> error messages, this
-gives you Rust's formatted panic message.</p>
-<p>All you need to do is install the hook by calling
-<code>console_error_panic_hook::set_once()</code> in an initialization function or common
-code path:</p>
+<h2 id="패닉-로그하기"><a class="header" href="#패닉-로그하기">패닉 로그하기</a></h2>
+<p><a href="https://github.com/rustwasm/console_error_panic_hook"><code>console_error_panic_hook</code> 크레이트는 <code>console.error</code> 함수를 사용하여 예상하지 못한 패닉들을 로그합니다.</a> 외계어같고 디버그하기 어려운 <code>RuntimeError: unreachable executed</code> 에러 메세지 대신에 Rust의 깔끔하게 포맷된 패닉 메세지를 보여줍니다.</p>
+<p>정말 간단하게도 코드가 시작되는 함수에서 <code>console_error_panic_hook::set_once()</code>를 불러서 훅(hook)을 설정하기만 하면 됩니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
@@ -238,7 +239,7 @@ pub fn init_panic_hook() {
     console_error_panic_hook::set_once();
 }
 <span class="boring">}</span></code></pre></pre>
-<h2 id="using-a-debugger"><a class="header" href="#using-a-debugger">Using a Debugger</a></h2>
+<h2 id="디버거-사용하기"><a class="header" href="#디버거-사용하기">디버거 사용하기</a></h2>
 <p>Unfortunately, the debugging story for WebAssembly is still immature. On most
 Unix systems, <a href="http://dwarfstd.org/">DWARF</a> is used to encode the information that a debugger
 needs to provide source-level inspection of a running program. There is an
@@ -253,7 +254,7 @@ future!</p>
 </blockquote>
 <p>Nonetheless, debuggers are still useful for inspecting the JavaScript that
 interacts with our WebAssembly, and inspecting raw wasm state.</p>
-<h3 id="references-1"><a class="header" href="#references-1">References</a></h3>
+<h3 id="references"><a class="header" href="#references">References</a></h3>
 <ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/Tools/Debugger">Firefox Developer Tools — Debugger</a></li>
 <li><a href="https://docs.microsoft.com/en-us/microsoft-edge/devtools-guide/debugger">Microsoft Edge Developer Tools — Debugger</a></li>
