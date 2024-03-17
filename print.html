@@ -2012,13 +2012,7 @@ pub fn init_panic_hook() {
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="디버거-사용하기"><a class="header" href="#디버거-사용하기">디버거 사용하기</a></h2>
-<p>Unfortunately, the debugging story for WebAssembly is still immature. On most
-Unix systems, <a href="http://dwarfstd.org/">DWARF</a> is used to encode the information that a debugger
-needs to provide source-level inspection of a running program. There is an
-alternative format that encodes similar information on Windows. Currently, there
-is no equivalent for WebAssembly. Therefore, debuggers currently provide limited
-utility, and we end up stepping through raw WebAssembly instructions emitted by
-the compiler, rather than the Rust source text we authored.</p>
+<p>정말 아쉽게도 WebAssembly 디버깅 경험은 아직 개선할 부분이 많습니다. 대부분의 Unix 시스템에서는 <a href="http://dwarfstd.org/">DWARF</a>를 사용해서 소스 레벨에서 실행하는 프로그램을 살펴보는데 디버거가 필요로 하는 정보를 인코딩(encoding)할수 있습니다. 하지만 Windows에서는 대신 사용할수 있는 포맷이 있긴 하지만 현재로서는 WebAssembly를 직접적으로 지원하지 않습니다. 그러므로 따로 작성했던 Rust 소스 텍스트 대신 컴파일러가 출력한 WebAssembly 명령어를 그대로 확인해야 합니다.</p>
 <blockquote>
 <p>There is a <a href="https://github.com/WebAssembly/debugging">sub-charter of the W3C WebAssembly group for
 debugging</a>, so expect this story to improve in the
