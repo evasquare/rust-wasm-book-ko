@@ -2076,26 +2076,19 @@ fn now() -&gt; f64 {
 <li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.time_end_with_label.html"><code>web_sys::console::time_end_with_label("어떤거 하는 작업")</code></a></li>
 </ul>
 <p>브라우저의 콘솔에 <code>console.time</code> 로그를 표시하는 스크린샷을 확인해보세요:</p>
-<p><a href="reference/../images/game-of-life/console-time.png"><img src="reference/../images/game-of-life/console-time.png" alt="Screenshot of console.time logs" /></a></p>
-<p>Additionally, <code>console.time</code> and <code>console.timeEnd</code> logs will show up in your
-browser's profiler's "timeline" or "waterfall" view:</p>
-<p><a href="reference/../images/game-of-life/console-time-in-profiler.png"><img src="reference/../images/game-of-life/console-time-in-profiler.png" alt="Screenshot of console.time logs" /></a></p>
+<p><a href="reference/../images/game-of-life/console-time.png"><img src="reference/../images/game-of-life/console-time.png" alt="console.time 로그 스크린샷" /></a></p>
+<p>추가로, 브라우저 프로파일러의 "timeline"과 "waterfall" 뷰에 <code>console.time</code>과 <code>console.timeEnd</code>의 로그가 표시됩니다.</p>
+<p><a href="reference/../images/game-of-life/console-time-in-profiler.png"><img src="reference/../images/game-of-life/console-time-in-profiler.png" alt="console.time 로그 스크린샷" /></a></p>
+<h3 id="bench"><a class="header" href="#bench"><code>#[bench]</code></a></h3>
 <h3 id="using-bench-with-native-code"><a class="header" href="#using-bench-with-native-code">Using <code>#[bench]</code> with Native Code</a></h3>
-<p>The same way we can often leverage our operating system's native code debugging
-tools by writing <code>#[test]</code>s rather than debugging on the Web, we can leverage
-our operating system's native code profiling tools by writing <code>#[bench]</code>
-functions.</p>
-<p>Write your benchmarks in the <code>benches</code> subdirectory of your crate. Make sure
-that your <code>crate-type</code> includes <code>"rlib"</code> or else the bench binaries won't be
-able to link your main lib.</p>
-<p>However! Make sure that you know the bottleneck is in the WebAssembly before
-investing much energy in native code profiling! Use your browser's profiler to
-confirm this, or else you risk wasting your time optimizing code that isn't hot.</p>
-<h4 id="resources"><a class="header" href="#resources">Resources</a></h4>
+<p>웹 브라우저에서 대신 <code>#[test]</code> 속성을 이용하여 운영체제의 네이티브 코드로 디버깅을 했던 것과 같은 방법으로, <code>#[bench]</code>속성과 함께 함수를 작성해서 운영 체제의 네이티브 코드 프로파일링 툴을 사용해볼수도 있습니다.</p>
+<p>크레이트의 <code>benches</code> 하위 디렉토리인 <code>benches</code>에 벤치마크 코드를 작성해봅시다. <code>crate-type</code>이 <code>"rlib"</code>이 포함하고 있는지 확인해주세요. 그렇지 않다면 벤치마크 바이너리가 메인 라이브러리 (main lib) 에 링크하지 못하게 됩니다.</p>
+<p>하지만 실제로는 거의 사용되지 않는 코드에 시간을 소비하고 있을수도 있으니, 네이티브 코드로 벤치마킹을 하기 전에 브라우저 프로파일링 툴을 먼저 확인해보는것도 좋습니다!</p>
+<h4 id="추가-자료-1"><a class="header" href="#추가-자료-1">추가 자료</a></h4>
 <ul>
-<li><a href="http://www.brendangregg.com/perf.html">Using the <code>perf</code> profiler on Linux</a></li>
-<li><a href="https://help.apple.com/instruments/mac/current/">Using the Instruments.app profiler on macOS</a></li>
-<li><a href="https://software.intel.com/en-us/vtune">The VTune profiler supports Windows and Linux</a></li>
+<li><a href="http://www.brendangregg.com/perf.html">Linux 환경에서 <code>perf</code> 프로파일러 사용하기</a></li>
+<li><a href="https://help.apple.com/instruments/mac/current/">macOS 환경에서 Instruments.app 프로파일러 사용하기</a></li>
+<li><a href="https://software.intel.com/en-us/vtune">VTune 프로파일러는 Windows와 Linux를 지원합니다.</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="shrinking-wasm-code-size"><a class="header" href="#shrinking-wasm-code-size">Shrinking <code>.wasm</code> Code Size</a></h1>
 <p>This section will teach you how to optimize your <code>.wasm</code> build for a small code
