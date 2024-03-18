@@ -2057,35 +2057,25 @@ fn now() -&gt; f64 {
 <li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/struct.Window.html#method.performance"><code>web_sys::Window::performance</code> 메소드</a></li>
 <li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/struct.Performance.html#method.now"><code>web_sys::Performance::now</code> 메소드</a></li>
 </ul>
-<h3 id="developer-tools-profilers"><a class="header" href="#developer-tools-profilers">Developer Tools Profilers</a></h3>
-<p>All Web browsers' built-in developer tools include a profiler. These profilers
-display which functions are taking the most time with the usual kinds of
-visualizations like call trees and flame graphs.</p>
-<p>If you <a href="reference/./debugging.html#building-with-debug-symbols">build with debug symbols</a> so that the "name" custom section is
-included in the wasm binary, then these profilers should display the Rust
-function names instead of something opaque like <code>wasm-function[123]</code>.</p>
-<p>Note that these profilers <em>won't</em> show inlined functions, and since Rust and
-LLVM rely on inlining so heavily, the results might still end up a bit
-perplexing.</p>
-<p><a href="reference/../images/game-of-life/profiler-with-rust-names.png"><img src="reference/../images/game-of-life/profiler-with-rust-names.png" alt="Screenshot of profiler with Rust symbols" /></a></p>
-<h4 id="resources"><a class="header" href="#resources">Resources</a></h4>
+<h3 id="개발자-도구에-포함된-프로파일러"><a class="header" href="#개발자-도구에-포함된-프로파일러">개발자 도구에 포함된 프로파일러</a></h3>
+<p>모든 웹 브라우저는 프로파일러가 개발자 도구를 가지고 있습니다. 이러한 프로파일러들은 call tree나 flame graph와 같은 일반적인 시각 자료와 함께 어떤 함수들이 가장 시간을 많이 쓰는지 표시해줍니다.</p>
+<p>"name" 커스텀 섹션이 wasm 바이너리에 포함되도록 <a href="reference/./debugging.html#building-with-debug-symbols">debug 심볼을 포함해서 빌드</a>를 하면 프로파일러가 <code>wasm-function[123]</code>와 같이 생긴 복잡하고 불투명한 이름 대신 Rust 함수 이름을 표시하게 됩니다.</p>
+<p>이러한 프로파일러들은 인라인 함수를 <strong>표시하지 않는다는</strong> 점을 기억해주세요. Rust와 LLVM는 인라인 작업을 매우 무겁게 하기 때문에 이러한 작업을 하더라도 결과값이 조금 읽기 어려울수 있습니다.</p>
+<p><a href="reference/../images/game-of-life/profiler-with-rust-names.png"><img src="reference/../images/game-of-life/profiler-with-rust-names.png" alt="Rust 심볼을 표시하는 프로파일러 스크린샷" /></a></p>
+<h4 id="추가-자료"><a class="header" href="#추가-자료">추가 자료</a></h4>
 <ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Tools/Performance">Firefox Developer Tools — Performance</a></li>
-<li><a href="https://docs.microsoft.com/en-us/microsoft-edge/devtools-guide/performance">Microsoft Edge Developer Tools — Performance</a></li>
-<li><a href="https://developers.google.com/web/tools/chrome-devtools/rendering-tools/js-execution">Chrome DevTools JavaScript Profiler</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Tools/Performance">Firefox 개발자 도구 — 성능</a></li>
+<li><a href="https://docs.microsoft.com/en-us/microsoft-edge/devtools-guide/performance">Microsoft Edge 개발자 도구 — 성능</a></li>
+<li><a href="https://developers.google.com/web/tools/chrome-devtools/rendering-tools/js-execution">Chrome DevTools JavaScript 프로파일러</a></li>
 </ul>
-<h3 id="the-consoletime-and-consoletimeend-functions"><a class="header" href="#the-consoletime-and-consoletimeend-functions">The <code>console.time</code> and <code>console.timeEnd</code> Functions</a></h3>
-<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/time">The <code>console.time</code> and <code>console.timeEnd</code> functions</a> allow you to
-log the timing of named operations to the browser's developer tools console. You
-call <code>console.time("some operation")</code> when the operation begins, and call
-<code>console.timeEnd("some operation")</code> when it finishes. The string label naming
-the operation is optional.</p>
-<p>You can use these functions directly via <a href="https://rustwasm.github.io/wasm-bindgen/web-sys/index.html">the <code>web-sys</code> crate</a>:</p>
+<h3 id="consoletime와-consoletimeend-함수"><a class="header" href="#consoletime와-consoletimeend-함수"><code>console.time</code>와 <code>console.timeEnd</code> 함수</a></h3>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/time"><code>console.time</code> 과 <code>console.timeEnd</code> 함수</a>를 사용해서 브라우저 개발자 도구 콘솔에 명명된 작업의 타이밍을 기록할 수 있습니다. 작업이 시작될 떄 <code>console.time("어떤거 하는 작업")</code>를 호출하고, 작업이 완료될 떄 <code>console.timeEnd("어떤거 하는 작업")</code>를 호출합니다. 참고로 작업의 이름을 지어주는 문자열 인자는 필수가 아닙니다.</p>
+<p><a href="https://rustwasm.github.io/wasm-bindgen/web-sys/index.html"><code>web-sys</code> 크레이트</a>를 통해 이러한 함수들을 직접적으로 사용할 수 있습니다:</p>
 <ul>
-<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.time_with_label.html"><code>web_sys::console::time_with_label("some operation")</code></a></li>
-<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.time_end_with_label.html"><code>web_sys::console::time_end_with_label("some operation")</code></a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.time_with_label.html"><code>web_sys::console::time_with_label("어떤거 하는 작업")</code></a></li>
+<li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.time_end_with_label.html"><code>web_sys::console::time_end_with_label("어떤거 하는 작업")</code></a></li>
 </ul>
-<p>Here is a screenshot of <code>console.time</code> logs in the browser's console:</p>
+<p>브라우저의 콘솔에 <code>console.time</code> 로그를 표시하는 스크린샷을 확인해보세요:</p>
 <p><a href="reference/../images/game-of-life/console-time.png"><img src="reference/../images/game-of-life/console-time.png" alt="Screenshot of console.time logs" /></a></p>
 <p>Additionally, <code>console.time</code> and <code>console.timeEnd</code> logs will show up in your
 browser's profiler's "timeline" or "waterfall" view:</p>
@@ -2101,7 +2091,7 @@ able to link your main lib.</p>
 <p>However! Make sure that you know the bottleneck is in the WebAssembly before
 investing much energy in native code profiling! Use your browser's profiler to
 confirm this, or else you risk wasting your time optimizing code that isn't hot.</p>
-<h4 id="resources-1"><a class="header" href="#resources-1">Resources</a></h4>
+<h4 id="resources"><a class="header" href="#resources">Resources</a></h4>
 <ul>
 <li><a href="http://www.brendangregg.com/perf.html">Using the <code>perf</code> profiler on Linux</a></li>
 <li><a href="https://help.apple.com/instruments/mac/current/">Using the Instruments.app profiler on macOS</a></li>
