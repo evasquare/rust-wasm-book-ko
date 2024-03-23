@@ -326,7 +326,7 @@ pub fn unwrap_abort&lt;T&gt;(o: Option&lt;T&gt;) -&gt; T {
 fn whatever(t: &amp;MyTrait) { ... }
 // etc...
 <span class="boring">}</span></code></pre></pre>
-<p>가상의 환경에서 함수들을 동적 디스패치 (dynamic dispatch) 라는 메커니즘으로 처리하게 되는데, 함수를 호출할 떄 제네릭 매개변수에 포함한 타입에 해당하는 함수들을 따로 만들어서 <code>.wasm</code>에 포함하게 됩니다. 제네릭 타입 매개변수와 비교했을 때 컴파일러 최적화 측면에서 손실이 있을 수 있고, 간접적이고 동적으로 디스패치된 함수를 부르는데 추가적인 비용이 들수도 있다는 단점이 있습니다.</p>
+<p>이 코드를 컴파일할 때 가상 환경에서 함수들을 동적 디스패치 (dynamic dispatch) 라는 메커니즘으로 처리하게 되는데, 한 가지 버전의 함수만 <code>.wasm</code> 파일로 처리되게 됩니다. 이러한 처리를 하면서 컴파일러 최적화 측면에서 손실이 있을 수 있고, 간접적이고 동적으로 디스패치된 함수를 부르는데 추가적인 비용이 들수도 있다는 단점이 있습니다.</p>
 <h3 id="wasm-snip-툴을-사용해보세요"><a class="header" href="#wasm-snip-툴을-사용해보세요"><code>wasm-snip</code> 툴을 사용해보세요</a></h3>
 <p><a href="https://github.com/fitzgen/wasm-snip"><code>wasm-snip</code>은 WebAssembly 함수의 코드를 <code>unreachable</code> Assembly 명령어로 교체해줍니다.</a> 하지만 잘 살펴보면 못 하나를 박는다고 아주 거대한 망치를 가져와서 열심히 두드리는 것 같은 느낌이 듭니다.</p>
 <p>런타임에서 사용하지 않는 함수들이 간접적으로 호출하는 다른 함수들을 어떻게 컴파일러에게 제거하라고 시켜야 할까요? 우선은 코드를 빌드 해보고 <code>wasm-opt</code>를 <code>--dce</code> 플래그를 포함해서 다시 실행해보세요! 간접적으로 호출되는 (런타임에서 부르지 않는) 함수들까지 지워버릴 수 있습니다.</p>
