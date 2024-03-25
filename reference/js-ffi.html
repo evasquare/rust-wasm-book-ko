@@ -177,25 +177,24 @@
 <h2 id="javascript-함수를-임포트하고-익스포트하기"><a class="header" href="#javascript-함수를-임포트하고-익스포트하기">JavaScript 함수를 임포트하고 익스포트하기</a></h2>
 <h3 id="rust-사이드"><a class="header" href="#rust-사이드">Rust 사이드</a></h3>
 <p>JavaScript 환경에서 wasm을 사용할 때, Rust 사이드에서 함수들을 임포트하고 익스포팅하는 작업은 매우 간단합니다. 그리고 C와 유사하게 작동하기도 합니다.</p>
-<p>WebAssembly 모듈은 임포트 시퀀스(sequence)를 선언하고, 각각 시퀀스는 <em>모듈 이름</em>과 <em>임포트 이름</em>으로 구성됩니다.
-WebAssembly modules declare a sequence of imports, each with a <em>module name</em>. 기본값으로 "env" 파일에 설정된 대로 <a href="https://github.com/rust-lang/rust/issues/52090"><code>#[link(wasm_import_module)]</code></a>를 사용하여 extern { ... }` 블럭 모듈 이름을 지정할 수 있습니다.</p>
-<p>익스포트는 한 가지 이름만 가질 수 있습니다. 다른 <code>extern</code> 함수들과 마찬가지로, WebAssembly 인스턴스의 기본 선형 메모리는 "memory" 라는 이름으로 익스포트 됩니다.</p>
+<p>WebAssembly 모듈이 임포트 시퀀스(sequence)를 선언하는데, 각각 시퀀스는 <em>모듈 이름</em>과 <em>임포트 이름</em>으로 구성됩니다. 기본값으로 "env" 파일에 설정된 대로, <a href="https://github.com/rust-lang/rust/issues/52090"><code>#[link(wasm_import_module)]</code></a>를 사용하여 <code>extern { ... }</code> 블럭 모듈 이름을 지정할 수 있습니다.</p>
+<p>익스포트는 한가지 이름만 가질 수 있습니다. 다른 <code>extern</code> 함수들과 마찬가지로, WebAssembly 인스턴스의 기본 선형 메모리는 "memory" 라는 이름으로 익스포트 됩니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// `foo`라는 JavaScript 함수를 `mod` 모듈에서 임포트 해옵니다.
+</span>// `foo`라는 JavaScript 함수를 `mod` 모듈에서 임포트해옵니다.
 #[link(wasm_import_module = "mod")]
 extern { fn foo(); }
 
-// `bar`라는 Rust 함수를 익스포트 해옵니다.
+// `bar`라는 Rust 함수를 익스포트합니다.
 #[no_mangle]
 pub extern fn bar() { /* ... */ }
 <span class="boring">}</span></code></pre></pre>
 <p>wasm이 제한된 값 타입들을 가지고 있기 때문에, 이러한 함수들은 원시 숫자 타입에서만 작동해야 합니다.</p>
 <h3 id="javascript-사이드"><a class="header" href="#javascript-사이드">JavaScript 사이드</a></h3>
-<p>JavaScript 코드 내에서, wasm 바이너리는 ES6 모듈로 변환됩니다. 선형 메모리와 함께 <em>인스턴스화</em> 해야하고, 임포트한 내용과 일치하는 JavaScript 함수 그룹이 있어야 합니다. 인스턴스화에 대해 더 자세히 알아보려면 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming">MDN</a>를 참고해주세요.</p>
+<p>JavaScript 코드 내에서, wasm 바이너리가 ES6 모듈로 변환되는 것을 확인할 수 있습니다. 이 모듈은 선형 메모리와 함께 <em>인스턴스화</em> 해야하고, 임포트한 내용과 일치하는 JavaScript 함수 그룹이 있어야 합니다. 인스턴스화에 대해 더 자세히 알아보려면 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming">MDN</a>를 참고해주세요.</p>
 <p>출력하게 되는 ES6 모듈은 Rust에서 익스포트한 모든 함수들을 가지고 있는데, JavaScript 함수로서 호출할 수 있습니다.</p>
 <p>셋업을 하고 작동시키는 전반적인 간단한 예시를 확인하고 싶다면 <a href="https://www.hellorust.com/demos/add/index.html">여기</a>를 참고해주세요.</p>
-<h2 id="going-beyond-numerics"><a class="header" href="#going-beyond-numerics">Going Beyond Numerics</a></h2>
+<h2 id="숫자-외에-다른-값도-사용해보기"><a class="header" href="#숫자-외에-다른-값도-사용해보기">숫자 외에 다른 값도 사용해보기</a></h2>
 <p>JavaScript에서 wasm을 사용할 때, wasm 모듈의 메모리와 JavaScript 메모리 사이가 명확하게 구분됩니다:</p>
 <ul>
 <li>
@@ -208,19 +207,13 @@ pub extern fn bar() { /* ... */ }
 <p>그러므로, 보통은 두가지 방법으로 정교화된 상호 작용을 하게 됩니다:</p>
 <ul>
 <li>
-<p>Copying in or out binary data to the wasm memory. For example, this is one way
-to provide an owned <code>String</code> to the Rust side.</p>
+<p>바이너리 데이터를 wasm 메모리에서 복사하거나 복사해옵니다. 예를 들어서, 이 방법으로 Rust 코드에서 소유한 <code>String</code> 값을 사용할수도 있습니다.</p>
 </li>
 <li>
-<p>Setting up an explicit "heap" of JS objects which are then given
-"addresses". This allows wasm code to refer to JS objects indirectly (using
-integers), and operate on those objects by invoking imported JS functions.</p>
+<p>명시적으로 JavaScript 객체의 힙을 설정하고 이후에 "addresses"를 할당합니다. 이렇게 wasm 코드에서 (정수 값을 사용하여) 간접적으로 JavaScript 객체를 참조할 수 있고, 임포트한 JavaScript 함수를 호출해서 사용할 수 있습니다.</p>
 </li>
 </ul>
-<p>Fortunately, this interop story is very amenable to treatment through a generic
-"bindgen"-style framework: <a href="https://github.com/rustwasm/wasm-bindgen">wasm-bindgen</a>. The framework makes it possible to
-write idiomatic Rust function signatures that map to idiomatic JS functions,
-automatically.</p>
+<p>다행히도, 이 상호 운용 작업은 <a href="https://github.com/rustwasm/wasm-bindgen">wasm-bindgen</a>이라는 <code>bindgen</code> 스타일의 프레임워크를 사용해서 매우 쉽게 처리할 수 있습니다. 이 프레임워크를 사용하면 보편적인 JavaScript 함수로 자동으로 매핑되는 보편적인 Rust 함수 시그니처를 생성할 수 있습니다.</p>
 <h2 id="custom-sections"><a class="header" href="#custom-sections">Custom Sections</a></h2>
 <p>Custom sections allow embedding named arbitrary data into a wasm module. The
 section data is set at compile time and is read directly from the wasm module,
