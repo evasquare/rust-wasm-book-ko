@@ -223,7 +223,7 @@ pub extern fn bar() { /* ... */ }
 pub static SECTION: [u8; 24] = *b"This is a custom section";
 <span class="boring">}</span></code></pre></pre>
 <p>이 코드는 wasm 파일에 <code>hello</code> 라는 사용자 정의 섹션을 추가합니다. 변수 이름 <code>SECTION</code> 은 임의로 명명됐고, 이 이름을 변경해도 코드의 동작이 바뀌지 않습니다. 이 변수에 텍스트 바이트를 사용했지만, 다른 임의의 데이터도 사용할 수 있습니다.</p>
-<p>이런 사용자 정의 섹션은 JS 사이드에서 [<code>WebAssembly.Module.customSections</code>]  함수를 사용하여 읽을 수 있습니다. 이 함수를 호출할 때, wasm 모듈과 섹션 이름을 인자로 주고 [<code>ArrayBuffer</code>]의 배열을 반환받게 됩니다. 여러 섹션들이 같은 이름을 공유해서 사용할수도 있는데, 이 경우에는 한 배열에 여러 섹션을 담게 됩니다.</p>
+<p>이런 사용자 정의 섹션은 JS 사이드에서 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Module/customSections"><code>WebAssembly.Module.customSections</code></a>  함수를 사용하여 읽을 수 있습니다. 이 함수를 호출할 때, wasm 모듈과 섹션 이름을 인자로 주고 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer"><code>ArrayBuffer</code></a>의 배열을 반환받게 됩니다. 여러 섹션들이 같은 이름을 공유해서 사용할수도 있는데, 이 경우에는 한 배열에 여러 섹션을 담게 됩니다.</p>
 <pre><code class="language-js">WebAssembly.compileStreaming(fetch("sections.wasm"))
 .then(mod =&gt; {
   const sections = WebAssembly.Module.customSections(mod, "hello");
@@ -234,8 +234,6 @@ pub static SECTION: [u8; 24] = *b"This is a custom section";
   console.log(text); // -&gt; "이 내용을 사용자 지정 섹션에서 가져왔습니다"
 });
 </code></pre>
-<p>[<code>ArrayBuffer</code>]: https://de veloper.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
-[<code>WebAssembly.Module.customSections</code>]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Module/customSections</p>
 
                     </main>
 
