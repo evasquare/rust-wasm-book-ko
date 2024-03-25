@@ -2288,12 +2288,9 @@ pub extern fn bar() { /* ... */ }
 </li>
 </ul>
 <p>다행히도, 이 상호 운용 작업은 <a href="https://github.com/rustwasm/wasm-bindgen">wasm-bindgen</a>이라는 <code>bindgen</code> 스타일의 프레임워크를 사용해서 매우 쉽게 처리할 수 있습니다. 이 프레임워크를 사용하면 보편적인 JavaScript 함수로 자동으로 매핑되는 보편적인 Rust 함수 시그니처를 생성할 수 있습니다.</p>
-<h2 id="custom-sections"><a class="header" href="#custom-sections">Custom Sections</a></h2>
-<p>Custom sections allow embedding named arbitrary data into a wasm module. The
-section data is set at compile time and is read directly from the wasm module,
-it cannot be modified at runtime.</p>
-<p>In Rust, custom sections are static arrays (<code>[T; size]</code>) exposed with the
-<code>#[link_section]</code> attribute:</p>
+<h2 id="커스텀-섹션"><a class="header" href="#커스텀-섹션">커스텀 섹션</a></h2>
+<p>커스텀 섹션을 통해 wasm 모듈에 명명된 임의의 데이터를 임베딩 할수 있습니다. 이 섹션 데이터는 컴파일 시점에 설정되며 wasm 모듈에서 직접 읽을 수 있습니다. 하지만 런타임에서는 이 모듈을 수정할 수 없습니다.</p>
+<p>Rust에서는 커스텀 섹션을 정적 배열 (<code>[T; size]</code>)로 나타내고 <code>#[link_section]</code> 속성으로 노출시킬 수 있습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[link_section = "hello"]
