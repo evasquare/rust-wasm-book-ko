@@ -2317,7 +2317,7 @@ pub static SECTION: [u8; 24] = *b"This is a custom section";
 <h3 id="파일-io"><a class="header" href="#파일-io">파일 I/O</a></h3>
 <p>WebAssembly는 파일 시스템에 접근할 수 없습니다. — 파일 시스템을 필요로 하고 wasm에서 사용할수 있도록 코드가 마련되지 않은 크레이트는 작동하지 않습니다.</p>
 <h3 id="스레드-생성"><a class="header" href="#스레드-생성">스레드 생성</a></h3>
-<p><a href="https://rustwasm.github.io/2018/10/24/multithreading-rust-and-wasm.html">스레딩을 웹어셈블리에 지원하는 계획</a>이 있긴 하지만 아직 준비가 되지 않았습니다. <code>wasm32-unknown-unknown</code> 타겟에서 스레드를 생성하려고 시도하면 wasm 트랩 (wasm trap)이 발생하면서 코드가 패닉하게 됩니다.</p>
+<p><a href="https://rustwasm.github.io/2018/10/24/multithreading-rust-and-wasm.html">스레딩을 웹어셈블리에 지원하는 계획</a>이 있긴 하지만 아직 준비가 되지 않았습니다. <code>wasm32-unknown-unknown</code> 타겟에서 스레드를 생성하려고 시도하면 wasm 트랩 (wasm trap) 이 발생하면서 코드가 패닉하게 됩니다.</p>
 <h2 id="어떤-일반적인-목적의-크레이트들이-webassembly에서-바로-작동하는-편인가요"><a class="header" href="#어떤-일반적인-목적의-크레이트들이-webassembly에서-바로-작동하는-편인가요">어떤 일반적인 목적의 크레이트들이 WebAssembly에서 바로 작동하는 편인가요?</a></h2>
 <h3 id="알고리즘과-자료-구조"><a class="header" href="#알고리즘과-자료-구조">알고리즘과 자료 구조</a></h3>
 <p><a href="https://ko.wikipedia.org/wiki/A*_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98">A* 알고리즘</a>나 <a href="https://en.wikipedia.org/wiki/Splay_tree">splay trees</a>처럼, 특정한 <a href="https://crates.io/categories/algorithms">알고리즘</a>이나 <a href="https://crates.io/categories/data-structures">data structure</a>의 구현을 제공하는 크레이트들은 WebAssembly와 잘 작동하는 편입니다.</p>
