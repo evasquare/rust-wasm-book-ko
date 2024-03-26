@@ -1904,7 +1904,7 @@ wasm-pack publish
 <p><code>wasm-snip</code>는 WebAssembly 함수의 내용을 <code>unreachable</code> 명령어(instruction)으로 바꿔줍니다.</p>
 <p>어떤 함수가 실제로 호출되지 않는걸 아는데 컴파일러가 이걸 모를때가 있나요? 일단 컴파일하고 <code>wasm-gc</code>를 실행해보세요! (런타임(runtime)에서 호출되지 않는) 다른 간접적으로 호출되는 다른 함수들도 모두 제거됩니다.</p>
 <p>디버깅 코드가 없는 실제로 배포하는 빌드 (production build) 에서 강제로 Rust 의 패닉 인프라(infrastructure)를 제외할 때 유용합니다.</p>
-<h2 id="inspecting-wasm-binaries"><a class="header" href="#inspecting-wasm-binaries">Inspecting <code>.wasm</code> Binaries</a></h2>
+<h2 id="wasm-바이너리-살펴보기"><a class="header" href="#wasm-바이너리-살펴보기"><code>.wasm</code> 바이너리 살펴보기</a></h2>
 <h3 id="twiggy--레포지토리"><a class="header" href="#twiggy--레포지토리"><code>twiggy</code> | <a href="https://github.com/rustwasm/twiggy">레포지토리</a></a></h3>
 <p><code>twiggy</code>는 <code>.wasm</code> 바이너리에 사용하는 코드 프로파일러입니다. 바이너리의 호출 그래프 (call graph) 를 분석하고 다음과 같은 내용을 알려줍니다:</p>
 <ul>
