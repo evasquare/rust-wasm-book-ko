@@ -586,7 +586,7 @@ pub fn greet(name: &amp;str) {
 <blockquote>
 <p>⚡ 다음 내용은 이 튜토리얼에서 다루는 내용 중에서도 아주 중요한 내용입니다. 이 내용을 이해하면서 얻어갈 수 있는 부분이 많습니다!</p>
 </blockquote>
-<p>JavaScript는 <code>Object</code>, <code>Array</code> 그리고 <a href="https://developer.mozilla.org/ko/docs/Glossary/Node/DOM">DOM 노드 (node)</a>들이 할당되는 가비지 콜렉터가 관리하는 힙을 사용하지만, 작성하게 될 Rust 코드의 선형 메모리는 별개의 공간을 사용하게 됩니다. WebAssembly는 현재로써는 가비지 콜렉터가 관리하는 힙에 직접 접근할수 없습니다. (2018년 4월 기준으로, <a href="https://github.com/WebAssembly/interface-types/blob/master/proposals/interface-types/Explainer.md">"Interface Types" proposal</a>과 함께 변경될 전망이긴 합니다.) 반면에 JavaScript는 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer"><code>ArrayBuffer</code></a>나 스칼라 값 (scalar values / <code>u8</code>, <code>i32</code>, <code>f64</code>, 등...)만으로라도 이 선형 메모리를 읽고 쓸수 있습니다. 이런 내용을 기반으로 모든 WebAssembly와 JavaScript 사이의 커뮤니케이션이 구성되게 됩니다.</p>
+<p>JavaScript는 <code>Object</code>, <code>Array</code> 그리고 <a href="https://developer.mozilla.org/ko/docs/Glossary/Node/DOM">DOM 노드(node)</a>들이 할당되는 가비지 콜렉터가 관리하는 힙을 사용하지만, 작성하게 될 Rust 코드의 선형 메모리는 별개의 공간을 사용하게 됩니다. WebAssembly는 현재로써는 가비지 콜렉터가 관리하는 힙에 직접 접근할수 없습니다. (2018년 4월 기준으로, <a href="https://github.com/WebAssembly/interface-types/blob/master/proposals/interface-types/Explainer.md">"인터페이스 타입" 제안</a> 과 함께 변경될 전망이긴 합니다.) 반면에 JavaScript는 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer"><code>ArrayBuffer</code></a>나 스칼라 값 (scalar values / <code>u8</code>, <code>i32</code>, <code>f64</code>, 등...)만으로라도 이 선형 메모리를 읽고 쓸수 있습니다. 이런 내용을 기반으로 모든 WebAssembly와 JavaScript 사이의 커뮤니케이션이 구성되게 됩니다.</p>
 <p><code>wasm_bindgen</code>는 이 경계를 사이로 어떻게 구조체(compound structure)들을 주고받아야 하는지 정해주는 역할을 합니다. 이러한 작업은 Rust 구조체를 박싱(boxing)하고, 쉽게 사용하기 위해 JavaScript 클래스에 포인터를 랩핑(wrapping)하고, Rust 코드에서 JavaScript 객체 테이블을 인덱싱(indexing)하는 과정을 포함합니다. <code>wasm_bindgen</code>은 매우 간편하지만, 데이터 표현 설계를 모두 대신 해주진 않습니다. 원하는 방식으로 인터페이스 설계를 구현할수 있도록 도와주는 도구 정도로 생각해주세요.</p>
 <p>WebAssembly와 JavaScript 사이의 인터페이스를 설계할 때, 다음 내용들을 최적화 작업 시 고려해야 합니다:</p>
 <ol>
@@ -1171,7 +1171,7 @@ pub fn test_tick() {
 <span class="boring">}</span></code></pre></pre>
 <p>이제 <code>wasm-game-of-life</code> 디렉토리에서 <code>wasm-pack test --firefox --headless</code> 명령어를 실행하여 테스팅 코드를 실행해주면 됩니다.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="디버깅"><a class="header" href="#디버깅">디버깅</a></h1>
-<p>코드를 더 작성하기 전에, 디버깅 툴들을 살펴보고 한번 장전해보도록 합시다. 관심이 있다면 <a href="game-of-life/../reference/debugging.html">Rust로 WebAssembly 바이너리를 생성하는 데에 사용해볼수 있는 접근방법과 툴에 대해 다루는 참조 페이지</a>도 확인해보세요!</p>
+<p>코드를 더 작성하기 전에, 디버깅 툴들을 살펴보고 한번 장전해보도록 합시다. 관심이 있다면 <a href="game-of-life/../reference/debugging.html">Rust로 WebAssembly 바이너리를 생성하는 데에 사용해볼수 있는 접근방법과 툴에 대해 다루는 참조 페이지</a> 도 확인해보세요!</p>
 <h2 id="패닉-로그-활성화하기"><a class="header" href="#패닉-로그-활성화하기">패닉 로그 활성화하기</a></h2>
 <p><a href="game-of-life/../reference/debugging.html#logging-panics">코드가 패닉할 때 개발자 콘솔에 도움이 되는 에러 메세지를 표시해보면 좋습니다.</a></p>
 <p>필수로 사용해야 하진 않지만 <code>wasm-pack-template</code>은 <code>wasm-game-of-life/src/utils.rs</code> 파일에 기본으로 활성화 돼 있는 종속성인 <a href="https://github.com/rustwasm/console_error_panic_hook">the <code>console_error_panic_hook</code> 크레이트</a>를 포함합니다. 이 훅(hook)을 생성자에 포함시켜주면 이 기능을 사용할 수 있습니다. <code>wasm-game-of-life/src/lib.rs</code> 파일 내의 <code>Universe::new</code> 생성자에서 불러보도록 하겠습니다.</p>
@@ -1239,7 +1239,7 @@ index f757641..a30e107 100755
 </code></pre>
 <h2 id="디버깅-툴debugger-를-사용하여-매-틱마다-일시정지-시키기"><a class="header" href="#디버깅-툴debugger-를-사용하여-매-틱마다-일시정지-시키기">디버깅 툴(debugger) 를 사용하여 매 틱마다 일시정지 시키기</a></h2>
 <p><a href="game-of-life/../reference/debugging.html#using-a-debugger">브라우저 디버깅 툴은 Rust로 작성한 WebAssembly와 상호작용하는 JavaScript 코드를 살펴볼 때 유용합니다.</a></p>
-<p>예를 들어서, <code>universe.tick()</code> 호출 이전에 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger">JavaScript 코드의 <code>debugger;</code> 줄</a>을 추가하면 디버깅 툴을 사용하여 <code>renderLoop</code>의 매 순회마다 코드 실행을 일시정지 시킬 수 있게 됩니다.</p>
+<p>예를 들어서, <code>universe.tick()</code> 호출 이전에 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger">JavaScript 코드에 <code>debugger;</code> 줄</a>을 추가하면 디버깅 툴을 사용하여 <code>renderLoop</code>의 매 순회마다 코드 실행을 일시정지 시킬 수 있게 됩니다.</p>
 <pre><code class="language-js">const renderLoop = () =&gt; {
   debugger;
   universe.tick();
@@ -1828,7 +1828,7 @@ default = ["wee_alloc"]
 <div style="break-before: page; page-break-before: always;"></div><h1 id="npm에-배포하기"><a class="header" href="#npm에-배포하기">npm에 배포하기</a></h1>
 <p>이제 잘 작동하는 빠르고 작은 <code>wasm-game-of-life</code> 패키지가 있으니, 다른 JavaScript 개발자들이 Game of Life 코드를 바로 받아 사용해야 할 때 종속성으로 사용할수 있도록 npm에 배포해보겠습니다.</p>
 <h2 id="준비-사항"><a class="header" href="#준비-사항">준비 사항</a></h2>
-<p>우선, <a href="https://www.npmjs.com/signup">npm 계정이 있는지 확인해주세요</a>.</p>
+<p>우선, <a href="https://www.npmjs.com/signup">기존에 생성된 npm 계정이 있는지 확인해주세요</a>.</p>
 <p>그 다음, 다음 명령어를 실행하여 로컬 머신에서 계정에 로그인돼 있는지 확인해주세요:</p>
 <pre><code>wasm-pack login
 </code></pre>
@@ -1974,7 +1974,7 @@ web_sys::console::log_1(&amp;"Hello, world!".into());
 <li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log.html">로그할 값들을 배열로 받는 <code>web_sys::console::log</code></a></li>
 <li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log_1.html">한 값만 로그하는 <code>web_sys::console::log_1</code></a></li>
 <li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log_2.html">두 값을 로그하는 <code>web_sys::console::log_2</code></a></li>
-<li>등...</li>
+<li>기타...</li>
 </ul>
 </li>
 <li>
@@ -1983,7 +1983,7 @@ web_sys::console::log_1(&amp;"Hello, world!".into());
 <li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error.html">로그할 값들을 배열로 받는 <code>web_sys::console::error</code></a></li>
 <li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error_1.html">한 값만 로그하는 <code>web_sys::console::error_1</code></a></li>
 <li><a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error_2.html">두 값을 로그하는 <code>web_sys::console::error_2</code></a></li>
-<li>등...</li>
+<li>기타...</li>
 </ul>
 </li>
 <li>
@@ -2022,7 +2022,7 @@ pub fn init_panic_hook() {
 <li><a href="https://developers.google.com/web/tools/chrome-devtools/javascript/">Chrome DevTools에서 JavaScript 디버깅 시작해보기</a></li>
 </ul>
 <h2 id="처음부터-webassembly-디버깅을-최소화할수-있도록-해주세요"><a class="header" href="#처음부터-webassembly-디버깅을-최소화할수-있도록-해주세요">처음부터 WebAssembly 디버깅을 최소화할수 있도록 해주세요</a></h2>
-<p>고쳐야 할 버그가 JavaScript나 Web API 환경을 필요로 한다면 <a href="https://rustwasm.github.io/wasm-bindgen/wasm-bindgen-test/index.html"><code>wasm-bindgen-test</code>으로 테스팅 코드를 작성해보세요.</a></p>
+<p>고쳐야 할 버그가 JavaScript나 Web API 환경을 필요로 한다면 <a href="https://rustwasm.github.io/wasm-bindgen/wasm-bindgen-test/index.html"><code>wasm-bindgen-test</code>으로 테스팅 코드를 작성해보세요</a>.</p>
 <p>그렇지 <em>않다면</em> <code>#[test]</code> 속성을 포함해서 일반적인 Rust 코드처럼 재현해보세요. 이렇게 하면 운영체제의 성숙한 네이티브 툴링을 최대한 활용하여 디버깅할 수 있습니다. <a href="https://crates.io/crates/quickcheck"><code>quickcheck</code></a>과 같은 테스팅 크레이트와 테스팅 코드 축소기도 사용해보면서 기계적으로 테스트 코드의 사이즈를 줄여보세요. 최종적으로는, JavaScript 환경이 요구되지 않도록 더 작은 Rust 테스트 코드로 분리시키면 버그를 찾아서 잡기가 쉬워집니다.</p>
 <p>컴파일러와 링커 오류(linker error)없이 네이티브 <code>#[test]</code> 속성을 사용하려면, <code>Cargo.toml</code> 파일의 <code>[lib.crate-type]</code> 배열에 <code>rlib</code>가 포함돼 있는지 확인해주세요.</p>
 <pre><code class="language-toml">[lib]
@@ -2330,11 +2330,11 @@ pub static SECTION: [u8; 24] = *b"This is a custom section";
 <div style="break-before: page; page-break-before: always;"></div><h1 id="다목적-크레이트가-webassembly를-지원하도록-코드-추가하기"><a class="header" href="#다목적-크레이트가-webassembly를-지원하도록-코드-추가하기">다목적 크레이트가 WebAssembly를 지원하도록 코드 추가하기</a></h1>
 <p>이 섹션은 WebAssembly를 지원하고자 하는 다목적 크레이트 저자들을 위해 작성됐습니다.</p>
 <h2 id="크레이트가-이미-webassembly를-지원할수도-있어요"><a class="header" href="#크레이트가-이미-webassembly를-지원할수도-있어요">크레이트가 이미 WebAssembly를 지원할수도 있어요!</a></h2>
-<p><a href="reference/./which-crates-work-with-wasm.html">어떤 작업을 하는 다목적 크레이트가 WebAssembly에 적합하지 <strong>않</strong>나요</a>의 내용을 먼저 읽어보세요. 작성하는 크레이트가 해당 사항이 없다면, WebAssembly를 지원할 확률이 높습니다.</p>
+<p><a href="reference/./which-crates-work-with-wasm.html">어떤 작업을 하는 다목적 크레이트가 WebAssembly에 적합하지 <strong>않나요</strong>?</a> 의 내용을 먼저 읽어보세요. 작성하는 크레이트가 해당 사항이 없다면, WebAssembly를 지원할 확률이 높습니다.</p>
 <p>추가로, <code>cargo build</code> 명령어를 입력해서 WebAssembly 타겟을 지원하는지 항상 확인해볼수 있습니다:</p>
 <pre><code>cargo build --target wasm32-unknown-unknown
 </code></pre>
-<p>명령어 실행이 실패한다면 현재로서는 크레이트가 WebAssembly를 지원하지 않는다는 내용을 확일할 수 있습니다. 하지만 이 명령어가 성공하더라도 크레이트가 꼭 WebAssembly를 지원한다는 의미는 아닙니다. 더 확실하게 확인하고 싶다면 <a href="reference/add-wasm-support-to-crate.html#maintaining-ongoing-support-for-webassembly">wasm 테스팅 코드를 추가하고 지속성 통합 (continuous integration) 환경에서 테스트를 실행해보기</a>를 읽어보세요.</p>
+<p>명령어 실행이 실패한다면 현재로서는 크레이트가 WebAssembly를 지원하지 않는다는 내용을 확일할 수 있습니다. 하지만 이 명령어가 성공하더라도 크레이트가 꼭 WebAssembly를 지원한다는 의미는 아닙니다. 더 확실하게 확인하고 싶다면 <a href="reference/add-wasm-support-to-crate.html#maintaining-ongoing-support-for-webassembly">wasm 테스팅 코드를 추가하고 지속성 통합 (continuous integration) 환경에서 테스트를 실행해보기</a> 를 읽어보세요.</p>
 <h2 id="webassembly-지원-추가하기"><a class="header" href="#webassembly-지원-추가하기">WebAssembly 지원 추가하기</a></h2>
 <h3 id="바로-io를-수행하지-말아주세요"><a class="header" href="#바로-io를-수행하지-말아주세요">바로 I/O를 수행하지 말아주세요</a></h3>
 <p>웹 환경에서 I/O는 항상 비동기적일 뿐 아니라 파일 시스템도 존재하지 않습니다. 라이브러리의 I/O를 분리하고 유저들이 I/O를 직접 수행하고 슬라이스를 라이브러리로 대신 입력할수 있도록 수정해봅시다.</p>
@@ -2439,7 +2439,7 @@ matrix:
       install: rustup target add wasm32-unknown-unknown
       script: cargo check --target wasm32-unknown-unknown
 </code></pre>
-<h3 id="nodejs와-헤드리스-브라우저-headless-browsers에서-테스팅하기"><a class="header" href="#nodejs와-헤드리스-브라우저-headless-browsers에서-테스팅하기">Node.js와 <a href="https://ko.wikipedia.org/wiki/%ED%97%A4%EB%93%9C%EB%A6%AC%EC%8A%A4_%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80">헤드리스 브라우저 (Headless Browsers)</a>에서 테스팅하기</a></h3>
+<h3 id="nodejs와-헤드리스-브라우저-headless-browsers-에서-테스팅하기"><a class="header" href="#nodejs와-헤드리스-브라우저-headless-browsers-에서-테스팅하기">Node.js와 <a href="https://ko.wikipedia.org/wiki/%ED%97%A4%EB%93%9C%EB%A6%AC%EC%8A%A4_%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80">헤드리스 브라우저 (Headless Browsers)</a> 에서 테스팅하기</a></h3>
 <p><code>wasm-bindgen-test</code>와 <code>wasm-pack-test</code> subcommand를 사용해서 wasm 테스트들 Node.js나 헤드리스 브라우저에서 실행해보세요. 이러한 테스트들을 CI에 통합시켜볼수도 있습니다.</p>
 <p><a href="https://rustwasm.github.io/wasm-bindgen/wasm-bindgen-test/index.html">여기서 wasm 테스팅에 대해 더 알아보세요.</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust로-작성한-webassembly-코드를-프로덕션-환경에-배포하기"><a class="header" href="#rust로-작성한-webassembly-코드를-프로덕션-환경에-배포하기">Rust로 작성한 WebAssembly 코드를 프로덕션 환경에 배포하기</a></h1>
@@ -2455,7 +2455,7 @@ matrix:
 </ul>
 <h2 id="추가-자료-2"><a class="header" href="#추가-자료-2">추가 자료</a></h2>
 <ul>
-<li><a href="https://webpack.js.org/guides/production/">프로덕션 개발 환경에서 Webpack를 사용하는 모범 사례</a> 많은 Rust와 WebAssembly 프로젝트들은 Rust로 생성한 WebAssembly와 JavaScript, CSS, HTML 코드를 번들링 하기 위해 Webpack을 사용합니다. 이 가이드는 프로덕션 환경에 배포할 때 어떻게 Webpack을 가장 잘 활용할수 있는지 알려주는 유용한 정보들를 포함합니다.</li>
+<li><a href="https://webpack.js.org/guides/production/">프로덕션 개발 환경에서 Webpack를 사용하는 모범 사례.</a> 많은 Rust와 WebAssembly 프로젝트들은 Rust로 생성한 WebAssembly와 JavaScript, CSS, HTML 코드를 번들링 하기 위해 Webpack을 사용합니다. 이 가이드는 프로덕션 환경에 배포할 때 어떻게 Webpack을 가장 잘 활용할수 있는지 알려주는 유용한 정보들를 포함합니다.</li>
 <li><a href="https://httpd.apache.org/docs/">Apache 문서.</a> Apache는 프로덕션 환경에서 많이 사용되는 HTTP 서버입니다.</li>
 <li><a href="https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/">NGINX 문서.</a> NGNIX는 프로덕션 환경에서 많이 사용되는 HTTP 서버입니다.</li>
 </ul>
