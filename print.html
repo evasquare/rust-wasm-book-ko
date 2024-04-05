@@ -2307,7 +2307,7 @@ pub static SECTION: [u8; 24] = *b"This is a custom section";
 });
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="어떤-크레이트들을-webassembly에서-바로-사용할수-있나요"><a class="header" href="#어떤-크레이트들을-webassembly에서-바로-사용할수-있나요">어떤 크레이트들을 WebAssembly에서 바로 사용할수 있나요?</a></h1>
-<p>가장 간단하게 어떤 것들이 WebAssembly 환경에서 작동하지 않는지 목록으로 만들어 보겠습니다. 다음 내용에 해당하지 않는 크레이트들은 휴대성이 좋고 WebAssembly 환경에서 잘 작동한다고 생각해도 좋고, 임베디드 시스템과 <code>#![no_std]</code>를 지원한다면 보통은 WebAssembly도 지원한다고 볼수 있습니다.</p>
+<p>가장 간단하게 어떤 것들이 WebAssembly 환경에서 작동하지 않는지 목록을 한번 만들어 보겠습니다. 다음 내용에 해당하지 않는 크레이트들은 휴대성이 좋고 WebAssembly 환경에서 잘 작동한다고 생각해도 좋고, 임베디드 시스템과 <code>#![no_std]</code>를 지원한다면 보통은 WebAssembly도 지원한다고 볼수 있습니다.</p>
 <h2 id="이러한-크레이트들은-webassembly-환경에서-작동하지-않을수도-있습니다"><a class="header" href="#이러한-크레이트들은-webassembly-환경에서-작동하지-않을수도-있습니다">이러한 크레이트들은 WebAssembly 환경에서 작동하지 않을수도 있습니다</a></h2>
 <h3 id="c-언어와-시스템-라이브러리-종속성이-있는-경우"><a class="header" href="#c-언어와-시스템-라이브러리-종속성이-있는-경우">C 언어와 시스템 라이브러리 종속성이 있는 경우</a></h3>
 <p>wasm에는 시스템 라이브러리가 없기 떄문에 시스템 라이브러리에 바인딩된 코드가 있는 크레이트는 작동하지 않습니다.</p>
