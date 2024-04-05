@@ -185,7 +185,7 @@
 <p>Rust를 아직 모르시나요? <a href="https://doc.rust-lang.org/book/"><em>The Rust Programming Language</em> 책으로 시작해보세요.</a></p>
 <p>JavaScript나 HTML, CSS를 모르시나요? <a href="https://developer.mozilla.org/en-US/docs/Learn">MDN에서 더 알아보세요.</a></p>
 <h2 id="이-책을-읽는-방법"><a class="header" href="#이-책을-읽는-방법">이 책을 읽는 방법</a></h2>
-<p><a href="./why-rust-and-webassembly.html">왜 Rust로 WebAssembly 개발을 해야 하나요?</a> 를 읽어보면 좋고, <a href="./background-and-concepts.html">배경 지식</a>과 먼저 친숙해져보는것도 좋습니다.</p>
+<p><a href="./why-rust-and-webassembly.html">왜 Rust로 WebAssembly 개발을 해야 하나요?</a> 섹션을 읽어보면 좋고, <a href="./background-and-concepts.html">배경 지식</a>과 먼저 친숙해져보는것도 좋습니다.</p>
 <p>이 <a href="./game-of-life/introduction.html">튜토리얼</a>은 처음부터 끝까지 읽도록 작성됐습니다. 튜토리얼에 있는 코드를 작성, 컴파일하고 직접 실행해보세요. Rust와 WebAssembly를 같이 사용해본적이 없다면, 튜토리얼을 한번 활용해보세요!</p>
 <p><a href="./reference/index.html">레퍼런스 섹션</a> 은 아무 순서로 정독해도 괜찮습니다.</p>
 <blockquote>
@@ -200,14 +200,14 @@
 <p>JavaScript 웹 앱들은 안정된 성능을 확보하고 유지하는데 어려움을 겪습니다. JavaScript 동적 타입 시스템과 가비지 콜렉션 (Garbage Collection) 을 잠시 중단하는 것만으로는 크게 도움이 되지 않습니다. 보기에는 작은 내용의 코드를 수정하더라도 JIT에 치명적인 코드를 작성한다면 드라마틱한 성능 저하를 일으킬수도 있습니다.</p>
 <p>Rust는 JavaScript를 병들게 만든 비결정적인 가비지 콜렉션 중단으로부터 자유로울 뿐 아니라, 프로그래머들이 간접지정(indirection)과 단일화(monomorphization), 메모리 레이아웃을 컨트롤할수 있도록 함으로 저레벨 컨트롤과 안정된 성능을 제공합니다.</p>
 <h2 id="작은-wasm-사이즈"><a class="header" href="#작은-wasm-사이즈">작은 <code>.wasm</code> 사이즈</a></h2>
-<p><code>.wasm</code> 파일이 네트워크로 전송돼야 하는 점 때문에 코드의 파일 사이즈는 매우 중요합니다. Rust는 런타임이 작고 가비지 콜렉터와 같은 불필요한 요소가 없어 <code>.wasm</code> 사이즈를 효과적으로 줄일수 있도록 해주고, 실제로 사용하지 않는 함수들을 (빌드하는 코드 파일)에서 제외시켜줍니다.</p>
-<p>이는 코드 파일 사이즈의 관점에서 실제로 사용하는 기능만 포함할 수 있도록 해줍니다.</p>
+<p><code>.wasm</code> 파일이 네트워크로 전송돼야 하는 점을 고려하면 코드의 파일 사이즈는 매우 중요합니다. Rust는 런타임이 작고 가비지 콜렉터와 같은 불필요한 요소가 없어 <code>.wasm</code> 사이즈를 효과적으로 줄일 수 있도록 해주고, 실제로 사용하지 않는 함수들을 (빌드하는 코드 파일)에서 제외시켜줍니다.</p>
+<p>이렇게 코드 파일 사이즈의 관점에서 실제로 사용하는 기능만 포함할 수 있게 됩니다.</p>
 <h2 id="모든-내용을-다시-작성하지-말아주세요"><a class="header" href="#모든-내용을-다시-작성하지-말아주세요">모든 내용을 다시 작성하지 <strong>말아주세요</strong></a></h2>
-<p>기존에 존재하는 코드 베이스를 버릴 필요는 없습니다. 바로 효과를 볼수 있도록, 성능이 중요한 JavaScript 함수들을 Rust로 옮기는 것으로 시작해볼수도 있습니다. 원한다면 거기서 멈춰도 괜찮습니다.</p>
+<p>기존에 존재하는 코드 베이스를 버릴 필요는 없습니다. 바로 효과를 볼수 있도록, 성능 개선이 중요한 JavaScript 함수들을 먼저 Rust로 옮기는 것으로 시작해볼수도 있습니다. 원한다면 거기서 멈춰도 괜찮습니다.</p>
 <h2 id="다른-툴과-잘-작동합니다"><a class="header" href="#다른-툴과-잘-작동합니다">다른 툴과 잘 작동합니다</a></h2>
-<p>Rust와 WebAssembly는 기존에 존재하는 JavaScript 툴링과 함께 가장 잘 작동합니다. WebAssembly는 ECMAScript 모듈을 지원하고 npm과 Webpack처럼 기존에 사랑받던 툴링을 계속 사용할수 있게 해줍니다.</p>
+<p>Rust와 WebAssembly는 기존에 존재하는 JavaScript 툴들과 함께 가장 잘 작동합니다. WebAssembly는 ECMAScript 모듈을 지원하고 npm과 Webpack처럼 기존에 사랑받던 툴들을 계속 사용할수 있게 해줍니다.</p>
 <h2 id="기대할수-있는-강점들"><a class="header" href="#기대할수-있는-강점들">기대할수 있는 강점들</a></h2>
-<p>Rust는 개발자들이 기대하는 현대적인 편의 기능을 갖추고 있습니다. 예를 들어서:</p>
+<p>Rust는 다음과 같이 개발자들이 일반적으로 기대하게 되는 현대적인 편의 기능을 갖추고 있습니다.</p>
 <ul>
 <li>
 <p><code>cargo</code>로 강력한 패키지 관리하기</p>
