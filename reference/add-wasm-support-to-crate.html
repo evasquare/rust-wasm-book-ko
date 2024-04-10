@@ -271,7 +271,7 @@ fn do_work() {
 <p>파일 I/O를 제거하고 유저들이 I/O 코드를 따로 가져올수 있도록 변경했던 것과 유사하게, 스레드 생성 코드를 라이브러리에서 제외시킨 다음 라이브러리 유저들이 스레드 코드를 따로 생성할수 있도록 변경해볼수도 있습니다. 이렇게 구현했을 때 라이브러리 사용자들이 직접 스레드 풀 코드를 마련할수 있게 되는 긍정적인 부수 효과를 보게 됩니다.</p>
 <h2 id="webassembly의-지속적인-지원-유지하기"><a class="header" href="#webassembly의-지속적인-지원-유지하기">WebAssembly의 지속적인 지원 유지하기</a></h2>
 <h3 id="지속성-통합-ci-환경을-사용해서-wasm32-unknown-unknown-타겟으로-빌드하기"><a class="header" href="#지속성-통합-ci-환경을-사용해서-wasm32-unknown-unknown-타겟으로-빌드하기">지속성 통합 (CI) 환경을 사용해서 <code>wasm32-unknown-unknown</code> 타겟으로 빌드하기</a></h3>
-<p>WebAssembly를 타겟으로 할떄, 다음 명령어를 CI 스크립트에 포함시켜서 컴파일이 실패하지 않는지 확인할수 있습니다:</p>
+<p>WebAssembly를 타겟으로 할떄, 다음 명령어를 CI 스크립트에 포함시켜서 컴파일이 실패하지 않는지 확인할 수 있습니다:</p>
 <pre><code>rustup target add wasm32-unknown-unknown
 cargo check --target wasm32-unknown-unknown
 </code></pre>

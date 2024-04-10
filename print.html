@@ -252,7 +252,7 @@
 </code></pre>
 <p>위 예제가 <code>.wasm</code> 파일로는 어떻게 보일지 궁금하다면, <a href="https://webassembly.github.io/wabt/demo/wat2wasm/">wat2wasm 데모</a> 웹사이트를 이용해보세요.</p>
 <h2 id="선형-메모리-linear-memory"><a class="header" href="#선형-메모리-linear-memory">선형 메모리 (Linear Memory)</a></h2>
-<p>WebAssembly 매우 간단한 <a href="https://webassembly.github.io/spec/core/syntax/modules.html#syntax-mem">메모리 모델</a>을 가지고 있고, 하나의 wasm 모듈은 하나의 "선형 메모리" 에 접근할수 있습니다.</p>
+<p>WebAssembly 매우 간단한 <a href="https://webassembly.github.io/spec/core/syntax/modules.html#syntax-mem">메모리 모델</a>을 가지고 있고, 하나의 wasm 모듈은 하나의 "선형 메모리" 에 접근할 수 있습니다.</p>
 <p>이 메모리는 페이지 사이즈 (64K)의 곱만큼 <a href="https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-memory">커질수 있으며</a> 이 사이즈는 줄어들 수 없습니다.</p>
 <h2 id="웹에서만-webassembly를-사용할-수-있나요"><a class="header" href="#웹에서만-webassembly를-사용할-수-있나요">웹에서만 WebAssembly를 사용할 수 있나요?</a></h2>
 <p>현재로는 JavaScript 웹 커뮤니티에서 주로 주목을 받고 있지만, wasm은 특정 실행 환경을 필요로 하지 않습니다. 그러므로, wasm이 미래에 다양한 맥락에서 사용할수 있는 "휴대 가능한 실행할수 있는" 포맷이라고 여겨질수도 있습니다. 하지만 오늘날 wasm은 대부분 (웹과 <a href="https://nodejs.org">Node.js</a>을 포함한) 다양한 형태로 존재하는 JavaScript (JS)와 함께 언급됩니다.</p>
@@ -373,7 +373,7 @@ pub fn greet() {
 ├── wasm_game_of_life.d.ts
 └── wasm_game_of_life.js
 </code></pre>
-<p><code>README.md</code> 파일이 메인 프로젝트에서 복사되지만 나머지 파일은 완전히 새로 생성된 부분을 확인할수 있습니다.</p>
+<p><code>README.md</code> 파일이 메인 프로젝트에서 복사되지만 나머지 파일은 완전히 새로 생성된 부분을 확인할 수 있습니다.</p>
 <h3 id="wasm-game-of-lifepkgwasm_game_of_life_bgwasm"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_life_bgwasm"><code>wasm-game-of-life/pkg/wasm_game_of_life_bg.wasm</code></a></h3>
 <p>이러한 <code>.wasm</code> 파일은 Rust 컴파일러가 Rust 소스 코드로 생성한 바이너리 파일입니다. 이 파일은 wasm 형식으로 컴파일된 소스 코드의 함수와 데이터들로 구성돼 있습니다. 변환된 "greet" 함수가 예가 될수 있습니다.</p>
 <h3 id="wasm-game-of-lifepkgwasm_game_of_lifejs"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_lifejs"><code>wasm-game-of-life/pkg/wasm_game_of_life.js</code></a></h3>
@@ -487,7 +487,7 @@ wasm.greet();
 <p>이제 개발 서버를 구동할 새 터미널을 열어주세요. 새로 연 터미널에서 서버를 구동하면 다른 명령어를 계속 입력할수 있는 동시에 백그라운드에서 계속 서버를 구동할수 있게 됩니다. 새 터미널에서 <code>wasm-game-of-life/www</code> 디렉토리로 들어간 다음 이 명령어를 실행해주세요:</p>
 <pre><code>npm run start
 </code></pre>
-<p>웹 브라우저를 열고 <a href="http://localhost:8080/">http://localhost:8080/</a> 를 열면 표시되는 인사 메세지를 확인할수 있습니다:</p>
+<p>웹 브라우저를 열고 <a href="http://localhost:8080/">http://localhost:8080/</a> 를 열면 표시되는 인사 메세지를 확인할 수 있습니다:</p>
 <p><a href="game-of-life/../images/game-of-life/hello-world.png"><img src="game-of-life/../images/game-of-life/hello-world.png" alt="&quot;Hello, wasm-game-of-life!&quot; 웹 페이지 알림(alert) 메세지 스크린샷" /></a></p>
 <p>파일을 저장할때마다 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지에 반영되게 하고 싶다면, <code>wasm-pack build</code> 명령어를 <code>wasm-game-of-life</code> 디렉토리에서 다시 실행해주시면 됩니다.</p>
 <h2 id="연습해보기"><a class="header" href="#연습해보기">연습해보기</a></h2>
@@ -633,7 +633,7 @@ pub struct Universe {
     cells: Vec&lt;Cell&gt;,
 }
 <span class="boring">}</span></code></pre></pre>
-<p>이전에 설명한 내용대로 주어진 행과 열을 세포 벡터의 인덱스로 변환하여 사용할수 있습니다:</p>
+<p>이전에 설명한 내용대로 주어진 행과 열을 세포 벡터의 인덱스로 변환하여 사용할 수 있습니다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl Universe {
@@ -885,7 +885,7 @@ const renderLoop = () =&gt; {
   ctx.stroke();
 };
 </code></pre>
-<p>raw wasm 모듈인 <code>wasm_game_of_life_bg</code>에 정의된 <code>memory</code>를 임포트해서 WebAssembly의 선형 메모리에 직접 접근할수 있습니다. 세포를 그리려면 세상에 있는 세포들을 가리키는 포인터를 반환받고, 세포 버퍼(buffer)를 오버레이(overlay)하는 <code>Uint8Array</code> 객체를 생성한 다음 각 세포를 순회하여 생존 여부에 따라 흰색 또는 검은색 사각형을 그립니다. 포인터를 오버레이하게 되면서, 모든 틱마다 세포들을 복사하지 않도록 최적화 작업을 해줄수 있습니다.</p>
+<p>raw wasm 모듈인 <code>wasm_game_of_life_bg</code>에 정의된 <code>memory</code>를 임포트해서 WebAssembly의 선형 메모리에 직접 접근할 수 있습니다. 세포를 그리려면 세상에 있는 세포들을 가리키는 포인터를 반환받고, 세포 버퍼(buffer)를 오버레이(overlay)하는 <code>Uint8Array</code> 객체를 생성한 다음 각 세포를 순회하여 생존 여부에 따라 흰색 또는 검은색 사각형을 그립니다. 포인터를 오버레이하게 되면서, 모든 틱마다 세포들을 복사하지 않도록 최적화 작업을 해줄수 있습니다.</p>
 <pre><code class="language-js">// WebAssembly 메모리를 파일 최상단에 임포트해줍니다.
 import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
 
@@ -1815,7 +1815,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 <p><a href="game-of-life/../reference/code-size.html#use-the-wasm-snip-tool"><code>wasm-snip</code> 툴</a>을 사용해서 패닉 디버깅 함수를 구현한 게임의 <code>.wasm</code> 바이너리에서 제외시켜보세요. 사이즈가 얼마나 줄어드나요?</p>
 </li>
 <li>
-<p><a href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> 를 전역 할당자 (global allocator)</a>를 써보고 이전과 비교해보세요. 프로젝트를 시작할 때 클론 했던 <code>rustwasm/wasm-pack-template</code> 템플릿은 "wee_alloc" 이라는 카고(cargo) 기능(feature)을 포함하고 있는데, 이 기능은 <code>wasm-game-of-life/Cargo.toml</code> 파일의 <code>[features]</code> 섹션에 위치한 <code>default</code> 필드에 추가해서 활성화 할수 있습니다.</p>
+<p><a href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> 를 전역 할당자 (global allocator)</a>를 써보고 이전과 비교해보세요. 프로젝트를 시작할 때 클론 했던 <code>rustwasm/wasm-pack-template</code> 템플릿은 "wee_alloc" 이라는 카고(cargo) 기능(feature)을 포함하고 있는데, 이 기능은 <code>wasm-game-of-life/Cargo.toml</code> 파일의 <code>[features]</code> 섹션에 위치한 <code>default</code> 필드에 추가해서 활성화할 수 있습니다.</p>
 <pre><code class="language-toml">[features]
 default = ["wee_alloc"]
 </code></pre>
@@ -1957,8 +1957,8 @@ debug = true
 </code></pre>
 <h2 id="console-api로-로깅-하기"><a class="header" href="#console-api로-로깅-하기"><code>console</code> API로 로깅 하기</a></h2>
 <p>로깅(Logging) 작업은 코드를 설계하면서 만든 가설들을 증명하고 프로그램의 버그를 해결하는데 매우 효과적입니다. 웹 환경에서 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/log"><code>console.log</code>
-함수</a>를 호출하여 브라우저의 개발자 콘솔에 메세지를 로그할수 있습니다.</p>
-<p><a href="https://rustwasm.github.io/wasm-bindgen/web-sys/index.html"><code>web-sys</code> 크레이트</a>를 사용하여 <code>console</code> 로깅 함수를 사용할수 있습니다.</p>
+함수</a>를 호출하여 브라우저의 개발자 콘솔에 메세지를 로그할 수 있습니다.</p>
+<p><a href="https://rustwasm.github.io/wasm-bindgen/web-sys/index.html"><code>web-sys</code> 크레이트</a>를 사용하여 <code>console</code> 로깅 함수를 사용할 수 있습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern crate web_sys;
@@ -2010,7 +2010,7 @@ pub fn init_panic_hook() {
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="디버거-사용하기"><a class="header" href="#디버거-사용하기">디버거 사용하기</a></h2>
-<p>정말 아쉽게도 WebAssembly 디버깅 경험은 아직 개선할 부분이 많습니다. 대부분의 Unix 시스템에서는 <a href="http://dwarfstd.org/">DWARF</a>를 사용해서 소스 레벨에서 실행하는 프로그램을 살펴보는데 디버거가 필요로 하는 정보를 인코딩(encoding)할수 있습니다. 하지만 Windows에서는 대신 사용할수 있는 포맷이 있긴 하지만 현재로서는 WebAssembly를 직접적으로 지원하지 않습니다. 그러므로 따로 작성했던 Rust 소스 텍스트 대신 컴파일러가 출력한 WebAssembly 명령어를 그대로 확인해야 합니다.</p>
+<p>정말 아쉽게도 WebAssembly 디버깅 경험은 아직 개선할 부분이 많습니다. 대부분의 Unix 시스템에서는 <a href="http://dwarfstd.org/">DWARF</a>를 사용해서 소스 레벨에서 실행하는 프로그램을 살펴보는데 디버거가 필요로 하는 정보를 인코딩(encoding)할 수 있습니다. 하지만 Windows에서는 대신 사용할수 있는 포맷이 있긴 하지만 현재로서는 WebAssembly를 직접적으로 지원하지 않습니다. 그러므로 따로 작성했던 Rust 소스 텍스트 대신 컴파일러가 출력한 WebAssembly 명령어를 그대로 확인해야 합니다.</p>
 <blockquote>
 <p><a href="https://github.com/WebAssembly/debugging">W3C WebAssembly group의 디버깅 하위 조항</a>도 있으므로 미래에는 이런 문제가 개선될 것으로 예상됩니다!</p>
 </blockquote>
@@ -2223,7 +2223,7 @@ pub fn unwrap_abort&lt;T&gt;(o: Option&lt;T&gt;) -&gt; T {
 <p>최종적으로는 패닉 코드가 <code>wasm32-unknown-unknown</code> 타겟의 abort 명령어로 옮겨지기 때문에, 이런 식으로 코드를 작성하면서 불필요한 코드를 지울 수 있습니다.</p>
 <p>다른 방법으로는, <a href="https://crates.io/crates/unreachable"><code>unreachable</code> 크레이트</a>가 <code>Option</code>과 <code>Result</code> 타입의 값과 함께 사용할수 있도록 불안전한 <a href="https://docs.rs/unreachable/1.0.0/unreachable/trait.UncheckedOptionExt.html#tymethod.unchecked_unwrap"><code>unchecked_unwrap</code> 확장 크레이트</a>를 제공하는데, 이 확장 크레이트는 컴파일러가 <code>Option</code>을 <code>Some</code>으로, <code>Result</code>를 <code>Ok</code>로 <em>추측</em>해서 옮길수 있도록 도와줍니다. 하지만 이런 추측이 맞아떨어지지 않으면 정의하지 않은 동작 (undefined behavior) 이 발생하게 되므로, 코드가 잘 작동한다고 확신하지만 컴파일러가 모르는 상황에서 이 상황을 <em>잘 이해하고 있을 때만</em> 이 방법을 사용해주세요. 그리고 이 방법을 사용하더라도, 배포 버전에서만 적용하고 그 외에는 컴파일러가 확인할 수 있도록 디버그 빌드 설정하길 권장합니다.</p>
 <h3 id="할당을-피하거나-wee_alloc을-대신-사용해보세요"><a class="header" href="#할당을-피하거나-wee_alloc을-대신-사용해보세요">할당을 피하거나 <code>wee_alloc</code>을 대신 사용해보세요.</a></h3>
-<p>Rust는 기본값으로 <code>dlmalloc</code>라는 할당자를 이식해서 사용합니다. 이 할당자는 10 KB 정도의 사이즈를 차지하게 되는데, 동적 할당을 사용하지 않아도 괜찮다면 이 사이즈를 절약할수 있습니다.</p>
+<p>Rust는 기본값으로 <code>dlmalloc</code>라는 할당자를 이식해서 사용합니다. 이 할당자는 10 KB 정도의 사이즈를 차지하게 되는데, 동적 할당을 사용하지 않아도 괜찮다면 이 사이즈를 절약할 수 있습니다.</p>
 <p>완전히 동적 할당 없이 작업하기가 쉽지는 않은 편인데, 코드의 <a href="https://en.wikipedia.org/wiki/Hot_spot_(computer_programming)">핫 스팟 (hot spot)</a> 에서 할당을 없애는 작업은 보통 훨씬 쉬운 편입니다. (보통은 이 작업을 통해 핫 스팟인 코드들을 훨씬 빠르게 만들수도 있습니다.) 이러한 상황에서 <a href="https://github.com/rustwasm/wee_alloc">전역 할당자 대신 <code>wee_alloc</code>를 사용하면</a> (전부는 아니지만) 이 10 KB의 공간의 대부분을 절약할 수 있습니다. <code>wee_alloc</code>는 할당자가 필요하지만 굳이 아주 빠를 필요가 없고, 실행 속도가 느려지는 대신 코드 사이즈를 줄여도 괜찮을 때 사용하도록 설계됐습니다.</p>
 <h3 id="제네릭-타입-매개변수-대신-트레이트-객체를-사용해보세요"><a class="header" href="#제네릭-타입-매개변수-대신-트레이트-객체를-사용해보세요">제네릭 타입 매개변수 대신 트레이트 객체를 사용해보세요</a></h3>
 <p>다음 예시와 같이 타입 매개변수를 사용하는 제네릭 함수를 작성한다고 생각해봅시다:</p>
@@ -2287,7 +2287,7 @@ pub extern fn bar() { /* ... */ }
 </ul>
 <p>다행히도, 이 상호 운용 작업은 <a href="https://github.com/rustwasm/wasm-bindgen">wasm-bindgen</a>이라는 <code>bindgen</code> 스타일의 프레임워크를 사용해서 매우 쉽게 처리할 수 있습니다. 이 프레임워크를 사용하면 보편적인 JavaScript 함수에 자동으로 매핑되는 보편적인 Rust 함수 시그니처를 생성할 수 있습니다.</p>
 <h2 id="사용자-정의-섹션-custom-sections"><a class="header" href="#사용자-정의-섹션-custom-sections">사용자 정의 섹션 (Custom Sections)</a></h2>
-<p>사용자 정의 섹션을 통해 wasm 모듈에 명명된 임의의 데이터를 임베딩 할수 있습니다. 이 섹션 데이터는 컴파일 시점에 설정되며 wasm 모듈에서 직접 읽을 수 있습니다. 하지만 런타임에서는 이 모듈을 수정할 수 없습니다.</p>
+<p>사용자 정의 섹션을 통해 wasm 모듈에 명명된 임의의 데이터를 임베딩할 수 있습니다. 이 섹션 데이터는 컴파일 시점에 설정되며 wasm 모듈에서 직접 읽을 수 있습니다. 하지만 런타임에서는 이 모듈을 수정할 수 없습니다.</p>
 <p>Rust 코드에서는 사용자 정의 섹션을 정적 배열 (<code>[T; size]</code>)로 나타내고 <code>#[link_section]</code> 속성으로 노출시킬 수 있습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2425,7 +2425,7 @@ fn do_work() {
 <p>파일 I/O를 제거하고 유저들이 I/O 코드를 따로 가져올수 있도록 변경했던 것과 유사하게, 스레드 생성 코드를 라이브러리에서 제외시킨 다음 라이브러리 유저들이 스레드 코드를 따로 생성할수 있도록 변경해볼수도 있습니다. 이렇게 구현했을 때 라이브러리 사용자들이 직접 스레드 풀 코드를 마련할수 있게 되는 긍정적인 부수 효과를 보게 됩니다.</p>
 <h2 id="webassembly의-지속적인-지원-유지하기"><a class="header" href="#webassembly의-지속적인-지원-유지하기">WebAssembly의 지속적인 지원 유지하기</a></h2>
 <h3 id="지속성-통합-ci-환경을-사용해서-wasm32-unknown-unknown-타겟으로-빌드하기"><a class="header" href="#지속성-통합-ci-환경을-사용해서-wasm32-unknown-unknown-타겟으로-빌드하기">지속성 통합 (CI) 환경을 사용해서 <code>wasm32-unknown-unknown</code> 타겟으로 빌드하기</a></h3>
-<p>WebAssembly를 타겟으로 할떄, 다음 명령어를 CI 스크립트에 포함시켜서 컴파일이 실패하지 않는지 확인할수 있습니다:</p>
+<p>WebAssembly를 타겟으로 할떄, 다음 명령어를 CI 스크립트에 포함시켜서 컴파일이 실패하지 않는지 확인할 수 있습니다:</p>
 <pre><code>rustup target add wasm32-unknown-unknown
 cargo check --target wasm32-unknown-unknown
 </code></pre>

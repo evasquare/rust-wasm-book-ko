@@ -195,7 +195,7 @@
 <p><a href="../reference/code-size.html#use-the-wasm-snip-tool"><code>wasm-snip</code> 툴</a>을 사용해서 패닉 디버깅 함수를 구현한 게임의 <code>.wasm</code> 바이너리에서 제외시켜보세요. 사이즈가 얼마나 줄어드나요?</p>
 </li>
 <li>
-<p><a href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> 를 전역 할당자 (global allocator)</a>를 써보고 이전과 비교해보세요. 프로젝트를 시작할 때 클론 했던 <code>rustwasm/wasm-pack-template</code> 템플릿은 "wee_alloc" 이라는 카고(cargo) 기능(feature)을 포함하고 있는데, 이 기능은 <code>wasm-game-of-life/Cargo.toml</code> 파일의 <code>[features]</code> 섹션에 위치한 <code>default</code> 필드에 추가해서 활성화 할수 있습니다.</p>
+<p><a href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> 를 전역 할당자 (global allocator)</a>를 써보고 이전과 비교해보세요. 프로젝트를 시작할 때 클론 했던 <code>rustwasm/wasm-pack-template</code> 템플릿은 "wee_alloc" 이라는 카고(cargo) 기능(feature)을 포함하고 있는데, 이 기능은 <code>wasm-game-of-life/Cargo.toml</code> 파일의 <code>[features]</code> 섹션에 위치한 <code>default</code> 필드에 추가해서 활성화할 수 있습니다.</p>
 <pre><code class="language-toml">[features]
 default = ["wee_alloc"]
 </code></pre>

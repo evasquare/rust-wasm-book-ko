@@ -204,7 +204,7 @@
 </code></pre>
 <p>위 예제가 <code>.wasm</code> 파일로는 어떻게 보일지 궁금하다면, <a href="https://webassembly.github.io/wabt/demo/wat2wasm/">wat2wasm 데모</a> 웹사이트를 이용해보세요.</p>
 <h2 id="선형-메모리-linear-memory"><a class="header" href="#선형-메모리-linear-memory">선형 메모리 (Linear Memory)</a></h2>
-<p>WebAssembly 매우 간단한 <a href="https://webassembly.github.io/spec/core/syntax/modules.html#syntax-mem">메모리 모델</a>을 가지고 있고, 하나의 wasm 모듈은 하나의 "선형 메모리" 에 접근할수 있습니다.</p>
+<p>WebAssembly 매우 간단한 <a href="https://webassembly.github.io/spec/core/syntax/modules.html#syntax-mem">메모리 모델</a>을 가지고 있고, 하나의 wasm 모듈은 하나의 "선형 메모리" 에 접근할 수 있습니다.</p>
 <p>이 메모리는 페이지 사이즈 (64K)의 곱만큼 <a href="https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-memory">커질수 있으며</a> 이 사이즈는 줄어들 수 없습니다.</p>
 <h2 id="웹에서만-webassembly를-사용할-수-있나요"><a class="header" href="#웹에서만-webassembly를-사용할-수-있나요">웹에서만 WebAssembly를 사용할 수 있나요?</a></h2>
 <p>현재로는 JavaScript 웹 커뮤니티에서 주로 주목을 받고 있지만, wasm은 특정 실행 환경을 필요로 하지 않습니다. 그러므로, wasm이 미래에 다양한 맥락에서 사용할수 있는 "휴대 가능한 실행할수 있는" 포맷이라고 여겨질수도 있습니다. 하지만 오늘날 wasm은 대부분 (웹과 <a href="https://nodejs.org">Node.js</a>을 포함한) 다양한 형태로 존재하는 JavaScript (JS)와 함께 언급됩니다.</p>
