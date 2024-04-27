@@ -200,9 +200,9 @@
 </code></pre>
 <p>몇가지 파일을 더 자세히 살펴볼까요?</p>
 <h3 id="wasm-game-of-lifecargotoml"><a class="header" href="#wasm-game-of-lifecargotoml"><code>wasm-game-of-life/Cargo.toml</code></a></h3>
-<p><code>Cargo.toml</code> 파일은 Rust의 패키지 매니저이자 빌드 툴인 <code>cargo</code>와 함께 사용되는데, 의존성과 메타데이터를 지정하는 역할을 합니다. 이 파일은 <code>wasm-bindgen</code> 의존성과 <code>wasm</code> 라이브러리 생성에 사용될 올바르게 설정된 <code>crate-type</code>이 함께 사전에 미리 설정되어 포함돼 있습니다. 몇가지 필수가 아닌 의존성은 나중에 살펴보겠습니다.</p>
+<p><code>Cargo.toml</code> 파일은 Rust의 패키지 매니저이자 빌드 툴인 <code>cargo</code>와 함께 사용되는데, 의존성과 메타데이터를 지정하는 역할을 합니다. 이 파일은 <code>wasm-bindgen</code> 의존성과 함께 <code>wasm</code> 라이브러리 생성에 사용될 수 있도록 올바르게 설정된 <code>crate-type</code>이 함께 사전에 미리 포함돼 있습니다. 몇가지 필수가 아닌 의존성은 나중에 살펴보겠습니다.</p>
 <h3 id="wasm-game-of-lifesrclibrs"><a class="header" href="#wasm-game-of-lifesrclibrs"><code>wasm-game-of-life/src/lib.rs</code></a></h3>
-<p><code>src/lib.rs</code> 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. <code>wasm-bindgen</code>이 JavaScript를 조작하기 위해 사용되고, <code>window.alert</code> 자바스크립트 함수를 불러온 다음에 <code>greet</code> Rust 함수를 자바스크립트로 보냅니다. 이렇게 인사 메세지를 표시시키게 됩니다.</p>
+<p><code>src/lib.rs</code> 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. <code>wasm-bindgen</code>을 JavaScript를 조작하기 위해 사용하고, <code>window.alert</code> JavaScript 함수를 불러온 다음에 <code>greet</code> Rust 함수를 JavaScript로 보냅니다. 이렇게 <code>"Hello, wasm-game-of-life!"</code> 메세지를 표시시킬수 있습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>mod utils;
@@ -225,7 +225,7 @@ pub fn greet() {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="wasm-game-of-lifesrcutilsrs"><a class="header" href="#wasm-game-of-lifesrcutilsrs"><code>wasm-game-of-life/src/utils.rs</code></a></h3>
-<p><code>src/utils.rs</code> 모듈은 WebAssembly로 컴파일된 Rust 코드와 더 쉽게 작업하도록 도와도록 주로 사용되는 유틸리티를 제공합니다. <a href="debugging.html">wasm 코드 디버깅하기</a>와 같은 튜토리얼 후반 부분에서 이러한 유틸리티들을 더 자세히 살펴보겠습니다. 지금은 이 파일을 무시해도 괜찮습니다.</p>
+<p><code>src/utils.rs</code> 모듈은 자주 사용되는 유틸리티를 제공하는데, 이 유틸리티가 WebAssembly로 컴파일된 Rust 코드 작업을 더 쉽게 할수 있도록 도와줍니다. <a href="debugging.html">wasm 코드 디버깅하기</a>와 같은 튜토리얼 후반 섹션에서 이러한 유틸리티들을 더 자세히 살펴보겠습니다. 현재 시점에서는 이 파일을 무시해도 괜찮습니다.</p>
 <h2 id="프로젝트-빌드하기"><a class="header" href="#프로젝트-빌드하기">프로젝트 빌드하기</a></h2>
 <p><code>wasm-pack</code>을 사용하여 다음 빌드 과정을 자동화하게 됩니다:</p>
 <ul>
@@ -236,7 +236,7 @@ pub fn greet() {
 <p>위 작업을 시작하려면, 프로젝트 디렉토리에서 다음 명령어를 실행해주세요:</p>
 <pre><code>wasm-pack build
 </code></pre>
-<p>빌드가 완료되면 결과물을 <code>pkg</code> 디렉토리에서 확인해보세요. 다음 내용물이 보일 겁니다:</p>
+<p>빌드가 완료되면 결과물을 <code>pkg</code> 디렉토리에서 확인해보세요. 다음 내용물을 확인할 수 있습니다:</p>
 <pre><code>pkg/
 ├── package.json
 ├── README.md
@@ -248,7 +248,7 @@ pub fn greet() {
 <h3 id="wasm-game-of-lifepkgwasm_game_of_life_bgwasm"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_life_bgwasm"><code>wasm-game-of-life/pkg/wasm_game_of_life_bg.wasm</code></a></h3>
 <p>이러한 <code>.wasm</code> 파일은 Rust 컴파일러가 Rust 소스 코드로 생성한 바이너리 파일입니다. 이 파일은 wasm 형식으로 컴파일된 소스 코드의 함수와 데이터들로 구성돼 있습니다. 변환된 "greet" 함수가 예가 될수 있습니다.</p>
 <h3 id="wasm-game-of-lifepkgwasm_game_of_lifejs"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_lifejs"><code>wasm-game-of-life/pkg/wasm_game_of_life.js</code></a></h3>
-<p>이러한 <code>.js</code> 파일은 <code>wasm-bindgen</code>에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 부를수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 부를수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, <code>greet</code> 이라는 JavaScript 함수를 통해 WebAssembly에 있는 해당하는 함수를 부를수 있습니다. 현재로서는 이러한 파일(bindings glue)들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 도움이 정말 많이 됩니다.</p>
+<p>이러한 <code>.js</code> 파일은 <code>wasm-bindgen</code>에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 부를 수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 부를수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, <code>greet</code> 이라는 JavaScript 함수를 통해 WebAssembly에 있는 해당하는 함수를 부를 수 있습니다. 현재로서는 이러한 파일(bindings glue)들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 도움이 정말 많이 됩니다.</p>
 <pre><code class="language-js">import * as wasm from './wasm_game_of_life_bg';
 
 // ...
