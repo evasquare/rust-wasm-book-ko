@@ -264,7 +264,7 @@
 <h2 id="무엇을-배우게-되나요"><a class="header" href="#무엇을-배우게-되나요">무엇을 배우게 되나요?</a></h2>
 <ul>
 <li>
-<p>WebAssembly 컴파일을 할수 있도록 Rust 툴체인을 설정하는 법.</p>
+<p>WebAssembly를 컴파일할 수 있도록 Rust 툴체인을 설정하는 법.</p>
 </li>
 <li>
 <p>Rust, WebAssembly, JavaScript, HTML, CSS으로 다언어 프로그램을 개발할 수 있는 워크플로우.</p>
@@ -292,7 +292,7 @@
 <p><code>wasm-pack</code>은 Rust로 생성한 WebAssembly를 개발, 테스팅, 배포하도록 도와주는 만능 툴입니다.</p>
 <p><a href="https://rustwasm.github.io/wasm-pack/installer/">여기서 <code>wasm-pack</code> 다운로드 해보세요!</a></p>
 <h2 id="cargo-generate"><a class="header" href="#cargo-generate"><code>cargo-generate</code></a></h2>
-<p><a href="https://github.com/ashleygwilliams/cargo-generate"><code>cargo-generate</code>를 통해 기존에 존재하는 git 레포지토리를 템플릿으로 사용하면서 새 Rust 프로젝트를 시작하고 빠르게 구동할 수 있습니다.</a></p>
+<p><a href="https://github.com/ashleygwilliams/cargo-generate"><code>cargo-generate</code>를 통해 기존에 존재하는 git 레포지토리를 템플릿으로 사용하면서 새 Rust 프로젝트를 시작하고 빠르게 구동할수 있습니다.</a></p>
 <p>이 명령어로 <code>cargo-generate</code>를 설치해보세요:</p>
 <pre><code>cargo install cargo-generate
 </code></pre>
@@ -567,7 +567,7 @@ pub fn greet(name: &amp;str) {
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="conways-game-of-life-구현하기"><a class="header" href="#conways-game-of-life-구현하기">Conway's Game of Life 구현하기</a></h1>
 <h2 id="설계"><a class="header" href="#설계">설계</a></h2>
-<p>시작하기 전에, 어떤 방식으로 설계할 지 살펴봅시다.</p>
+<p>시작하기 전에, 어떤 방식으로 설계할지 살펴봅시다.</p>
 <h3 id="무한한-세상"><a class="header" href="#무한한-세상">무한한 세상</a></h3>
 <p>Game of Life는 무한한 세상에서 시작됩니다. 하지만 보통은 무한한 메모리와 컴퓨터 파워를 가지고 있지 않기 때문에 다음 세 가지 방법 중 한 방법을 통해 이 귀찮은 제한을 우회하게 됩니다:</p>
 <ol>
@@ -586,7 +586,7 @@ pub fn greet(name: &amp;str) {
 <blockquote>
 <p>⚡ 다음 내용은 이 튜토리얼에서 다루는 내용 중에서도 아주 중요한 내용입니다. 이 내용을 이해하면서 얻어갈수 있는 부분이 많습니다!</p>
 </blockquote>
-<p>JavaScript는 <code>Object</code>, <code>Array</code> 그리고 <a href="https://developer.mozilla.org/ko/docs/Glossary/Node/DOM">DOM 노드(node)</a>들이 할당되는 가비지 콜렉터가 관리하는 힙을 사용하지만, 작성하게 될 Rust 코드의 선형 메모리는 별개의 공간을 사용하게 됩니다. WebAssembly는 현재로써는 가비지 콜렉터가 관리하는 힙에 직접 접근할 수 없습니다. (2018년 4월 기준으로, <a href="https://github.com/WebAssembly/interface-types/blob/master/proposals/interface-types/Explainer.md">"인터페이스 타입" 제안</a> 과 함께 변경될 전망이긴 합니다.) 반면에 JavaScript는 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer"><code>ArrayBuffer</code></a>나 스칼라 값 (scalar values / <code>u8</code>, <code>i32</code>, <code>f64</code>, 등...)만으로라도 이 선형 메모리를 읽고 쓸수 있습니다. 이런 내용을 기반으로 모든 WebAssembly와 JavaScript 사이의 커뮤니케이션이 구성되게 됩니다.</p>
+<p>JavaScript는 <code>Object</code>, <code>Array</code> 그리고 <a href="https://developer.mozilla.org/ko/docs/Glossary/Node/DOM">DOM 노드(node)</a>들이 할당되는 가비지 콜렉터가 관리하는 힙을 사용하지만, 작성하게 될 Rust 코드의 선형 메모리는 별개의 공간을 사용하게 됩니다. WebAssembly는 현재로써는 가비지 콜렉터가 관리하는 힙에 직접 접근할수 없습니다. (2018년 4월 기준으로, <a href="https://github.com/WebAssembly/interface-types/blob/master/proposals/interface-types/Explainer.md">"인터페이스 타입" 제안</a> 과 함께 변경될 전망이긴 합니다.) 반면에 JavaScript는 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer"><code>ArrayBuffer</code></a>나 스칼라 값 (scalar values / <code>u8</code>, <code>i32</code>, <code>f64</code>, 등...)만으로라도 이 선형 메모리를 읽고 쓸수 있습니다. 이런 내용을 기반으로 모든 WebAssembly와 JavaScript 사이의 커뮤니케이션이 구성되게 됩니다.</p>
 <p><code>wasm_bindgen</code>는 이 경계를 사이로 어떻게 구조체(compound structure)들을 주고받아야 하는지 정해주는 역할을 합니다. 이러한 작업은 Rust 구조체를 박싱(boxing)하고, 쉽게 사용하기 위해 JavaScript 클래스에 포인터를 랩핑(wrapping)하고, Rust 코드에서 JavaScript 객체 테이블을 인덱싱(indexing)하는 과정을 포함합니다. <code>wasm_bindgen</code>은 매우 간편하지만, 데이터 표현 설계를 모두 대신 해주진 않습니다. 원하는 방식으로 인터페이스 설계를 구현할수 있도록 도와주는 도구 정도로 생각해주세요.</p>
 <p>WebAssembly와 JavaScript 사이의 인터페이스를 설계할 때, 다음 내용들을 최적화 작업 시 고려해야 합니다:</p>
 <ol>
@@ -668,7 +668,7 @@ pub struct Universe {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p><code>live_neighbor_count</code> 메소드는 델타값과 나머지 값을 확인해서 세상의 끝에서 발생할 수 있는 예외를 <code>if</code>문으로 처리합니다. <code>-1</code>의 델타를 적용할 때, <code>self.height -1</code>을 추가해서 <code>1</code>을 빼는 대신 나머지 값을 계속 처리하게 합니다. <code>row</code>와 <code>column</code>은 각각 <code>0</code>이 될수 있고, 이 값에서 <code>1</code>을 빼고자 시도할 때, unsigned integer underflow가 발생하게 됩니다.</p>
+<p><code>live_neighbor_count</code> 메소드는 델타값과 나머지 값을 확인해서 세상의 끝에서 발생할 수 있는 예외를 <code>if</code>문으로 처리합니다. <code>-1</code>의 델타를 적용할 때, <code>self.height -1</code>을 추가해서 <code>1</code>을 빼는 대신 나머지 값을 계속 처리하게 합니다. <code>row</code>와 <code>column</code>은 각각 <code>0</code>이 될수 있고, 이 값에서 <code>1</code>을 빼려고 시도할 때, unsigned integer underflow가 발생하게 됩니다.</p>
 <p>이제 현재 세대를 기반으로 다음 세대를 처리하는데 필요한 준비가 완료됐습니다! <code>match</code> 문을 사용해서 보기 명확하게 게임의 규칙을 나타내봅시다. 추가로, 틱이 일어날 때 JavaScript가 컨트롤하도록 할 예정이기 때문에, <code>#[wasm_bindgen]</code> 블럭을 추가해서 이 메소드를 JavaScript 코드에 노출시켜보도록 하겠습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -885,7 +885,7 @@ const renderLoop = () =&gt; {
   ctx.stroke();
 };
 </code></pre>
-<p>raw wasm 모듈인 <code>wasm_game_of_life_bg</code>에 정의된 <code>memory</code>를 임포트해서 WebAssembly의 선형 메모리에 직접 접근할 수 있습니다. 세포를 그리려면 세상에 있는 세포들을 가리키는 포인터를 반환받고, 세포 버퍼(buffer)를 오버레이(overlay)하는 <code>Uint8Array</code> 객체를 생성한 다음 각 세포를 순회하여 생존 여부에 따라 흰색 또는 검은색 사각형을 그립니다. 포인터를 오버레이하게 되면서, 모든 틱마다 세포들을 복사하지 않도록 최적화 작업을 해줄 수 있습니다.</p>
+<p>raw wasm 모듈인 <code>wasm_game_of_life_bg</code>에 정의된 <code>memory</code>를 임포트해서 WebAssembly의 선형 메모리에 직접 접근할 수 있습니다. 세포를 그리려면 세상에 있는 세포들을 가리키는 포인터를 반환받고, 세포 버퍼(buffer)를 오버레이(overlay)하는 <code>Uint8Array</code> 객체를 생성한 다음 각 세포를 순회하여 생존 여부에 따라 흰색 또는 검은색 사각형을 그립니다. 포인터를 오버레이하게 되면서, 모든 틱마다 세포들을 복사하지 않도록 최적화 작업을 해줄수 있습니다.</p>
 <pre><code class="language-js">// WebAssembly 메모리를 파일 최상단에 임포트해줍니다.
 import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
 
@@ -988,7 +988,7 @@ pub struct Universe {
     cells: FixedBitSet,
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Universe의 생성자를 다음과 같이 수정해볼 수 있습니다:</p>
+<p>Universe의 생성자를 다음과 같이 수정해볼수 있습니다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn new() -&gt; Universe {
