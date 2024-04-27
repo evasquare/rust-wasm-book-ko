@@ -387,7 +387,7 @@ export function greet() {
 }
 </code></pre>
 <h3 id="wasm-game-of-lifepkgwasm_game_of_lifedts"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_lifedts"><code>wasm-game-of-life/pkg/wasm_game_of_life.d.ts</code></a></h3>
-<p><code>.d.ts</code> 파일은 생성한 JavaScript 파일과 함께 사용할수 있는 <a href="http://www.typescriptlang.org/">TypeScript</a> 타입 정의를 포함합니다. TypeScript를 사용한다면 정적 타입을 사용하면서 IDE가 제공하는 자동 완성과 같은 기능과 함께 WebAssembly 함수를 호출할 수 있게 됩니다. TypeScript를 사용하지 않는다면, 이 파일을 무시해도 괜찮습니다.</p>
+<p><code>.d.ts</code> 파일은 생성한 JavaScript 파일과 함께 사용할수 있는 <a href="http://www.typescriptlang.org/">TypeScript</a> 타입 정의를 포함합니다. TypeScript를 사용한다면 정적 타입 정의를 통해 IDE가 제공하는 자동 완성과 같은 기능을 사용해서 더 쉽게 WebAssembly 함수를 호출할 수 있게 됩니다. TypeScript를 사용하지 않는다면, 이 파일은 무시해도 괜찮습니다.</p>
 <pre><code class="language-typescript">export function greet(): void;
 </code></pre>
 <h3 id="wasm-game-of-lifepkgpackagejson"><a class="header" href="#wasm-game-of-lifepkgpackagejson"><code>wasm-game-of-life/pkg/package.json</code></a></h3>
@@ -430,7 +430,7 @@ export function greet() {
 <h3 id="wasm-game-of-lifewwwpackagejson"><a class="header" href="#wasm-game-of-lifewwwpackagejson"><code>wasm-game-of-life/www/package.json</code></a></h3>
 <p>이 <code>package.json</code> 파일은 <code>webpack</code>과 <code>webpack-dev-server</code> 종속성들로 미리 셋업이 되어 있고, npm 에 배포된 <code>wasm-pack-template</code>의 초기 버전인 <code>hello-wasm-pack</code> 패키지 또한 종속성도 포함하고 있습니다.</p>
 <h3 id="wasm-game-of-lifewwwwebpackconfigjs"><a class="header" href="#wasm-game-of-lifewwwwebpackconfigjs"><code>wasm-game-of-life/www/webpack.config.js</code></a></h3>
-<p>이 파일은 webpack과 로컬 개발 서버를 설정해줍니다. 미리 설정돼어 있으며 webpack과 로컬 개발 서버를 사용하기 위해 따로 수정할 필요가 전혀 없습니다.</p>
+<p>이 파일은 webpack과 로컬 개발 서버를 설정합니다. 미리 셋업 작업이 돼 있는데, webpack과 로컬 개발 서버를 사용할 때에도 전혀 따로 수정할 필요가 없습니다.</p>
 <h3 id="wasm-game-of-lifewwwindexhtml"><a class="header" href="#wasm-game-of-lifewwwindexhtml"><code>wasm-game-of-life/www/index.html</code></a></h3>
 <p>웹사이트에 사용되는 최상단 HTML 파일입니다. <code>index.js</code> 를 감싸주는 <code>bootstrap.js</code>를 부르는 것 외에는 특별한 동작을 하지 않습니다.</p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
@@ -445,7 +445,7 @@ export function greet() {
 &lt;/html&gt;
 </code></pre>
 <h3 id="wasm-game-of-lifewwwindexjs"><a class="header" href="#wasm-game-of-lifewwwindexjs"><code>wasm-game-of-life/www/index.js</code></a></h3>
-<p>이 <code>index.js</code>는 작업을 하게 될 웹사이트 JavaScript의 엔트리 포인트입니다. <code>wasm-pack-template</code>를 컴파일한 WebAssembly와 JavaScript 코드를 포함하는 <code>hello-wasm-pack</code> npm 패키지를 로드하고, 패키지 내부의 <code>greet</code> 함수를 호출합니다.</p>
+<p>이 <code>index.js</code>는 작업을 하게 될 웹사이트 JavaScript의 엔트리 포인트입니다. JavaScript 코드와 <code>wasm-pack-template</code>을 컴파일한 결과물인 WebAssembly가 포함돼 있는데, <code>hello-wasm-pack</code> npm 패키지를 로드하고 패키지 내부의 <code>greet</code> 함수를 호출해줍니다.</p>
 <pre><code class="language-js">import * as wasm from "hello-wasm-pack";
 
 wasm.greet();
@@ -456,13 +456,13 @@ wasm.greet();
 </code></pre>
 <p>이 커맨드는 한번만 실행돼야 합니다. 실행하면 <code>webpack</code> JavaScript 번들러와 개발 서버를 설치할 수 있습니다.</p>
 <blockquote>
-<p><code>webpack</code>이 Rust와 WebAssembly 작업에 필수가 아니라는 점을 기억해주세요.
-단순히 간편하게 책을 진행하기 위해 이 번들러와 개발 서버를 사용하고 있습니다.
+<p>단순히 간편하게 책을 진행하기 위해 이 번들러와 개발 서버를 사용할 예정이지만
+<code>webpack</code>이 Rust와 WebAssembly 작업에 필수가 아니라는 점을 기억해주세요.
 Parcel과 Rollup도 WebAssembly와 ECMAScript 모듈을 부르는데 사용할 수 있습니다.
-원한다면 Rust와 WebAssembly를 <a href="https://rustwasm.github.io/docs/wasm-bindgen/examples/without-a-bundler.html">번들러 없이</a> 사용할수도 있습니다.</p>
+원한다면 Rust와 WebAssembly를 <a href="https://rustwasm.github.io/docs/wasm-bindgen/examples/without-a-bundler.html">번들러 없이</a> 사용할 수도 있습니다.</p>
 </blockquote>
 <h3 id="www-패키지-내부에서-로컬-wasm-game-of-life-패키지-사용하기"><a class="header" href="#www-패키지-내부에서-로컬-wasm-game-of-life-패키지-사용하기"><code>www</code> 패키지 내부에서 로컬 <code>wasm-game-of-life</code> 패키지 사용하기</a></h3>
-<p>npm에서 받은 <code>hello-wasm-pack</code> 대신에, 로컬 환경에 있는 <code>wasm-game-of-life</code>를 사용합시다. 이렇게 함으로써 Game of Life 프로그램을 더 점진적으로 개발할수 있게 됩니다.</p>
+<p>npm에서 다운로드한 <code>hello-wasm-pack</code> 대신에, 로컬 환경에 있는 <code>wasm-game-of-life</code>를 사용해봅시다. 이렇게 함으로써 Game of Life 프로그램을 더 점진적으로 개발할수 있게 됩니다.</p>
 <p><code>wasm-game-of-life/www/package.json</code> 파일을 열고 <code>devDependencies</code> 다음에 <code>dependencies</code> 필드를 생성해주세요. 그 다음에, <code>"wasm-game-of-life": "file:../pkg"</code> 엔트리를 포함시켜주세요.</p>
 <pre><code class="language-js">{
   // ...
@@ -489,7 +489,7 @@ wasm.greet();
 </code></pre>
 <p>웹 브라우저를 열고 <a href="http://localhost:8080/">http://localhost:8080/</a> 를 열면 표시되는 인사 메세지를 확인할 수 있습니다:</p>
 <p><a href="game-of-life/../images/game-of-life/hello-world.png"><img src="game-of-life/../images/game-of-life/hello-world.png" alt="&quot;Hello, wasm-game-of-life!&quot; 웹 페이지 알림(alert) 메세지 스크린샷" /></a></p>
-<p>파일을 저장할때마다 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지에 반영되게 하고 싶다면, <code>wasm-pack build</code> 명령어를 <code>wasm-game-of-life</code> 디렉토리에서 다시 실행해주시면 됩니다.</p>
+<p>파일을 저장할 때 마다 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지에 반영되도록 하고 싶다면, <code>wasm-pack build</code> 명령어를 <code>wasm-game-of-life</code> 디렉토리에서 다시 실행해주세요.</p>
 <h2 id="연습해보기"><a class="header" href="#연습해보기">연습해보기</a></h2>
 <ul>
 <li>
