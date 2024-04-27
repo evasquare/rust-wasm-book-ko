@@ -202,7 +202,7 @@
 <h3 id="wasm-game-of-lifecargotoml"><a class="header" href="#wasm-game-of-lifecargotoml"><code>wasm-game-of-life/Cargo.toml</code></a></h3>
 <p><code>Cargo.toml</code> 파일은 Rust의 패키지 매니저이자 빌드 툴인 <code>cargo</code>와 함께 사용되는데, 의존성과 메타데이터를 지정하는 역할을 합니다. 이 파일은 <code>wasm-bindgen</code> 의존성과 함께 <code>wasm</code> 라이브러리 생성에 사용될 수 있도록 올바르게 설정된 <code>crate-type</code>이 함께 사전에 미리 포함돼 있습니다. 몇가지 필수가 아닌 의존성은 나중에 살펴보겠습니다.</p>
 <h3 id="wasm-game-of-lifesrclibrs"><a class="header" href="#wasm-game-of-lifesrclibrs"><code>wasm-game-of-life/src/lib.rs</code></a></h3>
-<p><code>src/lib.rs</code> 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. <code>wasm-bindgen</code>을 JavaScript를 조작하기 위해 사용하고, <code>window.alert</code> JavaScript 함수를 불러온 다음에 <code>greet</code> Rust 함수를 JavaScript로 보냅니다. 이렇게 <code>"Hello, wasm-game-of-life!"</code> 메세지를 표시시킬수 있습니다.</p>
+<p><code>src/lib.rs</code> 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. <code>wasm-bindgen</code>을 JavaScript를 조작하기 위해 사용하고, <code>window.alert</code> JavaScript 함수를 불러온 다음에 <code>greet</code> Rust 함수를 JavaScript로 보냅니다. 이렇게 <code>"Hello, wasm-game-of-life!"</code> 메세지를 표시시킬 수 있습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>mod utils;
