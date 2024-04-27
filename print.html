@@ -223,7 +223,7 @@
 <p>이 섹션은 Rust와 WebAssembly 개발을 시작할 때 필요한 배경 지식을 설명해줍니다.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="webassembly가-뭔가요"><a class="header" href="#webassembly가-뭔가요">WebAssembly가 뭔가요?</a></h1>
 <p>WebAssembly(wasm)는 <a href="https://webassembly.github.io/spec/">포괄적인 사양</a>을 가지고 있는 간단한 기계 모델이자 실행 가능한 포맷입니다. 휴대 가능하고, 가벼우며 거의 네이티브 프로그램과 같은 속도로 실행될수 있도록 설계됐습니다.</p>
-<p>프로그래밍 언어로써, WebAssembly는 같은 구조를 나타내면서도 두가지 다른 포맷으로 구성돼 있습니다.</p>
+<p>프로그래밍 언어로써, WebAssembly는 같은 구조를 나타내는데, 두가지 다른 포맷으로 구성돼 있습니다.</p>
 <ol>
 <li>
 <p>("<strong>W</strong>eb<strong>A</strong>ssembly <strong>T</strong>ext" 에서 이름이 유래된) <code>.wat</code> 텍스트 포맷은 <a href="https://en.wikipedia.org/wiki/S-expression">S-expressions</a> 구조를 사용하고 Scheme이나 Clojure와 같은 Lisp 계열 언어와 유사점들을 공유합니다.</p>
@@ -255,7 +255,7 @@
 <p>WebAssembly 매우 간단한 <a href="https://webassembly.github.io/spec/core/syntax/modules.html#syntax-mem">메모리 모델</a>을 가지고 있고, 한 wasm 모듈은 하나의 "선형 메모리" 에 접근할 수 있습니다.</p>
 <p>이 메모리는 페이지 사이즈 (64K)의 곱만큼 <a href="https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-memory">커질수 있으며</a> 이 사이즈는 줄어들 수 없습니다.</p>
 <h2 id="웹에서만-webassembly를-사용할-수-있나요"><a class="header" href="#웹에서만-webassembly를-사용할-수-있나요">웹에서만 WebAssembly를 사용할 수 있나요?</a></h2>
-<p>현재로는 JavaScript 웹 커뮤니티에서 주로 주목을 받고 있지만, wasm은 특정 실행 환경을 필요로 하지 않습니다. 그러므로, wasm이 미래에 다양한 맥락에서 사용할수 있는 "휴대 가능한 실행할수 있는" 포맷이라고 여겨질수도 있습니다. 하지만 오늘날 현재 시점에서는 wasm은 대부분 (웹과 <a href="https://nodejs.org">Node.js</a>을 포함한) 다양한 형태로 존재하는 JavaScript (JS)와 함께 언급됩니다.</p>
+<p>현재로는 JavaScript 웹 커뮤니티에서 주로 주목을 받고 있지만, wasm은 특정 실행 환경을 필요로 하지 않습니다. 그러므로, wasm이 미래에 다양한 맥락에서 사용할수 있는 "휴대 가능한 실행할수 있는" 포맷이라고 여겨질수도 있습니다. 하지만 오늘날 현재 시점에서는 wasm은 (웹과 <a href="https://nodejs.org">Node.js</a>을 포함한) 다양한 형태로 존재하는 JavaScript (JS)와 함께 주로 언급됩니다.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="튜토리얼-conways-game-of-life"><a class="header" href="#튜토리얼-conways-game-of-life">튜토리얼: Conway's Game of Life</a></h1>
 <p>이 튜토리얼은 <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway's Game of Life</a>를 Rust와 WebAssembly로 구현하는 내용을 다룹니다.</p>
 <h2 id="누구를-위한-튜토리얼인가요"><a class="header" href="#누구를-위한-튜토리얼인가요">누구를 위한 튜토리얼인가요?</a></h2>
@@ -287,7 +287,7 @@
 <h2 id="rust-툴체인"><a class="header" href="#rust-툴체인">Rust 툴체인</a></h2>
 <p>진행을 위해 <code>rustup</code>, <code>rustc</code>, <code>cargo</code>를 포함한 스탠다드 Rust 툴체인이 필요합니다.</p>
 <p><a href="https://www.rust-lang.org/tools/install">Rust 툴체인을 설치하려면 이 지침을 따라주세요.</a></p>
-<p>Rust와 WebAssembly 개발 경험이 stable 버전의 러스트에 포함될 만큼 안정화 되고 있습니다! 그러므로 어떤 실험적 기능 flag도 요구되지 않습니다. 하지만 Rust 1.30이나 그 이후 버전이 요구됩니다.</p>
+<p>Rust와 WebAssembly 개발 경험이 stable 버전의 Rust에 포함될 만큼 안정화 되고 있습니다! 그러므로 어떤 실험적 기능 flag도 요구되지 않습니다. 하지만 Rust 1.30이나 그 이후 버전이 요구됩니다.</p>
 <h2 id="wasm-pack"><a class="header" href="#wasm-pack"><code>wasm-pack</code></a></h2>
 <p><code>wasm-pack</code>은 Rust로 생성한 WebAssembly를 개발, 테스팅, 배포하도록 도와주는 만능 툴입니다.</p>
 <p><a href="https://rustwasm.github.io/wasm-pack/installer/">여기서 <code>wasm-pack</code> 다운로드 해보세요!</a></p>
@@ -297,16 +297,16 @@
 <pre><code>cargo install cargo-generate
 </code></pre>
 <h2 id="npm"><a class="header" href="#npm"><code>npm</code></a></h2>
-<p><code>npm</code>은 JavaScript와 함께 사용되는 패키지 매니저입니다. 이 책을 진행하면서 JavaScript 번들러와 개발 서버를 설치하고 구동하는데 사용될 예정입니다. 이 튜토리얼 끝에서 컴파일된 <code>.wasm</code>을 <code>npm</code> 레지스트리로 배포해봅니다.</p>
+<p><code>npm</code>은 JavaScript와 함께 사용되는 패키지 매니저입니다. 이 책을 진행하면서 JavaScript 번들러와 개발 서버를 설치하고 구동하는데 사용될 예정입니다. 이 튜토리얼 끝에서 컴파일된 <code>.wasm</code>을 <code>npm</code> 레지스트리에 배포해봅니다.</p>
 <p><a href="https://www.npmjs.com/get-npm"><code>npm</code> 을 설치하려면 이 지침을 따라주세요.</a></p>
 <p>이미 <code>npm</code>이 설치돼 있다면, 이 명령어로 최신 버전으로 업데이트가 돼 있는지 확인해주세요:</p>
 <pre><code>npm install npm@latest -g
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world"><a class="header" href="#hello-world">Hello, World!</a></h1>
-<p>이 섹션은 어떻게 Rust와 WebAssembly 프로그램을 처음 실행하는지 보여줍니다. "Hello, World!" 메세지를 보여주는 웹페이지를 만들어봅시다.</p>
+<p>이 섹션에서는 Rust와 WebAssembly 프로그램을 처음 실행하는 과정을 다룹니다. "Hello, World!" 메세지를 보여주는 웹페이지를 만들어봅시다.</p>
 <p>시작하기 전에 <a href="game-of-life/setup.html">셋업 가이드</a>를 읽고 잘 따라왔는지 한번 더 확인해주세요.</p>
 <h2 id="프로젝트-템플릿-클론하기"><a class="header" href="#프로젝트-템플릿-클론하기">프로젝트 템플릿 클론하기</a></h2>
-<p>이 프로젝트 템플릿은 합리적인 기본 설정으로 구성돼 있어 웹으로 코드를 빠르게 개발, 통합 및 패키징할수 있게 해줍니다.</p>
+<p>이 프로젝트 템플릿은 합리적인 기본 설정으로 구성돼 있습니다. 이 템플릿을 활용해서 웹으로 코드를 빠르게 개발, 통합 및 패키징할수 있습니다.</p>
 <p>이 명령어로 프로젝트를 클론해보세요:</p>
 <pre><code class="language-text">cargo generate --git https://github.com/rustwasm/wasm-pack-template
 </code></pre>
@@ -360,7 +360,7 @@ pub fn greet() {
 <ul>
 <li>Rust 1.30나 그 이후 버전을 사용하고 있는지, <code>wasm32-unknown-unknown</code> 타겟이 <code>rustup</code>을 통해 설치돼 있는지 확인합니다.</li>
 <li><code>cargo</code>를 사용하여 Rust 소스 코드를 WebAssembly <code>.wasm</code> 바이너리로 컴파일합니다.</li>
-<li><code>wasm-bindgen</code>을 사용하여 Rust로 생성한 WebAssembly를 사용할수 있도록 JavaScript API를 생성합니다.</li>
+<li><code>wasm-bindgen</code>을 사용하여 Rust로 생성한 WebAssembly를 사용할 수 있도록 JavaScript API를 생성합니다.</li>
 </ul>
 <p>위 작업을 시작하려면, 프로젝트 디렉토리에서 다음 명령어를 실행해주세요:</p>
 <pre><code>wasm-pack build
@@ -377,7 +377,7 @@ pub fn greet() {
 <h3 id="wasm-game-of-lifepkgwasm_game_of_life_bgwasm"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_life_bgwasm"><code>wasm-game-of-life/pkg/wasm_game_of_life_bg.wasm</code></a></h3>
 <p>이러한 <code>.wasm</code> 파일은 Rust 컴파일러가 Rust 소스 코드로 생성한 바이너리 파일입니다. 이 파일은 wasm 형식으로 컴파일된 소스 코드의 함수와 데이터들로 구성돼 있습니다. 변환된 "greet" 함수가 예가 될수 있습니다.</p>
 <h3 id="wasm-game-of-lifepkgwasm_game_of_lifejs"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_lifejs"><code>wasm-game-of-life/pkg/wasm_game_of_life.js</code></a></h3>
-<p>이러한 <code>.js</code> 파일은 <code>wasm-bindgen</code>에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 부를 수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 부를수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, <code>greet</code> 이라는 JavaScript 함수를 통해 WebAssembly에 있는 해당하는 함수를 부를 수 있습니다. 현재로서는 이러한 파일(bindings glue)들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 도움이 정말 많이 됩니다.</p>
+<p>이러한 <code>.js</code> 파일은 <code>wasm-bindgen</code>에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 호출할 수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 호출할 수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, <code>greet</code> 이라는 JavaScript 함수를 통해 WebAssembly에 있는 해당하는 함수를 부를수 있습니다. 현재로서는 이러한 파일(bindings glue)들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 정말 많은 도움이 됩니다.</p>
 <pre><code class="language-js">import * as wasm from './wasm_game_of_life_bg';
 
 // ...
@@ -432,7 +432,7 @@ export function greet() {
 <h3 id="wasm-game-of-lifewwwwebpackconfigjs"><a class="header" href="#wasm-game-of-lifewwwwebpackconfigjs"><code>wasm-game-of-life/www/webpack.config.js</code></a></h3>
 <p>이 파일은 webpack과 로컬 개발 서버를 설정합니다. 미리 셋업 작업이 돼 있는데, webpack과 로컬 개발 서버를 사용할 때에도 전혀 따로 수정할 필요가 없습니다.</p>
 <h3 id="wasm-game-of-lifewwwindexhtml"><a class="header" href="#wasm-game-of-lifewwwindexhtml"><code>wasm-game-of-life/www/index.html</code></a></h3>
-<p>웹사이트에 사용되는 최상단 HTML 파일입니다. <code>index.js</code> 를 감싸주는 <code>bootstrap.js</code>를 부르는 것 외에는 특별한 동작을 하지 않습니다.</p>
+<p>웹사이트에 사용되는 최상단 HTML 파일입니다. <code>index.js</code> 를 감싸주는 <code>bootstrap.js</code>를 부르는 것 외에는 특별한 동작을 하지는 않습니다.</p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
@@ -451,7 +451,7 @@ export function greet() {
 wasm.greet();
 </code></pre>
 <h3 id="종속성-설치하기"><a class="header" href="#종속성-설치하기">종속성 설치하기</a></h3>
-<p>우선, <code>wasm-game-of-life/www</code> 내부 디렉토리에서 <code>npm install</code> 명령어를 실행하여 로컬 개발 서버와 종속성들이 설치됐는지 확인해주세요:</p>
+<p>우선, <code>wasm-game-of-life/www</code> 내부 디렉토리에서 <code>npm install</code> 명령어를 실행하여 로컬 개발 서버와 종속성들이 설치돼 있는지 확인해주세요:</p>
 <pre><code class="language-text">npm install
 </code></pre>
 <p>이 커맨드는 한번만 실행돼야 합니다. 실행하면 <code>webpack</code> JavaScript 번들러와 개발 서버를 설치할 수 있습니다.</p>
@@ -462,7 +462,7 @@ Parcel과 Rollup도 WebAssembly와 ECMAScript 모듈을 부르는데 사용할 �
 원한다면 Rust와 WebAssembly를 <a href="https://rustwasm.github.io/docs/wasm-bindgen/examples/without-a-bundler.html">번들러 없이</a> 사용할 수도 있습니다.</p>
 </blockquote>
 <h3 id="www-패키지-내부에서-로컬-wasm-game-of-life-패키지-사용하기"><a class="header" href="#www-패키지-내부에서-로컬-wasm-game-of-life-패키지-사용하기"><code>www</code> 패키지 내부에서 로컬 <code>wasm-game-of-life</code> 패키지 사용하기</a></h3>
-<p>npm에서 다운로드한 <code>hello-wasm-pack</code> 대신에, 로컬 환경에 있는 <code>wasm-game-of-life</code>를 사용해봅시다. 이렇게 함으로써 Game of Life 프로그램을 더 점진적으로 개발할수 있게 됩니다.</p>
+<p>npm에서 다운로드한 <code>hello-wasm-pack</code> 대신에 로컬 환경에 있는 <code>wasm-game-of-life</code>를 사용해봅시다. 이렇게 함으로써 Game of Life 프로그램을 더 점진적으로 개발할 수 있게 됩니다.</p>
 <p><code>wasm-game-of-life/www/package.json</code> 파일을 열고 <code>devDependencies</code> 다음에 <code>dependencies</code> 필드를 생성해주세요. 그 다음에, <code>"wasm-game-of-life": "file:../pkg"</code> 엔트리를 포함시켜주세요.</p>
 <pre><code class="language-js">{
   // ...
@@ -495,7 +495,7 @@ wasm.greet();
 <li>
 <p><code>wasm-game-of-life/src/lib.rs</code> 디렉토리에 있는 <code>greet</code> 함수를
 수정해서 표시되는 메세지를 커스터마이징 할수 있도록 <code>name: &amp;str</code> 매개변수를 추가해보고, <code>wasm-game-of-life/www/index.js</code> 파일에서 <code>greet</code> 함수를 이름과 함께 불러보세요.
-<code>wasm-pack build</code> 명령어로 <code>.wasm</code> 바이너리를 다시 빌드하고, <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침하면 브라우저에서 수정된 알림 메세지를 확인할 수 있습니다.</p>
+<code>wasm-pack build</code> 명령어로 <code>.wasm</code> 바이너리를 다시 빌드하고, <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침하면 브라우저에서 수정된 알림 메세지를 확인할수 있습니다.</p>
 <details>
   <summary>정답</summary>
 <p><code>wasm-game-of-life/src/lib.rs</code> 파일에서 새롭게 수정된 <code>greet</code> 함수:</p>
