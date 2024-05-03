@@ -209,16 +209,16 @@
 <p>대부분의 경우에는, JavaScript와 WebAssembly를 오갈 때 사이즈가 크고 오래 살아있어야 하는 자료 구조를 WebAssembly 선형 메모리에 두고, 이러한 값들을 JavaScript에서 opaque handle로써 노출 시키는 것이 좋은 인터페이스 설계입니다. JavaScript가 이러한 opaque handle를 통해 WebAssembly 함수를 호출하고, 데이터를 변형시키고, 무거운 컴퓨팅 작업을 하고, 값을 검색하고, 최종적으로 작은 사이즈의 복사할수 있는 값을 반환하게 됩니다. 작은 값만 반환하게 되면 JavaScript 가비지 콜렉터가 관리하는 힙과 WebAssembly 선형 메모리 사이의 모든 값들을 앞뒤로 복사하고 직렬화할 필요가 없어지게 됩니다.</p>
 <h3 id="rust와-javascript를-구현하는-프로그램에서-조작하기"><a class="header" href="#rust와-javascript를-구현하는-프로그램에서-조작하기">Rust와 JavaScript를 구현하는 프로그램에서 조작하기</a></h3>
 <p>위험한 사례를 살펴보는 것으로 시작해봅시다. 매 틱마다 세상을 WebAssembly에서 불러오거나 가져오기 위해 복사하지 않아야 하고, 세포 하나씩 객체를 모두 할당하거나 경계를 오가면서 읽고 쓰는 것도 좋지 않습니다.</p>
-<p>그러면 어떻게 구현하는 게 좋을까요? 죽은 세포를 <code>0</code>로 나타내고 살아있는 세포를 <code>1</code>로 나타내는 식으로 세포들을 각각 1 byte 값으로 나타낼수 있는데, WebAssembly 선형 메모리에 1차원 배열로 나타내봅시다.</p>
+<p>그렇다면 어떻게 구현하는게 좋을까요? 죽은 세포를 <code>0</code>로 나타내고 살아있는 세포를 <code>1</code>로 나타내는 식으로 세포들을 각각 1 byte 값으로 나타내볼수도 있는데, WebAssembly 선형 메모리에 1차원 배열로 나타내봅시다.</p>
 <p>4 x 4 사이즈의 우주를 메모리 이미지로 표현해보겠습니다:</p>
 <p><img src="../images/game-of-life/universe.png" alt="4 x 4 사이즈 세상의 스크린샷" /></p>
-<p>주어진 열과 행에 해당하는 배열 인덱스를 찾을 때는 이 공식을 사용할 수 있습니다:</p>
+<p>이 공식을 사용해서 주어진 열과 행에 해당하는 배열 인덱스를 찾을 수 있습니다:</p>
 <pre><code class="language-text">index(row, column, universe) = row * width(universe) + column
 </code></pre>
 <p>세포들을 JavaScript에 노출시킬때 여러가지 방법을 사용해볼수 있는데, 우선은 Rust <code>String</code> 타입의 값으로 세포들을 문자로 표시할수 있도록 <code>Universe</code> 타입에 <code>std::fmt::Display</code> 트레이트(trait)를 구현해주도록 합시다. 이 트레이트를 통해 Rust <code>String</code> 타입의 값을 WebAssembly 선형 메모리에서 JavaScript 가비지 콜렉터가 관리하는 힙으로 복사할 수 있게 됩니다. 그 다음, 복사된 값을 HTML <code>textConent</code>에 표시해보도록 하겠습니다. 이 챕터 후반에서는 이 구현에 덧붙여서 세포들을 힙에 복사하지 않도록 해보고 세포들을 <code>&lt;canvas&gt;</code>에 표시해볼 예정입니다.</p>
-<p><em>하나 더 대신 해볼법한 설계가 있는데, 세상 전체를 노출시키지 않고 매 틱마다 상태가 바뀌게 되는 세포들을 목록으로 만들어서 Rust 코드에서 JavaScript로 반환해볼수도 있습니다. 이 방법으로, JavaScript 코드에서 세상 전체를 순회할 필요 없이 일부만 순회할수 있게 됩니다. 단점으로는, 이 델타 기반 (delta-based)의 설계는 구현하기가 조금 더 어렵습니다.</em></p>
+<p><em>하나 더 대신 해볼법한 설계가 있는데, 세상 전체를 노출시키지 않고 매 틱마다 상태가 바뀌게 되는 세포들을 목록으로 만들어서 Rust 코드에서 JavaScript로 반환해볼수도 있습니다. 이 방법으로, JavaScript 코드에서 세상 전체를 순회할 필요 없이 일부만 순회할 수 있게 됩니다. 단점으로는, 이 델타 기반 (delta-based)의 설계는 구현하기가 조금 더 어렵습니다.</em></p>
 <h2 id="rust-코드-구현하기"><a class="header" href="#rust-코드-구현하기">Rust 코드 구현하기</a></h2>
-<p>직전 챕터에서 초기 프로젝트 템플릿을 클론했는데, 이 템플릿을 수정해보도록 합시다.</p>
+<p>직전 챕터에서 초기 프로젝트 템플릿을 클론했는데, 이 템플릿을 한번 수정해보도록 합시다.</p>
 <p><code>alert</code>를 임포트하는 줄과 <code>greet</code> 함수를 <code>wasm-game-of-life/src/lib.rs</code> 파일에서 지워보고, 세포의 타입 정의를 대신 추가해 주는 것으로 시작해보겠습니다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -230,7 +230,7 @@ pub enum Cell {
     Alive = 1,
 }
 <span class="boring">}</span></code></pre></pre>
-<p>각 세포가 1 byte 사이즈로 표현되도록 해야하기 때문에 <code>#[repr(u8)]</code>을 잊지 않고 붙여주도록 하고, 세포 주변에 살아있는 이웃들을 쉽게 셀수 있도록, <code>0</code>를 <code>Dead</code>로, <code>1</code>을 <code>Alive</code>로 정해주는 것도 중요합니다.</p>
+<p>각 세포가 1 byte 사이즈로 표현돼야 하므로 <code>#[repr(u8)]</code>을 잊지 않고 붙여주도록 하고, 세포 주변에 살아있는 이웃들을 쉽게 셀수 있도록, <code>0</code>를 <code>Dead</code>로, <code>1</code>을 <code>Alive</code>로 정해주는 것도 중요합니다.</p>
 <p>그 다음, 세상을 정의해봅시다. 세상을 나타내는 구조체는 너비와 높이, 세포들을 나타내는 <code>width * height</code> 길이의 벡터(vector)를 필드로 가지게 됩니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
