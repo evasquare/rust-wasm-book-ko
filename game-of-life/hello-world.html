@@ -202,7 +202,7 @@
 <h3 id="wasm-game-of-lifecargotoml"><a class="header" href="#wasm-game-of-lifecargotoml"><code>wasm-game-of-life/Cargo.toml</code></a></h3>
 <p><code>Cargo.toml</code> 파일은 Rust의 패키지 매니저이자 빌드 툴인 <code>cargo</code>와 함께 사용되는데, 의존성과 메타데이터를 지정하는 역할을 합니다. 이 파일은 <code>wasm-bindgen</code> 의존성과 함께 <code>wasm</code> 라이브러리 생성에 사용될 수 있도록 올바르게 설정된 <code>crate-type</code>이 함께 사전에 미리 포함돼 있습니다. 몇가지 필수가 아닌 의존성은 나중에 살펴보겠습니다.</p>
 <h3 id="wasm-game-of-lifesrclibrs"><a class="header" href="#wasm-game-of-lifesrclibrs"><code>wasm-game-of-life/src/lib.rs</code></a></h3>
-<p><code>src/lib.rs</code> 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. <code>wasm-bindgen</code>을 JavaScript를 조작하기 위해 사용하고, <code>window.alert</code> JavaScript 함수를 불러온 다음에 <code>greet</code> Rust 함수를 JavaScript로 보냅니다. 이렇게 "Hello World" 메세지를 표시시킬수 있게 됩니다.</p>
+<p><code>src/lib.rs</code> 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. <code>wasm-bindgen</code>을 JavaScript를 조작하기 위해 사용하고, <code>window.alert</code> JavaScript 함수를 불러온 다음에 <code>greet</code> Rust 함수를 JavaScript로 보냅니다. 이렇게 "Hello World" alert 메세지를 표시시킬수 있게 됩니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>mod utils;
@@ -358,8 +358,8 @@ wasm.greet();
 <p>이제 개발 서버를 구동할 새 터미널을 열어주세요. 새로 연 터미널에서 서버를 구동하면 백그라운드에서 계속 서버를 구동하면서 다른 명령어를 계속 입력할 수 있게 됩니다. 새 터미널에서 <code>wasm-game-of-life/www</code> 디렉토리로 들어간 다음 이 명령어를 실행해주세요:</p>
 <pre><code>npm run start
 </code></pre>
-<p>웹 브라우저를 열고 <a href="http://localhost:8080/">http://localhost:8080/</a> 를 열면 표시되는 "Hello World" 메세지를 확인할 수 있습니다:</p>
-<p><a href="../images/game-of-life/hello-world.png"><img src="../images/game-of-life/hello-world.png" alt="&quot;Hello, wasm-game-of-life!&quot; 웹 페이지 알림(alert) 메세지 스크린샷" /></a></p>
+<p>웹 브라우저를 열고 <a href="http://localhost:8080/">http://localhost:8080/</a> 를 열면 표시되는 "Hello World" alert 메세지를 확인할 수 있습니다:</p>
+<p><a href="../images/game-of-life/hello-world.png"><img src="../images/game-of-life/hello-world.png" alt="&quot;Hello, wasm-game-of-life!&quot; 웹 페이지 alert 메세지 스크린샷" /></a></p>
 <p>파일을 저장할 때 마다 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지에 반영되도록 하고 싶다면, <code>wasm-pack build</code> 명령어를 <code>wasm-game-of-life</code> 디렉토리에서 다시 실행해주세요.</p>
 <h2 id="연습해보기"><a class="header" href="#연습해보기">연습해보기</a></h2>
 <ul>
