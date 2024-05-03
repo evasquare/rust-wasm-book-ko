@@ -248,7 +248,7 @@ pub fn greet() {
 <h3 id="wasm-game-of-lifepkgwasm_game_of_life_bgwasm"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_life_bgwasm"><code>wasm-game-of-life/pkg/wasm_game_of_life_bg.wasm</code></a></h3>
 <p>이러한 <code>.wasm</code> 파일은 Rust 컴파일러가 Rust 소스 코드로 생성한 바이너리 파일입니다. 이 파일은 wasm 형식으로 컴파일된 모든 Rust 함수들과 데이터로 구성돼 있습니다. 변환된 "greet" 함수가 예가 될수 있습니다.</p>
 <h3 id="wasm-game-of-lifepkgwasm_game_of_lifejs"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_lifejs"><code>wasm-game-of-life/pkg/wasm_game_of_life.js</code></a></h3>
-<p>이러한 <code>.js</code> 파일은 <code>wasm-bindgen</code>에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 호출할 수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 호출할 수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, <code>greet</code> 이라는 JavaScript 함수를 통해 WebAssembly에 있는 해당하는 함수를 호출할 수 있습니다. 현재로서는 이러한 파일(bindings glue)들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 정말 많은 도움이 됩니다.</p>
+<p>이러한 <code>.js</code> 파일은 <code>wasm-bindgen</code>에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 호출할 수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 호출할 수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, <code>greet</code> 이라는 JavaScript 함수를 통해 WebAssembly의 해당하는 함수를 호출할 수 있습니다. 현재 시점에서는 이러한 바인딩(bindings glue)들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 정말 도움이 많이 됩니다.</p>
 <pre><code class="language-js">import * as wasm from './wasm_game_of_life_bg';
 
 // ...
@@ -299,7 +299,7 @@ export function greet() {
 </code></pre>
 <p>한번 더 생성된 파일들을 자세히 살펴봅시다.</p>
 <h3 id="wasm-game-of-lifewwwpackagejson"><a class="header" href="#wasm-game-of-lifewwwpackagejson"><code>wasm-game-of-life/www/package.json</code></a></h3>
-<p>이 <code>package.json</code> 파일은 <code>webpack</code>과 <code>webpack-dev-server</code> 종속성들로 미리 셋업이 되어 있고, npm 에 배포된 <code>wasm-pack-template</code>의 초기 버전인 <code>hello-wasm-pack</code> 패키지 또한 종속성도 포함하고 있습니다.</p>
+<p>이 <code>package.json</code> 파일은 <code>webpack</code>과 <code>webpack-dev-server</code> 종속성들로 미리 셋업이 되어 있고, npm 에 배포돼 있는 <code>wasm-pack-template</code>의 초기 버전인 <code>hello-wasm-pack</code> 패키지 또한 종속성으로 포함하고 있습니다.</p>
 <h3 id="wasm-game-of-lifewwwwebpackconfigjs"><a class="header" href="#wasm-game-of-lifewwwwebpackconfigjs"><code>wasm-game-of-life/www/webpack.config.js</code></a></h3>
 <p>이 파일은 webpack과 로컬 개발 서버를 설정합니다. 미리 셋업 작업이 돼 있는데, webpack과 로컬 개발 서버를 사용할 때에도 전혀 따로 수정할 필요가 없습니다.</p>
 <h3 id="wasm-game-of-lifewwwindexhtml"><a class="header" href="#wasm-game-of-lifewwwindexhtml"><code>wasm-game-of-life/www/index.html</code></a></h3>
