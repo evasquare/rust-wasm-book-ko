@@ -623,7 +623,7 @@ pub enum Cell {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>각 세포가 1 byte 사이즈로 표현돼야 하므로 <code>#[repr(u8)]</code>을 잊지 않고 붙여주도록 하고, 세포 주변에 살아있는 이웃들을 쉽게 셀수 있도록, <code>0</code>를 <code>Dead</code>로, <code>1</code>을 <code>Alive</code>로 정해주는 것도 중요합니다.</p>
-<p>그 다음, 세상을 정의해봅시다. 세상을 나타내는 구조체는 너비와 높이, 세포들을 나타내는 <code>width * height</code> 길이의 벡터(vector)를 필드로 가지게 됩니다.</p>
+<p>그 다음, 세상을 정의해봅시다. 세상을 나타내는 구조체는 너비와 높이, 세포들을 나타내는 <code>width * height</code> 크기의 벡터(vector)를 필드로 가지게 됩니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
@@ -668,8 +668,8 @@ pub struct Universe {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p><code>live_neighbor_count</code> 메소드는 델타값과 나머지 값을 확인해서 세상의 끝에서 발생할 수 있는 예외를 <code>if</code>문으로 처리합니다. <code>-1</code>의 델타를 적용할 때, <code>self.height -1</code>을 추가해서 <code>1</code>을 빼는 대신 나머지 값을 계속 처리하게 합니다. <code>row</code>와 <code>column</code>은 각각 <code>0</code>이 될수 있고, 이 값에서 <code>1</code>을 빼려고 시도할 때, unsigned integer underflow가 발생하게 됩니다.</p>
-<p>이제 현재 세대를 기반으로 다음 세대를 처리하는데 필요한 준비가 완료됐습니다! <code>match</code> 문을 사용해서 보기 명확하게 게임의 규칙을 나타내봅시다. 추가로, 틱이 일어날 때 JavaScript가 컨트롤하도록 할 예정이기 때문에, <code>#[wasm_bindgen]</code> 블럭을 추가해서 이 메소드를 JavaScript 코드에 노출시켜보도록 하겠습니다.</p>
+<p><code>live_neighbor_count</code> 메소드는 델타값과 나머지 값을 각각 확인해서 세상의 가장자리에서 발생할 수 있는 예외를 <code>if</code> 문으로 처리해줍니다. <code>-1</code>의 델타를 적용할 때, <code>self.height - 1</code>을 추가해서 <code>1</code>을 빼는 대신 나머지 값을 계속 처리하고, <code>row</code>와 <code>column</code>은 각각 <code>0</code>이 될수 있습니다. 이 <code>row</code>와 <code>column</code> 값에서 <code>1</code>을 빼려고 시도할 때, unsigned integer underflow 가 발생하게 됩니다.</p>
+<p>이제 현재 세대를 기반으로 다음 세대를 처리하는데 필요한 준비가 완료됐습니다! <code>match</code> 문을 사용해서 게임의 규칙을 보기 명확하게 나타내봅시다. 추가로 틱이 일어날 때 JavaScript가 컨트롤하도록 할 예정이기 때문에, <code>#[wasm_bindgen]</code> 블럭을 추가해서 이 메소드를 JavaScript 코드에 노출시켜보도록 하겠습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Public 메소드, JavaScript로 익스포트 할 수 있게 함.
@@ -707,8 +707,8 @@ impl Universe {
     // ...
 }
 <span class="boring">}</span></code></pre></pre>
-<p>지금까지는 세상의 상태를 세포들의 벡터로 표시했습니다. 조금 더 사람이 읽기 쉽도록 텍스트 렌더러 (text renderer)를 구현해보도록 합시다. 세상을 한줄 한줄씩 텍스트로 표현을 해보는데, 살아있는 세포들을 유니코드 문자 <code>◼</code> ("black medium square")로 나타내고 죽은 세포들을 <code>◻</code> ("white medium square")로 표현하겠습니다.</p>
-<p>Rust 스탠다드 라이브러리의 <a href="https://doc.rust-lang.org/1.25.0/std/fmt/trait.Display.html"><code>Display</code></a> 트레이트를 구현해서 사람이 읽기 쉬운 방식으로 포맷할수 있도록 메소드를 추가해봅시다. 이 트레이트를 구현하면 자동적으로 Universe의 인스턴스(instance)들이 <a href="https://doc.rust-lang.org/1.25.0/std/string/trait.ToString.html"><code>to_string</code></a> 메소드를 사용할수 있게 됩니다.</p>
+<p>지금까지는 세상의 상태를 세포들의 벡터로 나타냈습니다. 조금 더 사람이 읽기 쉽도록 텍스트 렌더러 (text renderer) 를 구현해보도록 합시다. 세상을 한줄 한줄씩 텍스트로 표현을 해보도록 하는데, 살아있는 세포들을 유니코드 문자 <code>◼</code> ("black medium square") 로 나타내고 죽은 세포들을 <code>◻</code> ("white medium square") 로 표현해보겠습니다.</p>
+<p>또한, Rust 스탠다드 라이브러리의 <a href="https://doc.rust-lang.org/1.25.0/std/fmt/trait.Display.html"><code>Display</code></a> 트레이트를 구현해서 사람이 읽기 쉬운 방식으로 포맷할수 있도록 메소드를 추가해보겠습니다. 이 트레이트를 구현하면 자동적으로 Universe의 인스턴스(instance)들이 <a href="https://doc.rust-lang.org/1.25.0/std/string/trait.ToString.html"><code>to_string</code></a> 메소드를 사용할수 있게 됩니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fmt;
@@ -727,10 +727,10 @@ impl fmt::Display for Universe {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>마침내, <code>render</code> 메소드와 함께 생성자를 정의해서 세포들이 살아나고 죽어가는 신기한 세상을 생성할 수 있도록 해보겠습니다.</p>
+<p>마지막으로 <code>render</code> 메소드와 함께 생성자를 정의해서 세포들이 살아나고 죽어가는 신기한 세상을 생성할 수 있도록 해보겠습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>/// Public 메소드, JavaScript로 익스포트 할수 있게 함.
+</span>/// public 메소드, JavaScript로 익스포트 할수 있게 함.
 #[wasm_bindgen]
 impl Universe {
     // ...
@@ -762,7 +762,7 @@ impl Universe {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>드디어 Game of Life의 Rust 코드 구현이 끝났습니다!</p>
-<p>이제 <code>wasm-game-of-life</code> 디렉토리에서 <code>wasm-pack build</code>를 실행하여 WebAssembly 파일을 다시 컴파일 해주세요.</p>
+<p>이제 <code>wasm-game-of-life</code> 디렉토리에서 <code>wasm-pack build</code>를 실행해서 WebAssembly 파일을 다시 컴파일해주세요.</p>
 <h2 id="javascript로-페이지-렌더링하기"><a class="header" href="#javascript로-페이지-렌더링하기">JavaScript로 페이지 렌더링하기</a></h2>
 <p><code>wasm-game-of-life/www/index.html</code>에 <code>&lt;pre&gt;</code> 요소를 추가해서 세상을 렌더링 해봅시다. <code>&lt;pre&gt;</code> 요소를 <code>&lt;script&gt;</code> 태그 바로 위에 추가해주세요:</p>
 <pre><code class="language-html">&lt;body&gt;
@@ -785,7 +785,7 @@ impl Universe {
   }
 &lt;/style&gt;
 </code></pre>
-<p>이제 <code>wasm-game-of-life/www/index.js</code> 파일 최상단에 기존 <code>greet</code> 함수를 지우고 <code>Universe</code>를 임포트하는 줄을 추가해주세요.</p>
+<p>이제 <code>wasm-game-of-life/www/index.js</code> 파일 최상단 위치한 기존 <code>greet</code> 함수를 지우고 <code>Universe</code>를 임포트하는 줄을 추가해주세요.</p>
 <pre><code class="language-js">import { Universe } from "wasm-game-of-life";
 </code></pre>
 <p><code>&lt;pre&gt;</code> 요소를 <code>pre</code> 상수에 담은 다음 새 우주를 시작해봅시다.</p>
@@ -803,18 +803,18 @@ const universe = Universe.new();
 <p>렌더링 처리를 시작하려면 다음 코드를 <code>renderLoop</code> 함수 밖에 추가해서 렌더링 루프를 시작해주세요:</p>
 <pre><code class="language-js">requestAnimationFrame(renderLoop);
 </code></pre>
-<p>다시 한번 (<code>npm run</code>을 <code>wasm-game-of-life/www</code> 디렉토리에서 실행한) 개발 서버가 아직 구동중인지 확인해주세요. <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 열면 다음 내용을 확인할 수 있습니다:</p>
+<p>다시 한번 (<code>npm run</code>을 <code>wasm-game-of-life/www</code> 디렉토리에서 실행한) 개발 서버가 아직 구동중인지 확인해주세요. <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 열면 다음 내용을 확인할수 있게 됩니다:</p>
 <p><a href="game-of-life/../images/game-of-life/initial-game-of-life-pre.png"><img src="game-of-life/../images/game-of-life/initial-game-of-life-pre.png" alt="텍스트를 렌더하는 Game of Life 구현 스크린샷" /></a></p>
 <h2 id="메모리에서-바로-캔버스로-렌더링하기"><a class="header" href="#메모리에서-바로-캔버스로-렌더링하기">메모리에서 바로 캔버스로 렌더링하기</a></h2>
-<p>Rust 코드에서 <code>String</code>을 생성 (및 할당) 하고 <code>wasm-bindgen</code>로 이 생성한 값을 유효한 JavaScript 문자열로 변환하게 되면 세포들을 불필요하게 복사하게 됩니다. JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, <code>render</code> 메소드를 수정하여 <code>cells</code> 배열의 시작을 가리키는 포인터를 반환해보도록 합시다.</p>
+<p>Rust 코드에서 <code>String</code>을 생성 (및 할당) 하고 <code>wasm-bindgen</code>로 이 생성한 값을 유효한 JavaScript 문자열로 변환하면 세포들을 불필요하게 복사하게 됩니다. 우리가 JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, <code>render</code> 메소드를 수정하여 <code>cells</code> 배열의 시작을 가리키는 포인터를 대신 반환해보도록 합시다.</p>
 <p>그리고 유니코드 문자를 렌더링하지 않고 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas API</a> 를 대신 사용해봅시다. 이 API를 이 부분 이후부터 계속 사용하겠습니다.</p>
-<p><code>wasm-game-of-life/www/index.html</code> 파일에서 전에 추가한 <code>&lt;pre&gt;</code>를 지우고 렌더링에 사용할 <code>&lt;canvas&gt;</code>를 추가해주세요. (<code>&lt;body&gt;</code> 태그 내에서 JavaScript 코드를 시작시키는 <code>&lt;script&gt;</code> 태그 위에 추가돼야 합니다.)</p>
+<p><code>wasm-game-of-life/www/index.html</code> 파일에서 이전에 추가한 <code>&lt;pre&gt;</code>를 지우고 렌더링에 사용할 <code>&lt;canvas&gt;</code>를 추가해주세요. (<code>&lt;body&gt;</code> 태그 내에서 JavaScript 코드를 시작시키는 <code>&lt;script&gt;</code> 태그 위에 추가돼야 합니다.)</p>
 <pre><code class="language-html">&lt;body&gt;
   &lt;canvas id="game-of-life-canvas"&gt;&lt;/canvas&gt;
   &lt;script src='./bootstrap.js'&gt;&lt;/script&gt;
 &lt;/body&gt;
 </code></pre>
-<p>Rust로 구현한 코드에서 필요한 정보를 얻어올수 있도록 위해 세상의 넓이, 너비, 세포 배열을 가리키는 포인터를 반환하는 getter 함수들을 조금 더 만들어보겠습니다. 이 함수들도 JavaScript 코드로 노출시켜야 하니 잘 확인해주고 <code>wasm-game-of-life/src/lib.rs</code> 파일에 다음 코드를 추가해주세요:</p>
+<p>Rust로 구현한 코드에서 필요한 정보를 얻어올 수 있도록 세상의 넓이, 너비, 세포 배열을 가리키는 포인터를 반환하는 getter 함수들을 조금 더 작성해보겠습니다. 이 함수들도 JavaScript 코드로 노출시켜야 하니 잘 확인해주고, <code>wasm-game-of-life/src/lib.rs</code> 파일에 다음 코드를 추가해주세요:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Public 메소드, JavaScript로 익스포트 할수 있게 함.
@@ -835,7 +835,7 @@ impl Universe {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>그 다음, <code>wasm-game-of-life/www/index.js</code> 파일에 <code>wasm-game-of-life</code> 모듈에서 <code>Cell</code>을 임포트하는 줄을 추가해주고 캔버스를 렌더링할때 사용할 상수 몇가지를 정의해주세요:</p>
+<p>그 다음, <code>wasm-game-of-life/www/index.js</code> 파일의 <code>wasm-game-of-life</code> 모듈에서 <code>Cell</code>을 임포트하는 줄을 추가해준 다음 캔버스를 렌더링할때 사용할 상수 몇가지를 정의해주세요:</p>
 <pre><code class="language-js">import { Universe, Cell } from "wasm-game-of-life";
 
 const CELL_SIZE = 5; // px
@@ -865,7 +865,7 @@ const renderLoop = () =&gt; {
   requestAnimationFrame(renderLoop);
 };
 </code></pre>
-<p>세포들 사이에 격자를 그리려면 일정한 간격으로 나란히 놓인 수평선과 수직선을 그려줍니다. 이러한 선들은 교차하여 격자를 형성합니다.</p>
+<p>세포들 사이에 격자를 그리려면 일정한 간격으로 나란히 놓인 수평선과 수직선을 그려줍니다. 이러한 선들은 교차하여 격자를 형성하게 됩니다.</p>
 <pre><code class="language-js">const drawGrid = () =&gt; {
   ctx.beginPath();
   ctx.strokeStyle = GRID_COLOR;
@@ -885,7 +885,7 @@ const renderLoop = () =&gt; {
   ctx.stroke();
 };
 </code></pre>
-<p>raw wasm 모듈인 <code>wasm_game_of_life_bg</code>에 정의된 <code>memory</code>를 임포트해서 WebAssembly의 선형 메모리에 직접 접근할 수 있습니다. 세포를 그리려면 세상에 있는 세포들을 가리키는 포인터를 반환받고, 세포 버퍼(buffer)를 오버레이(overlay)하는 <code>Uint8Array</code> 객체를 생성한 다음 각 세포를 순회하여 생존 여부에 따라 흰색 또는 검은색 사각형을 그립니다. 포인터를 오버레이하게 되면서, 모든 틱마다 세포들을 복사하지 않도록 최적화 작업을 해줄수 있습니다.</p>
+<p>raw wasm 모듈인 <code>wasm_game_of_life_bg</code>에 정의된 <code>memory</code>를 임포트해서 WebAssembly의 선형 메모리에 직접 접근할 수 있습니다. 세포를 그리려면 우선 세상에 있는 세포들을 가리키는 포인터를 반환받고 세포 버퍼(buffer)를 오버레이(overlay)하는 <code>Uint8Array</code> 객체를 생성해야 합니다. 그 다음 각 세포를 순회하여 생존 여부에 따라 흰색 또는 검은색 사각형을 그립니다. 포인터를 오버레이하게 되면서, 모든 틱마다 세포들을 복사하지 않도록 최적화 작업을 해줄수 있습니다.</p>
 <pre><code class="language-js">// WebAssembly 메모리를 파일 최상단에 임포트해줍니다.
 import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
 
@@ -921,14 +921,14 @@ const drawCells = () =&gt; {
   ctx.stroke();
 };
 </code></pre>
-<p>렌더링 처리를 시작하기 위해 이전에 보여드린 코드를 사용해서 렌더링 루프를 시작해보겠습니다:</p>
+<p>이전에 보여드린 코드를 사용해서 렌더링 처리를 시작해보겠습니다:</p>
 <pre><code class="language-js">drawGrid();
 drawCells();
 requestAnimationFrame(renderLoop);
 </code></pre>
-<p><code>drawGrid()</code>와 <code>drawCells()</code>를 <code>requestAnimationFrame()</code> 호출 <em>이전에</em> 호출해야 한다는 점을 꼭 기억해주세요. <em>초기</em> 상태의 세상이 그려진 이후에 수정사항을 만들어야 합니다. <code>requestAnimationFrame(renderLoop)</code> 만 부르게 된다면 <code>universe.tick()</code>이 호출된 <em>이후</em> 시점의 두번째 틱이 그려지게 됩니다.</p>
+<p><code>drawGrid()</code>와 <code>drawCells()</code> 두 함수를 <code>requestAnimationFrame()</code> 함수 호출 <em>이전에</em> 호출해야 한다는 점을 꼭 기억해주세요. <em>초기</em> 상태의 세상이 그려진 이후에 수정사항을 적용해야 합니다. <code>requestAnimationFrame(renderLoop)</code> 함수만 호출하게 된다면 <code>universe.tick()</code>이 호출된 <em>이후</em> 시점의 두번째 틱이 대신 그려지게 됩니다.</p>
 <h2 id="다-됐어요"><a class="header" href="#다-됐어요">다 됐어요!</a></h2>
-<p>최상단 <code>wasm-game-of-life</code> 디렉토리에서 다음 명령어를 실행하여 WebAssembly와 바인딩 파일(bindings glue)들을 다시 빌드해줍시다:</p>
+<p>최상단 <code>wasm-game-of-life</code> 디렉토리에서 다음 명령어를 실행하여 WebAssembly와 바인딩 파일 (bindings glue) 들을 다시 빌드해줍시다:</p>
 <pre><code>wasm-pack build
 </code></pre>
 <p>다시 한번 개발 서버가 아직 구동중인지 확인해주세요. 구동중이지 않다면 <code>wasm-game-of-life/www</code> 디렉토리에서 다시 시작해주세요:</p>
@@ -936,7 +936,7 @@ requestAnimationFrame(renderLoop);
 </code></pre>
 <p><a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 웹 브라우저에서 새로고침하면 구현된 흥미진진한 Game of Life가 시작되게 됩니다.</p>
 <p><a href="game-of-life/../images/game-of-life/initial-game-of-life.png"><img src="game-of-life/../images/game-of-life/initial-game-of-life.png" alt="Game of Life 구현 스크린샷" /></a></p>
-<p>추가로 관심이 있다면, <a href="https://en.wikipedia.org/wiki/Hashlife">hashlife</a> 라는 엄청 멋진 Game of Life 알고리즘 구현도 있으니 한번 확인해보세요. 이 알고리즘은 공격적인 메모이제이션 (aggressive memoizing)을 사용하여 코드가 더 오래 구동될수록 미래 세대들을 <em>기하급수적으로 더 빠르게</em> 계산할수 있게 해줍니다. hashlife를 이 튜토리얼에서 구현해보면 정말 재밌겠지만, 이 책은 Rust와 WebAssembly 사용에 중점을 두고 있으므로 다루지 않도록 하겠습니다. 하지만 hashlife에 대해 배워보길 적극적으로 권장합니다.</p>
+<p>추가로 관심이 있다면, <a href="https://en.wikipedia.org/wiki/Hashlife">hashlife</a> 라는 엄청 멋진 Game of Life 알고리즘 구현도 있으니 한번 확인해보세요. 이 알고리즘은 공격적인 메모이제이션 (aggressive memoizing) 기법을 사용하는데, 덕분에 코드가 더 오래 구동되는 만큼 미래 세대들을 <em>기하급수적으로 더 빠르게</em> 계산할수 있게 해줍니다. hashlife를 이 튜토리얼에서 구현해보면 정말 재밌겠지만, 이 책은 Rust와 WebAssembly 사용에 중점을 두고 있으므로 다루지 않도록 하겠습니다. 하지만 hashlife에 대해 따로 배워보길 적극적으로 권장합니다.</p>
 <h2 id="연습해보기-2"><a class="header" href="#연습해보기-2">연습해보기</a></h2>
 <ul>
 <li>
@@ -969,10 +969,10 @@ if js_sys::Math::random() &lt; 0.5 {
 </details>
 </li>
 <li>
-<p>각 세포를 byte 값으로 표현하면서 순회를 쉽게 할수 있지만, 메모리 자원을 낭비하는 단점이 있습니다. 1 byte는 8 bit인데, 실제로 세포 생존 여부를 표시할 때는 1 bit만 사용하고 있습니다. 이 데이터 표현을 (data representation) 을 리팩토링하여 각 세포가 1 bit의 사이즈만 사용할수 있도록 코드를 작성해보세요.</p>
+<p>각 세포를 byte 값으로 표현하면서 순회를 쉽게 할수 있지만, 메모리 자원을 낭비한다는 단점이 있습니다. 1 byte는 8 bit인데, 실제로 세포 생존 여부를 표시할 때는 1 bit만 사용하고 있습니다. 이 데이터 표현을을 리팩토링하여 각 세포가 1 bit의 사이즈만 사용할수 있도록 코드를 작성해보세요.</p>
 <details>
   <summary>정답</summary>
-<p>Rust 언어에서는 <code>Vec&lt;Cell&gt;</code> 타입 대신 (추가 기능을 제공하는 라이브러리인) <a href="https://crates.io/crates/fixedbitset"><code>fixedbitset</code> 크레이트의 <code>FixedBitSet</code> 타입</a>을 사용하여 세포들을 나타낼수도 있습니다.</p>
+<p>Rust 언어에서 <code>Vec&lt;Cell&gt;</code> 타입 대신 (추가 기능을 제공하는 라이브러리인) <a href="https://crates.io/crates/fixedbitset"><code>fixedbitset</code> 크레이트의 <code>FixedBitSet</code> 타입</a>을 사용하여 세포들을 나타내볼수도 있습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Cargo.toml에 종속성을 추가했는지 확인해주세요!
@@ -988,7 +988,7 @@ pub struct Universe {
     cells: FixedBitSet,
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Universe의 생성자를 다음과 같이 수정해볼수 있습니다:</p>
+<p>Universe의 생성자를 다음과 같이 수정해보겠습니다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn new() -&gt; Universe {
@@ -1032,10 +1032,10 @@ impl Universe {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>JavaScript에서 wasm 메모리에서 <code>Uint8Array</code>를 생성해오는 방법은 이전과 똑같습니다. 하지만 이번에는 각 세포를 나타내기 위해 byte 대신 bit을 사용하므로 배열의 길이가 더이상 <code>width * height</code>가 아니고 <code>width * height / 8</code>이 되어야 하니 잘 확인해주세요:</p>
+<p>JavaScript의 wasm 메모리에서 <code>Uint8Array</code>를 생성해오는 방법은 이전과 동일합니다. 하지만 이번에는 각 세포를 나타내기 위해 byte 대신 bit을 사용하므로 배열의 길이가 더이상 <code>width * height</code>가 아니고 <code>width * height / 8</code>이 되어야 하니 다시 잘 확인해주세요:</p>
 <pre><code class="language-js">const cells = new Uint8Array(memory.buffer, cellsPtr, width * height / 8);
 </code></pre>
-<p>다음 함수를 사용하여 인덱스와 <code>Uint8Array</code>가 주어질 때 <em>n</em>번째 bit이 0인지 1인지 확인할 수 있습니다:</p>
+<p>다음 함수를 사용하여 인덱스와 <code>Uint8Array</code>가 주어질 때 <em>n</em>번째 bit의 값이 0인지 1인지 확인할 수 있습니다:</p>
 <pre><code class="language-js">const bitIsSet = (n, arr) =&gt; {
   const byte = Math.floor(n / 8);
   const mask = 1 &lt;&lt; (n % 8);
