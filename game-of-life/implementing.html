@@ -370,7 +370,7 @@ impl Universe {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>드디어 Game of Life의 Rust 코드 구현이 끝났습니다!</p>
-<p>이제 <code>wasm-game-of-life</code> 디렉토리에서 <code>wasm-pack build</code>를 실행해서 WebAssembly 파일을 다시 컴파일해주세요.</p>
+<p>이제 <code>wasm-game-of-life</code> 경로에서 <code>wasm-pack build</code>를 실행해서 WebAssembly 파일을 다시 컴파일해주세요.</p>
 <h2 id="javascript로-페이지-렌더링하기"><a class="header" href="#javascript로-페이지-렌더링하기">JavaScript로 페이지 렌더링하기</a></h2>
 <p><code>wasm-game-of-life/www/index.html</code>에 <code>&lt;pre&gt;</code> 요소를 추가해서 세상을 렌더링 해봅시다. <code>&lt;pre&gt;</code> 요소를 <code>&lt;script&gt;</code> 태그 바로 위에 추가해주세요:</p>
 <pre><code class="language-html">&lt;body&gt;
@@ -411,7 +411,7 @@ const universe = Universe.new();
 <p>렌더링 처리를 시작하려면 다음 코드를 <code>renderLoop</code> 함수 밖에 추가해서 렌더링 루프를 시작해주세요:</p>
 <pre><code class="language-js">requestAnimationFrame(renderLoop);
 </code></pre>
-<p>다시 한번 (<code>npm run</code>을 <code>wasm-game-of-life/www</code> 디렉토리에서 실행한) 개발 서버가 아직 구동중인지 확인해주세요. <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 열면 다음 내용을 확인할수 있게 됩니다:</p>
+<p>다시 한번 (<code>npm run</code>을 <code>wasm-game-of-life/www</code> 경로에서 실행한) 개발 서버가 아직 구동중인지 확인해주세요. <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 열면 다음 내용을 확인할수 있게 됩니다:</p>
 <p><a href="../images/game-of-life/initial-game-of-life-pre.png"><img src="../images/game-of-life/initial-game-of-life-pre.png" alt="텍스트를 렌더하는 Game of Life 구현 스크린샷" /></a></p>
 <h2 id="메모리에서-바로-캔버스로-렌더링하기"><a class="header" href="#메모리에서-바로-캔버스로-렌더링하기">메모리에서 바로 캔버스로 렌더링하기</a></h2>
 <p>Rust 코드에서 <code>String</code>을 생성 (및 할당) 하고 <code>wasm-bindgen</code>로 이 생성한 값을 유효한 JavaScript 문자열로 변환하면 세포들을 불필요하게 복사하게 됩니다. 우리가 JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, <code>render</code> 메소드를 수정하여 <code>cells</code> 배열의 시작을 가리키는 포인터를 대신 반환해보도록 합시다.</p>
@@ -536,10 +536,10 @@ requestAnimationFrame(renderLoop);
 </code></pre>
 <p><code>drawGrid()</code>와 <code>drawCells()</code> 두 함수를 <code>requestAnimationFrame()</code> 함수 호출 <em>이전에</em> 호출해야 한다는 점을 꼭 기억해주세요. <em>초기</em> 상태의 세상이 그려진 이후에 수정사항을 적용해야 합니다. <code>requestAnimationFrame(renderLoop)</code> 함수만 호출하게 된다면 <code>universe.tick()</code>이 호출된 <em>이후</em> 시점의 두번째 틱이 대신 그려지게 됩니다.</p>
 <h2 id="다-됐어요"><a class="header" href="#다-됐어요">다 됐어요!</a></h2>
-<p>최상단 <code>wasm-game-of-life</code> 디렉토리에서 다음 명령어를 실행하여 WebAssembly와 바인딩 파일 (bindings glue) 들을 다시 빌드해줍시다:</p>
+<p>최상단 <code>wasm-game-of-life</code> 경로에서 다음 명령어를 실행하여 WebAssembly와 바인딩 파일 (bindings glue) 들을 다시 빌드해줍시다:</p>
 <pre><code>wasm-pack build
 </code></pre>
-<p>다시 한번 개발 서버가 아직 구동중인지 확인해주세요. 구동중이지 않다면 <code>wasm-game-of-life/www</code> 디렉토리에서 다시 시작해주세요:</p>
+<p>다시 한번 개발 서버가 아직 구동중인지 확인해주세요. 구동중이지 않다면 <code>wasm-game-of-life/www</code> 경로에서 다시 시작해주세요:</p>
 <pre><code>npm run start
 </code></pre>
 <p><a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 웹 브라우저에서 새로고침하면 구현된 흥미진진한 Game of Life가 시작되게 됩니다.</p>

@@ -267,7 +267,7 @@ pre, code {
 <p><code>cargo</code> 명령어를 실행해서 LLVM-IR 파일을 생성해보세요:</p>
 <pre><code>cargo rustc --release -- --emit llvm-ir
 </code></pre>
-<p>그 다음 <code>find</code> 명령어를 사용해서 <code>.ll</code> 파일을  찾아보겠습니다. 이 LLVM-IR 파일은 <code>cargo</code>의 <code>target</code> 디렉토리에 위치하게 됩니다:</p>
+<p>그 다음 <code>find</code> 명령어를 사용해서 <code>.ll</code> 파일을  찾아보겠습니다. 이 LLVM-IR 파일은 <code>cargo</code>의 <code>target</code> 경로에 위치하게 됩니다:</p>
 <pre><code>find target/release -type f -name '*.ll'
 </code></pre>
 <h4 id="레퍼런스"><a class="header" href="#레퍼런스">레퍼런스</a></h4>
