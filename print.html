@@ -2243,11 +2243,11 @@ fn whatever(t: &amp;MyTrait) { ... }
 <p>런타임에서 사용하지 않는 함수들과 이 함수들이 간접적으로 호출하는 다른 함수들을 제거하고  싶은데, 컴파일러가 어떤 함수를 사용하지 않는지 모른다면 어떻게 해야 할까요? 우선은 코드를 빌드해보고 <code>wasm-opt</code>를 <code>--dce</code> 플래그를 포함해서 다시 실행해보세요! 간접적으로 호출되는 (런타임에서 부르지 않는) 함수들까지 지워버릴수 있습니다.</p>
 <p>패닉 코드가 이런 문제들로 종종 이어질 수 있기 때문에, 패닉 인프라 (panicking infrastructure) 를 지울때 이 툴이 유용하게 사용될수도 있습니다.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="javascript-상호-운용하기"><a class="header" href="#javascript-상호-운용하기">JavaScript 상호 운용하기</a></h1>
-<h2 id="javascript-함수를-임포트하고-익스포트하기"><a class="header" href="#javascript-함수를-임포트하고-익스포트하기">JavaScript 함수를 임포트하고 익스포트하기</a></h2>
+<h2 id="javascript-함수-임포트하고-익스포트하기"><a class="header" href="#javascript-함수-임포트하고-익스포트하기">JavaScript 함수 임포트하고 익스포트하기</a></h2>
 <h3 id="rust-사이드"><a class="header" href="#rust-사이드">Rust 사이드</a></h3>
-<p>JavaScript 환경에서 wasm을 사용할 때, Rust 사이드에서 함수들을 임포트하고 익스포팅하는 작업은 매우 간단합니다. 그리고 C 언어와 유사하게 작동하기도 합니다.</p>
-<p>WebAssembly 모듈이 임포트 시퀀스(sequence)를 선언하는데, 각각 시퀀스는 <em>모듈 이름</em>과 <em>임포트 이름</em>으로 구성됩니다. 기본값으로 "env" 파일에 설정된 것과 같이, <a href="https://github.com/rust-lang/rust/issues/52090"><code>#[link(wasm_import_module)]</code></a>를 사용하여 <code>extern { ... }</code> 블럭 모듈 이름을 지정할 수 있습니다.</p>
-<p>익스포트는 한가지 이름만 가질 수 있습니다. 다른 <code>extern</code> 함수들과 마찬가지로, WebAssembly 인스턴스의 기본 선형 메모리는 "memory" 라는 이름으로 익스포트 됩니다.</p>
+<p>JavaScript 환경에서 wasm을 사용할 때 Rust 사이드에서 함수들을 임포트하고 익스포팅하는 작업은 의외로 매우 간단합니다. 그리고 C 언어와 유사하게 작동하기도 합니다.</p>
+<p>WebAssembly 모듈은 임포트 시퀀스(sequence)를 선언하는데, 각각 시퀀스는 <em>모듈 이름</em>과 <em>임포트 이름</em>으로 구성됩니다. 기본값으로 "env" 파일에 설정된 것과 같이, <a href="https://github.com/rust-lang/rust/issues/52090"><code>#[link(wasm_import_module)]</code></a>를 사용하여 <code>extern { ... }</code> 블럭 모듈 이름을 직접 지정해줄수도 있습니다.</p>
+<p>익스포트는 한가지 이름만 가질 수 있는데, 다른 <code>extern</code> 함수들과 마찬가지로, WebAssembly 인스턴스의 선형 메모리는 기본값으로는 "memory" 라는 이름으로 익스포트 됩니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// `foo`라는 JavaScript 함수를 `mod` 모듈에서 임포트해옵니다.
@@ -2258,41 +2258,41 @@ extern { fn foo(); }
 #[no_mangle]
 pub extern fn bar() { /* ... */ }
 <span class="boring">}</span></code></pre></pre>
-<p>wasm이 제한된 값 타입들을 가지고 있기 때문에, 이러한 함수들은 원시 숫자 타입에서만 작동해야 합니다.</p>
+<p>wasm은 제한된 수의 값 타입들을 가지고 있기 때문에, 이러한 함수들은 원시 숫자 타입에서만 작동해야 한다는 부분도 참고해주세요.</p>
 <h3 id="javascript-사이드"><a class="header" href="#javascript-사이드">JavaScript 사이드</a></h3>
-<p>JavaScript 코드 내에서, wasm 바이너리가 ES6 모듈로 변환되는 것을 확인할 수 있습니다. 이 모듈은 선형 메모리와 함께 먼저 <em>인스턴스화</em> 해야하고, 임포트한 내용과 일치하는 JavaScript 함수 그룹을 필요로 합니다. 인스턴스화에 대해 더 자세히 알아보려면 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming">MDN</a>를 참고해주세요.</p>
-<p>출력하게 되는 ES6 모듈은 Rust에서 익스포트한 함수들을 모두 포함하게 되는데, 이런 함수들을 JavaScript 함수로 호출할 수 있습니다.</p>
-<p>셋업을 하고 작동시키는 전반적인 간단한 예시를 확인하고 싶다면 <a href="https://www.hellorust.com/demos/add/index.html">여기</a>를 참고해주세요.</p>
+<p>JavaScript 코드 내에서는 wasm 바이너리가 ES6 모듈로 변환되는 것을 확인할 수 있습니다. 이 모듈은 선형 메모리와 함께 먼저 <em>인스턴스화</em> 돼야하고, 임포트한 내용과 일치하는 JavaScript 함수 그룹을 필요로 합니다. 인스턴스화에 대해 더 자세히 알아보려면 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming">MDN</a>를 참고해주세요.</p>
+<p>출력하게 되는 ES6 모듈은 Rust에서 익스포트한 함수들을 모두 포함하게 되는데, 이런 함수들은 JavaScript 함수에서 호출할 수 있습니다.</p>
+<p>셋업을 하고 실행시키는 전반적으로 간단한 예시를 확인하고 싶다면 <a href="https://www.hellorust.com/demos/add/index.html">여기</a>를 참고해주세요.</p>
 <h2 id="숫자-외에-다른-값도-사용해보기"><a class="header" href="#숫자-외에-다른-값도-사용해보기">숫자 외에 다른 값도 사용해보기</a></h2>
-<p>JavaScript에서 wasm을 사용할 때, wasm 모듈의 메모리와 JavaScript 메모리 사이가 명확하게 구분됩니다:</p>
+<p>JavaScript에서 wasm을 사용할 때는 wasm 모듈의 메모리와 JavaScript 메모리 사이가 명확하게 구분됩니다:</p>
 <ul>
 <li>
-<p>(이 문서 최상단에 설명된 대로) 각각의 wasm 모듈은 인스턴스화 과정에서 생성했듯 선형 메모리를 가지고 있습니다. <strong>JavaScript 코드는 자유롭게 이 메모리를 읽고 쓸수 있습니다.</strong></p>
+<p>(이 문서 최상단에 설명된 대로) 각각의 wasm 모듈은 인스턴스화 과정에서 생성하게 되는 선형 메모리를 가지게 됩니다. <strong>JavaScript 코드는 자유롭게 이 메모리를 읽고 쓸수 있습니다.</strong></p>
 </li>
 <li>
 <p>반면에, wasm에서는 JavaScript 객체에 직접 접근할 수 없습니다.</p>
 </li>
 </ul>
-<p>그래서 보통은 두가지 방법으로 정교화된 상호 작용을 처리하게 됩니다:</p>
+<p>그런 이유로 보통은 두 가지 방법으로 정교화된 상호 작용을 처리하게 됩니다:</p>
 <ul>
 <li>
-<p>바이너리 데이터를 wasm 메모리에서 복사하거나 복사해옵니다. 예를 들어서, 이 방법으로 Rust 코드에서 소유한 <code>String</code> 값을 사용할수도 있습니다.</p>
+<p>바이너리 데이터를 wasm 메모리에서 복사하거나 붙여놓습니다. 예를 들어서, 이 방법으로 Rust 코드가 소유하는 <code>String</code> 값을 사용할수도 있습니다.</p>
 </li>
 <li>
 <p>명시적으로 JavaScript 객체의 힙을 설정하고 이후에 "addresses"를 할당합니다. 이렇게 wasm 코드에서 (정수 값을 사용하여) 간접적으로 JavaScript 객체를 참조할 수 있고, 임포트한 JavaScript 함수를 호출해서 사용할 수 있게 됩니다.</p>
 </li>
 </ul>
-<p>다행히도, 이 상호 운용 작업은 <a href="https://github.com/rustwasm/wasm-bindgen">wasm-bindgen</a>이라는 <code>bindgen</code> 스타일의 프레임워크를 사용해서 매우 쉽게 처리할 수 있습니다. 이 프레임워크를 사용하면 보편적인 JavaScript 함수에 자동으로 매핑되는 보편적인 Rust 함수 시그니처를 생성할 수 있습니다.</p>
+<p>다행스럽게도 이 상호 운용 작업은 <a href="https://github.com/rustwasm/wasm-bindgen">wasm-bindgen</a>이라는 <code>bindgen</code> 스타일의 프레임워크를 사용해서 아주 쉽게 처리할수 있습니다. 이 프레임워크를 사용해서 관용적인 스타일의 JavaScript 함수에 자동으로 매핑되도록 관용적인 Rust 함수 시그니처를 생성할 수 있습니다.</p>
 <h2 id="사용자-정의-섹션-custom-sections"><a class="header" href="#사용자-정의-섹션-custom-sections">사용자 정의 섹션 (Custom Sections)</a></h2>
-<p>사용자 정의 섹션을 통해 wasm 모듈에 명명된 임의의 데이터를 임베딩할 수 있습니다. 이 섹션 데이터는 컴파일 시점에 설정되며 wasm 모듈에서 직접 읽을 수 있습니다. 하지만 런타임에서는 이 모듈을 수정할 수 없습니다.</p>
-<p>Rust 코드에서는 사용자 정의 섹션을 정적 배열 (<code>[T; size]</code>)로 나타내고 <code>#[link_section]</code> 속성으로 노출시킬 수 있습니다.</p>
+<p>사용자 정의 섹션을 통해 wasm 모듈에 명명된 임의의 데이터를 임베딩할 수 있습니다. 이 섹션 데이터는 컴파일 시점에 설정되며 wasm 모듈에서 직접 읽을 수 있지만 런타임에서는 이 모듈을 수정할 수 없습니다.</p>
+<p>Rust 코드에서 다음과 같이 사용자 정의 섹션을 정적 배열 (<code>[T; size]</code>)로 나타내고 <code>#[link_section]</code> 속성으로 노출시킬 수 있습니다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[link_section = "hello"]
 pub static SECTION: [u8; 24] = *b"This is a custom section";
 <span class="boring">}</span></code></pre></pre>
-<p>이 코드는 wasm 파일에 <code>hello</code> 라는 사용자 정의 섹션을 추가합니다. 변수 이름 <code>SECTION</code> 은 임의로 명명됐고, 이 이름을 변경해도 코드의 동작이 바뀌지 않습니다. 이 변수에 텍스트 바이트 (bytes of text) 를 사용했지만, 다른 임의의 데이터도 사용할 수 있습니다.</p>
-<p>이런 사용자 정의 섹션은 JS 사이드에서 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Module/customSections"><code>WebAssembly.Module.customSections</code></a>  함수를 사용하여 읽을 수 있습니다. 이 함수를 호출할 때, wasm 모듈과 섹션 이름을 인자로 주고 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer"><code>ArrayBuffer</code></a>의 배열을 반환받게 됩니다. 여러 섹션들이 같은 이름을 공유해서 사용할수도 있는데, 이 경우에는 한 배열에 여러 섹션을 담게 됩니다.</p>
+<p>이 코드는 wasm 파일에 <code>hello</code> 라는 사용자 정의 섹션을 추가합니다. 변수 이름 <code>SECTION</code> 은 임의로 명명됐으며 이 이름을 변경해도 코드의 동작이 바뀌지 않습니다. 이 변수에 텍스트 바이트 (bytes of text) 를 사용했지만 다른 임의의 데이터를 사용할 수도 있습니다.</p>
+<p>이런 사용자 정의 섹션은 JS 사이드에서 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Module/customSections"><code>WebAssembly.Module.customSections</code></a>  함수를 사용하여 읽을 수도 있습니다. 이 함수를 호출할 때, wasm 모듈과 섹션 이름을 인자로 주고 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer"><code>ArrayBuffer</code></a>의 배열을 반환받게 됩니다. 여러 섹션들이 같은 이름을 공유하게 할수도 있는데, 이 경우에는 한 배열에 여러 섹션들을 담게 됩니다.</p>
 <pre><code class="language-js">WebAssembly.compileStreaming(fetch("sections.wasm"))
 .then(mod =&gt; {
   const sections = WebAssembly.Module.customSections(mod, "hello");
@@ -2300,26 +2300,26 @@ pub static SECTION: [u8; 24] = *b"This is a custom section";
   const decoder = new TextDecoder();
   const text = decoder.decode(sections[0]);
 
-  console.log(text); // -&gt; "이 내용을 사용자 지정 섹션에서 가져왔습니다"
+  console.log(text); // -&gt; "사용자 정의 섹션을 콘솔에 출력합니다"
 });
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="어떤-크레이트들을-webassembly에서-바로-사용할수-있나요"><a class="header" href="#어떤-크레이트들을-webassembly에서-바로-사용할수-있나요">어떤 크레이트들을 WebAssembly에서 바로 사용할수 있나요?</a></h1>
-<p>가장 간단하게 어떤 것들이 WebAssembly 환경에서 작동하지 않는지 목록을 한번 만들어 보겠습니다. 다음 내용에 해당하지 않는 크레이트들은 휴대성이 좋고 WebAssembly 환경에서 잘 작동한다고 생각해도 좋고, 임베디드 시스템과 <code>#![no_std]</code>를 지원한다면 보통은 WebAssembly도 지원한다고 볼수 있습니다.</p>
+<p>가장 간단하게 어떤 기능들이 WebAssembly 환경에서 작동하지 않는지 목록을 한번 만들어 보겠습니다. 다음 내용에 해당하지 않는 크레이트들은 휴대성이 좋고 WebAssembly 환경에서 잘 작동한다고 생각해도 좋고, 임베디드 시스템과 <code>#![no_std]</code>를 지원하는 크레이트들도 보통은 WebAssembly도 지원한다고 볼수 있습니다.</p>
 <h2 id="이러한-크레이트들은-webassembly-환경에서-작동하지-않을수도-있습니다"><a class="header" href="#이러한-크레이트들은-webassembly-환경에서-작동하지-않을수도-있습니다">이러한 크레이트들은 WebAssembly 환경에서 작동하지 않을수도 있습니다</a></h2>
 <h3 id="c-언어와-시스템-라이브러리-종속성이-있는-경우"><a class="header" href="#c-언어와-시스템-라이브러리-종속성이-있는-경우">C 언어와 시스템 라이브러리 종속성이 있는 경우</a></h3>
-<p>wasm에는 시스템 라이브러리가 없기 떄문에 시스템 라이브러리에 바인딩된 코드가 있는 크레이트는 작동하지 않습니다.</p>
-<p>wasm에는 언어 간 통신에 사용할수 있는 안정된 버전의 ABI와 언어 간 링킹(linking)이 없기 때문에, C 라이브러리를 사용하는 크레이트도 작동하지 않습니다. 특히 <code>clang</code> 컴파일러가 <code>wasm32</code> 타겟을 기본으로 제공하기 때문에 결국은 작동할 것으로 예상되지만, 현재로서는 완벽하지 않습니다.</p>
+<p>wasm에는 시스템 라이브러리가 없기 떄문에 시스템 라이브러리에 바인딩돼 있는 코드가 있다면 작동하지 않습니다.</p>
+<p>wasm에는 언어 간 통신에 사용할수 있는 안정된 버전의 ABI와 언어 간 링킹(linking)이 존재하지 않습니다. 그러므로 C 라이브러리를 사용하는 크레이트도 작동하지 않습니다. 특히 <code>clang</code> 컴파일러가 <code>wasm32</code> 타겟을 기본으로 제공하기 때문에 결국은 작동할 것으로 예상되지만, 현재로서는 완벽하지 않습니다.</p>
 <h3 id="파일-io"><a class="header" href="#파일-io">파일 I/O</a></h3>
 <p>WebAssembly는 파일 시스템에 접근할 수 없습니다. — 파일 시스템을 필요로 하고 wasm에서 사용할수 있도록 코드가 마련되지 않은 크레이트는 작동하지 않습니다.</p>
 <h3 id="스레드-생성"><a class="header" href="#스레드-생성">스레드 생성</a></h3>
-<p><a href="https://rustwasm.github.io/2018/10/24/multithreading-rust-and-wasm.html">스레딩을 웹어셈블리에 지원하는 계획</a>이 있긴 하지만 아직 준비가 되지 않았습니다. <code>wasm32-unknown-unknown</code> 타겟에서 스레드를 생성하려고 시도하면 wasm 트랩 (wasm trap) 이 발생하면서 코드가 패닉하게 됩니다.</p>
+<p><a href="https://rustwasm.github.io/2018/10/24/multithreading-rust-and-wasm.html">스레딩을 웹어셈블리에 지원하는 계획</a>이 있긴 하지만 아직 준비가 완벽히 되지 않았습니다. <code>wasm32-unknown-unknown</code> 타겟에서 스레드를 생성하려고 시도하면 wasm 트랩 (wasm trap) 이 발생하면서 코드가 패닉하게 됩니다.</p>
 <h2 id="어떤-다목적-크레이트들이-webassembly에서-바로-작동하는-편인가요"><a class="header" href="#어떤-다목적-크레이트들이-webassembly에서-바로-작동하는-편인가요">어떤 다목적 크레이트들이 WebAssembly에서 바로 작동하는 편인가요?</a></h2>
 <h3 id="알고리즘과-자료-구조"><a class="header" href="#알고리즘과-자료-구조">알고리즘과 자료 구조</a></h3>
 <p><a href="https://ko.wikipedia.org/wiki/A*_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98">A* 알고리즘</a>나 <a href="https://en.wikipedia.org/wiki/Splay_tree">splay trees</a>처럼, 특정한 <a href="https://crates.io/categories/algorithms">알고리즘</a>이나 <a href="https://crates.io/categories/data-structures">data structure</a>의 구현을 제공하는 크레이트들은 WebAssembly와 잘 작동하는 편입니다.</p>
 <h3 id="no_std"><a class="header" href="#no_std"><code>#![no_std]</code></a></h3>
 <p><a href="https://crates.io/categories/no-std">Rust 스탠다드 라이브러리를 사용하지 않는 크레이트들</a>도 WebAssembly와 잘 작동하는 편입니다.</p>
 <h3 id="파서-parser"><a class="header" href="#파서-parser">파서 (Parser)</a></h3>
-<p>입력을 받고 I/O 작업을 수행하지 않는 이상, <a href="https://crates.io/categories/parser-implementations">파서들</a>은 WebAssembly와 잘 작동하는 편입니다.</p>
+<p>입력을 받고 I/O 작업을 수행하지 않는 이상, <a href="https://crates.io/categories/parser-implementations">파서들</a>은 보통 WebAssembly와 잘 작동하는 편입니다.</p>
 <h3 id="텍스트-처리"><a class="header" href="#텍스트-처리">텍스트 처리</a></h3>
 <p><a href="https://crates.io/categories/text-processing">인간 언어를 텍스트 형태로 나타냈을 때 발생하는 복잡성을 다루는 크레이트들</a>은 WebAssembly와 잘 작동하는 편입니다.</p>
 <h3 id="rust-패턴"><a class="header" href="#rust-패턴">Rust 패턴</a></h3>
