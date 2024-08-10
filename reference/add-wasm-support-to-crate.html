@@ -203,7 +203,7 @@ pub fn parse_thing(path: &amp;Path) -&gt; Result&lt;MyThing, MyError&gt; {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="wasm-bindgen을-종속성으로-추가하기"><a class="header" href="#wasm-bindgen을-종속성으로-추가하기"><code>wasm-bindgen</code>을 종속성으로 추가하기</a></h3>
-<p>(예를 들어서, 라이브러리 사용자가 상호 작용을 직접 컨트롤하도록 허용하면 안되는 경우처럼) 외부 환경과 따로 상호작용을 해야 하는 경우, (필요하다면 <code>js-sys</code>와 <code>web-sys</code>와 함께) <code>wasm-bindgen</code>을 컴파일, 타겟팅 종속성으로 추가해야 합니다:</p>
+<p>(예를 들어서, 라이브러리 사용자가 상호작용을 직접 컨트롤하도록 허용하면 안되는 경우처럼) 외부 환경과 따로 상호작용을 해야 하는 경우, (필요하다면 <code>js-sys</code>와 <code>web-sys</code>와 함께) <code>wasm-bindgen</code>을 컴파일, 타겟팅 종속성으로 추가해야 합니다:</p>
 <pre><code class="language-toml">[target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "0.2"
 js-sys = "0.3"
