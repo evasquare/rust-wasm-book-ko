@@ -304,9 +304,9 @@
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world"><a class="header" href="#hello-world">Hello, World!</a></h1>
 <p>이 섹션에서는 Rust와 WebAssembly 프로그램을 처음 실행하는 과정을 다룹니다. "Hello, World!" 메세지를 보여주는 웹페이지를 만들어봅시다.</p>
-<p>시작하기 전에 <a href="game-of-life/setup.html">셋업 가이드</a>를 읽고 잘 따라왔는지 한번 더 확인해주세요.</p>
+<p>시작하기 전에 <a href="game-of-life/setup.html">셋업 가이드</a>를 읽고 잘 따라왔는지 한 번 더 확인해 주세요.</p>
 <h2 id="프로젝트-템플릿-클론하기"><a class="header" href="#프로젝트-템플릿-클론하기">프로젝트 템플릿 클론하기</a></h2>
-<p>이 프로젝트 템플릿은 합리적인 기본 설정으로 구성돼 있습니다. 이 템플릿을 활용해서 웹으로 코드를 빠르게 개발, 통합 및 패키징할수 있습니다.</p>
+<p>이 프로젝트 템플릿은 합리적인 기본 설정으로 구성돼 있습니다. 이 템플릿을 활용해서 웹으로 코드를 빠르게 개발, 통합 및 패키징할 수 있습니다.</p>
 <p>이 명령어로 프로젝트를 클론해보세요:</p>
 <pre><code class="language-text">cargo generate --git https://github.com/rustwasm/wasm-pack-template
 </code></pre>
@@ -317,7 +317,7 @@
 <p>새로 생성한 <code>wasm-game-of-life</code> 프로젝트를 열어보도록 합시다.</p>
 <pre><code>cd wasm-game-of-life
 </code></pre>
-<p>그 다음 안에 어떤 파일이 담겨있는지 확인해봅시다:</p>
+<p>그다음 안에 어떤 파일이 담겨있는지 확인해 봅시다:</p>
 <pre><code class="language-text">wasm-game-of-life/
 ├── Cargo.toml
 ├── LICENSE_APACHE
@@ -327,18 +327,18 @@
     ├── lib.rs
     └── utils.rs
 </code></pre>
-<p>몇가지 파일을 더 자세히 살펴볼까요?</p>
+<p>몇 가지 파일을 더 자세히 살펴볼까요?</p>
 <h3 id="wasm-game-of-lifecargotoml"><a class="header" href="#wasm-game-of-lifecargotoml"><code>wasm-game-of-life/Cargo.toml</code></a></h3>
-<p><code>Cargo.toml</code> 파일은 Rust의 패키지 매니저이자 빌드 툴인 <code>cargo</code>와 함께 사용되는데, 의존성과 메타데이터를 지정하는 역할을 합니다. 이 파일은 <code>wasm-bindgen</code> 의존성과 함께 <code>wasm</code> 라이브러리 생성에 사용될 수 있도록 올바르게 설정된 <code>crate-type</code>이 함께 사전에 미리 포함돼 있습니다. 몇가지 필수가 아닌 의존성은 나중에 살펴보겠습니다.</p>
+<p><code>Cargo.toml</code> 파일은 Rust의 패키지 매니저이자 빌드 툴인 <code>cargo</code>와 함께 사용되는데, 의존성과 메타데이터를 지정하는 역할을 합니다. 이 파일은 <code>wasm-bindgen</code> 의존성과 함께 <code>wasm</code> 라이브러리 생성에 사용될 수 있도록 올바르게 설정된 <code>crate-type</code>이 함께 사전에 미리 포함돼 있습니다. 몇 가지 필수가 아닌 의존성은 나중에 살펴보겠습니다.</p>
 <h3 id="wasm-game-of-lifesrclibrs"><a class="header" href="#wasm-game-of-lifesrclibrs"><code>wasm-game-of-life/src/lib.rs</code></a></h3>
-<p><code>src/lib.rs</code> 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. <code>wasm-bindgen</code>을 JavaScript를 조작하기 위해 사용하고, <code>window.alert</code> JavaScript 함수를 불러온 다음에 <code>greet</code> Rust 함수를 JavaScript로 보냅니다. 이렇게 "Hello World" alert 메세지를 표시시킬수 있게 됩니다.</p>
+<p><code>src/lib.rs</code> 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. <code>wasm-bindgen</code>을 JavaScript를 조작하기 위해 사용하고, <code>window.alert</code> JavaScript 함수를 불러온 다음에 <code>greet</code> Rust 함수를 JavaScript로 보냅니다. 이렇게 "Hello World" alert 메세지를 표시시킬 수 있게 됩니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>mod utils;
 
 use wasm_bindgen::prelude::*;
 
-// `wee_alloc` 기능이 활성화 돼 있으면, `wee-alloc`를 전역 할당자로 사용합니다.
+// `wee_alloc` 기능이 활성화돼 있으면, `wee-alloc`를 전역 할당자로 사용합니다.
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
@@ -354,7 +354,7 @@ pub fn greet() {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="wasm-game-of-lifesrcutilsrs"><a class="header" href="#wasm-game-of-lifesrcutilsrs"><code>wasm-game-of-life/src/utils.rs</code></a></h3>
-<p><code>src/utils.rs</code> 모듈은 자주 사용되는 유틸리티를 제공하는데, 이 유틸리티가 WebAssembly로 컴파일된 Rust 코드 작업을 더 쉽게 할수 있도록 도와줍니다. <a href="game-of-life/debugging.html">wasm 코드 디버깅하기</a>와 같은 튜토리얼 후반 섹션에서 이러한 유틸리티들을 더 자세히 살펴보겠습니다. 현재 시점에서는 이 파일을 무시해도 괜찮습니다.</p>
+<p><code>src/utils.rs</code> 모듈은 자주 사용되는 유틸리티를 제공하는데, 이 유틸리티가 WebAssembly로 컴파일된 Rust 코드 작업을 더 쉽게 할 수 있도록 도와줍니다. <a href="game-of-life/debugging.html">wasm 코드 디버깅하기</a>와 같은 튜토리얼 후반 섹션에서 이러한 유틸리티들을 더 자세히 살펴보겠습니다. 현재 시점에서는 이 파일을 무시해도 괜찮습니다.</p>
 <h2 id="프로젝트-빌드하기"><a class="header" href="#프로젝트-빌드하기">프로젝트 빌드하기</a></h2>
 <p><code>wasm-pack</code>을 사용하여 다음 빌드 과정을 자동화하게 됩니다:</p>
 <ul>
@@ -362,10 +362,10 @@ pub fn greet() {
 <li><code>cargo</code>를 사용하여 Rust 소스 코드를 WebAssembly <code>.wasm</code> 바이너리로 컴파일합니다.</li>
 <li><code>wasm-bindgen</code>을 사용하여 Rust로 생성한 WebAssembly를 사용할 수 있도록 JavaScript API를 생성합니다.</li>
 </ul>
-<p>위 작업을 시작하려면, 프로젝트 경로에서 다음 명령어를 실행해주세요:</p>
+<p>위 작업을 시작하려면, 프로젝트 경로에서 다음 명령어를 실행해 주세요:</p>
 <pre><code>wasm-pack build
 </code></pre>
-<p>빌드가 완료되면 결과물을 <code>pkg</code> 경로에서 확인해보세요. 다음 내용물을 확인할 수 있습니다:</p>
+<p>빌드가 완료되면 결과물을 <code>pkg</code> 경로에서 확인해 보세요. 다음 내용물을 확인할 수 있습니다:</p>
 <pre><code>pkg/
 ├── package.json
 ├── README.md
@@ -375,7 +375,7 @@ pub fn greet() {
 </code></pre>
 <p><code>README.md</code> 파일이 메인 프로젝트에서 복사됐지만 나머지 파일들은 완전히 새로 생성된 부분을 확인할 수 있습니다.</p>
 <h3 id="wasm-game-of-lifepkgwasm_game_of_life_bgwasm"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_life_bgwasm"><code>wasm-game-of-life/pkg/wasm_game_of_life_bg.wasm</code></a></h3>
-<p>이러한 <code>.wasm</code> 파일은 Rust 컴파일러가 Rust 소스 코드로 생성한 바이너리 파일입니다. 이 파일은 wasm 형식으로 컴파일된 모든 Rust 함수들과 데이터로 구성돼 있습니다. 변환된 "greet" 함수가 예가 될수 있습니다.</p>
+<p>이러한 <code>.wasm</code> 파일은 Rust 컴파일러가 Rust 소스 코드로 생성한 바이너리 파일입니다. 이 파일은 wasm 형식으로 컴파일된 모든 Rust 함수들과 데이터로 구성돼 있습니다. 변환된 "greet" 함수가 예가 될 수 있습니다.</p>
 <h3 id="wasm-game-of-lifepkgwasm_game_of_lifejs"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_lifejs"><code>wasm-game-of-life/pkg/wasm_game_of_life.js</code></a></h3>
 <p>이러한 <code>.js</code> 파일은 <code>wasm-bindgen</code>에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 호출할 수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 호출할 수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, <code>greet</code> 이라는 JavaScript 함수를 통해 WebAssembly의 해당하는 함수를 호출할 수 있습니다. 현재 시점에서는 이러한 바인딩(bindings glue)들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 정말 도움이 많이 됩니다.</p>
 <pre><code class="language-js">import * as wasm from './wasm_game_of_life_bg';
@@ -387,7 +387,7 @@ export function greet() {
 }
 </code></pre>
 <h3 id="wasm-game-of-lifepkgwasm_game_of_lifedts"><a class="header" href="#wasm-game-of-lifepkgwasm_game_of_lifedts"><code>wasm-game-of-life/pkg/wasm_game_of_life.d.ts</code></a></h3>
-<p><code>.d.ts</code> 파일은 생성한 JavaScript 파일과 함께 사용할수 있는 <a href="http://www.typescriptlang.org/">TypeScript</a> 타입 정의를 포함합니다. TypeScript를 사용한다면 정적 타입 정의를 통해 IDE가 제공하는 자동 완성과 같은 기능을 사용해서 더 쉽게 WebAssembly 함수를 호출할 수 있게 됩니다. TypeScript를 사용하지 않는다면, 이 파일은 무시해도 괜찮습니다.</p>
+<p><code>.d.ts</code> 파일은 생성한 JavaScript 파일과 함께 사용할 수 있는 <a href="http://www.typescriptlang.org/">TypeScript</a> 타입 정의를 포함합니다. TypeScript를 사용한다면 정적 타입 정의를 통해 IDE가 제공하는 자동 완성과 같은 기능을 사용해서 더 쉽게 WebAssembly 함수를 호출할 수 있게 됩니다. TypeScript를 사용하지 않는다면, 이 파일은 무시해도 괜찮습니다.</p>
 <pre><code class="language-typescript">export function greet(): void;
 </code></pre>
 <h3 id="wasm-game-of-lifepkgpackagejson"><a class="header" href="#wasm-game-of-lifepkgpackagejson"><code>wasm-game-of-life/pkg/package.json</code></a></h3>
@@ -411,7 +411,7 @@ export function greet() {
 </code></pre>
 <h2 id="웹-페이지에-포함시키기"><a class="header" href="#웹-페이지에-포함시키기">웹 페이지에 포함시키기</a></h2>
 <p><code>wasm-game-of-life</code> 패키지를 웹페이지에 포함시키고 웹 환경에서 작동시키기 위해, <a href="https://github.com/rustwasm/create-wasm-app">
-<code>create-wasm-app</code> JavaScript 프로젝트 템플릿</a> 을 사용해봅시다.</p>
+<code>create-wasm-app</code> JavaScript 프로젝트 템플릿</a> 을 사용해 봅시다.</p>
 <p>다음 명령어를 <code>wasm-game-of-life</code> 경로 내부에서 실행해주세요:</p>
 <pre><code>npm init wasm-app www
 </code></pre>
@@ -426,7 +426,7 @@ export function greet() {
 ├── README.md
 └── webpack.config.js
 </code></pre>
-<p>한번 더 생성된 파일들을 자세히 살펴봅시다.</p>
+<p>한 번 더 생성된 파일들을 자세히 살펴봅시다.</p>
 <h3 id="wasm-game-of-lifewwwpackagejson"><a class="header" href="#wasm-game-of-lifewwwpackagejson"><code>wasm-game-of-life/www/package.json</code></a></h3>
 <p>이 <code>package.json</code> 파일은 <code>webpack</code>과 <code>webpack-dev-server</code> 종속성들로 미리 셋업이 되어 있고, npm 에 배포돼 있는 <code>wasm-pack-template</code>의 초기 버전인 <code>hello-wasm-pack</code> 패키지 또한 종속성으로 포함하고 있습니다.</p>
 <h3 id="wasm-game-of-lifewwwwebpackconfigjs"><a class="header" href="#wasm-game-of-lifewwwwebpackconfigjs"><code>wasm-game-of-life/www/webpack.config.js</code></a></h3>
@@ -445,25 +445,25 @@ export function greet() {
 &lt;/html&gt;
 </code></pre>
 <h3 id="wasm-game-of-lifewwwindexjs"><a class="header" href="#wasm-game-of-lifewwwindexjs"><code>wasm-game-of-life/www/index.js</code></a></h3>
-<p>이 <code>index.js</code>는 작업을 하게 될 웹사이트 JavaScript의 진입점 (entry point) 입니다. JavaScript 코드와 <code>wasm-pack-template</code>의 컴파일 결과물인 WebAssembly가 포함돼 있는데, <code>hello-wasm-pack</code> npm 패키지를 로드하고 패키지 내부의 <code>greet</code> 함수를 호출해줍니다.</p>
+<p>이 <code>index.js</code>는 작업을 하게 될 웹사이트 JavaScript의 진입점 (entry point) 입니다. JavaScript 코드와 <code>wasm-pack-template</code>의 컴파일 결과물인 WebAssembly가 포함돼 있는데, <code>hello-wasm-pack</code> npm 패키지를 로드하고 패키지 내부의 <code>greet</code> 함수를 호출해 줍니다.</p>
 <pre><code class="language-js">import * as wasm from "hello-wasm-pack";
 
 wasm.greet();
 </code></pre>
 <h3 id="종속성-설치하기"><a class="header" href="#종속성-설치하기">종속성 설치하기</a></h3>
-<p>우선, <code>wasm-game-of-life/www</code> 내부 경로에서 <code>npm install</code> 명령어를 실행하여 로컬 개발 서버와 종속성들이 설치돼 있는지 확인해주세요:</p>
+<p>우선, <code>wasm-game-of-life/www</code> 내부 경로에서 <code>npm install</code> 명령어를 실행하여 로컬 개발 서버와 종속성들이 설치돼 있는지 확인해 주세요:</p>
 <pre><code class="language-text">npm install
 </code></pre>
-<p>이 커맨드는 한번만 실행돼야 합니다. 실행하면 <code>webpack</code> JavaScript 번들러와 개발 서버를 설치할 수 있습니다.</p>
+<p>이 커맨드는 한 번만 실행돼야 합니다. 실행하면 <code>webpack</code> JavaScript 번들러와 개발 서버를 설치할 수 있습니다.</p>
 <blockquote>
 <p>단순히 간편하게 책을 진행하기 위해 이 번들러와 개발 서버를 사용할 예정이지만
 <code>webpack</code>이 Rust와 WebAssembly 작업에 필수가 아니라는 점을 기억해주세요.
-Parcel과 Rollup도 WebAssembly와 ECMAScript 모듈을 부르는데 사용할 수 있습니다.
-원한다면 Rust와 WebAssembly를 <a href="https://rustwasm.github.io/docs/wasm-bindgen/examples/without-a-bundler.html">번들러 없이</a> 사용할수도 있습니다.</p>
+Parcel과 Rollup도 WebAssembly와 ECMAScript 모듈을 부르는 데 사용할 수 있습니다.
+원한다면 Rust와 WebAssembly를 <a href="https://rustwasm.github.io/docs/wasm-bindgen/examples/without-a-bundler.html">번들러 없이</a> 사용할 수도 있습니다.</p>
 </blockquote>
 <h3 id="www-패키지-내부에서-로컬-wasm-game-of-life-패키지-사용하기"><a class="header" href="#www-패키지-내부에서-로컬-wasm-game-of-life-패키지-사용하기"><code>www</code> 패키지 내부에서 로컬 <code>wasm-game-of-life</code> 패키지 사용하기</a></h3>
-<p>npm에서 다운로드한 <code>hello-wasm-pack</code> 대신에 로컬 환경에 있는 <code>wasm-game-of-life</code>를 사용해봅시다. 이렇게 함으로써 Game of Life 프로그램을 더 점진적으로 개발할 수 있게 됩니다.</p>
-<p><code>wasm-game-of-life/www/package.json</code> 파일을 열고 <code>devDependencies</code> 다음에 <code>dependencies</code> 필드를 생성해주세요. 그 다음에, <code>"wasm-game-of-life": "file:../pkg"</code> 엔트리를 포함시켜주세요.</p>
+<p>npm에서 다운로드한 <code>hello-wasm-pack</code> 대신에 로컬 환경에 있는 <code>wasm-game-of-life</code>를 사용해 봅시다. 이렇게 함으로써 Game of Life 프로그램을 더 점진적으로 개발할 수 있게 됩니다.</p>
+<p><code>wasm-game-of-life/www/package.json</code> 파일을 열고 <code>devDependencies</code> 다음에 <code>dependencies</code> 필드를 생성해 주세요. 그다음에, <code>"wasm-game-of-life": "file:../pkg"</code> 엔트리를 포함시켜주세요.</p>
 <pre><code class="language-js">{
   // ...
   "dependencies": {                     // 이 3줄 길이의 블럭을 추가해주세요!
@@ -474,7 +474,7 @@ Parcel과 Rollup도 WebAssembly와 ECMAScript 모듈을 부르는데 사용할 �
   }
 }
 </code></pre>
-<p>다음으로, <code>hello-wasm-pack</code> 대신에 <code>wasm-game-of-life</code>를 부를수 있도록 <code>wasm-game-of-life/www/index.js</code> 파일을 수정해주세요:</p>
+<p>다음으로, <code>hello-wasm-pack</code> 대신에 <code>wasm-game-of-life</code>를 부를 수 있도록 <code>wasm-game-of-life/www/index.js</code> 파일을 수정해 주세요:</p>
 <pre><code class="language-js">import * as wasm from "wasm-game-of-life";
 
 wasm.greet();
@@ -482,20 +482,20 @@ wasm.greet();
 <p>새 종속성을 만들었다면, 다음 명령어로 설치해야 합니다:</p>
 <pre><code class="language-text">npm install
 </code></pre>
-<p>이제 웹사이트를 로컬 환경에서 구동할수 있게 됐습니다!</p>
+<p>이제 웹사이트를 로컬 환경에서 구동할 수 있게 됐습니다!</p>
 <h2 id="로컬-환경에서-구동하기"><a class="header" href="#로컬-환경에서-구동하기">로컬 환경에서 구동하기</a></h2>
-<p>이제 개발 서버를 구동할 새 터미널을 열어주세요. 새로 연 터미널에서 서버를 구동하면 백그라운드에서 계속 서버를 구동하면서 다른 명령어를 계속 입력할 수 있게 됩니다. 새 터미널에서 <code>wasm-game-of-life/www</code> 경로로 들어간 다음 이 명령어를 실행해주세요:</p>
+<p>이제 개발 서버를 구동할 새 터미널을 열어주세요. 새로 연 터미널에서 서버를 구동하면 백그라운드에서 계속 서버를 구동하면서 다른 명령어를 계속 입력할 수 있게 됩니다. 새 터미널에서 <code>wasm-game-of-life/www</code> 경로로 들어간 다음 이 명령어를 실행해 주세요:</p>
 <pre><code>npm run start
 </code></pre>
 <p>웹 브라우저를 열고 <a href="http://localhost:8080/">http://localhost:8080/</a> 를 열면 표시되는 "Hello World" alert 메세지를 확인할 수 있습니다:</p>
 <p><a href="game-of-life/../images/game-of-life/hello-world.png"><img src="game-of-life/../images/game-of-life/hello-world.png" alt="&quot;Hello, wasm-game-of-life!&quot; 웹 페이지 alert 메세지 스크린샷" /></a></p>
-<p>파일을 저장할 때 마다 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지에 반영되도록 하고 싶다면, <code>wasm-pack build</code> 명령어를 <code>wasm-game-of-life</code> 경로에서 다시 실행해주세요.</p>
+<p>파일을 저장할 때마다 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지에 반영되도록 하고 싶다면, <code>wasm-pack build</code> 명령어를 <code>wasm-game-of-life</code> 경로에서 다시 실행해 주세요.</p>
 <h2 id="연습해보기"><a class="header" href="#연습해보기">연습해보기</a></h2>
 <ul>
 <li>
 <p><code>wasm-game-of-life/src/lib.rs</code> 경로에 있는 <code>greet</code> 함수를
-수정해서 표시되는 메세지를 커스터마이징 할수 있도록 <code>name: &amp;str</code> 매개변수를 추가해보고, <code>wasm-game-of-life/www/index.js</code> 파일에서 <code>greet</code> 함수를 이름과 함께 호출해보세요.
-<code>wasm-pack build</code> 명령어로 <code>.wasm</code> 바이너리를 다시 빌드하고, <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침하면 브라우저에서 수정된 알림 메세지를 확인할수 있습니다.</p>
+수정해서 표시되는 메세지를 커스터마이징할 수 있도록 <code>name: &amp;str</code> 매개변수를 추가해 보고, <code>wasm-game-of-life/www/index.js</code> 파일에서 <code>greet</code> 함수를 이름과 함께 호출해 보세요.
+<code>wasm-pack build</code> 명령어로 <code>.wasm</code> 바이너리를 다시 빌드하고, <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침하면 브라우저에서 수정된 알림 메세지를 확인할 수 있습니다.</p>
 <details>
   <summary>정답</summary>
 <p><code>wasm-game-of-life/src/lib.rs</code> 파일에서 새롭게 수정된 <code>greet</code> 함수:</p>
@@ -1171,10 +1171,10 @@ pub fn test_tick() {
 <span class="boring">}</span></code></pre></pre>
 <p>이제 <code>wasm-game-of-life</code> 경로에서 <code>wasm-pack test --firefox --headless</code> 명령어를 실행하여 테스팅 코드를 실행해주면 됩니다.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="디버깅"><a class="header" href="#디버깅">디버깅</a></h1>
-<p>코드를 더 작성하기 전에, 디버깅 툴들을 조금 살펴보고 장전해볼까요? 관심이 있다면 <a href="game-of-life/../reference/debugging.html">Rust로 WebAssembly 바이너리를 생성하는데 사용해볼수 있는 접근 방법들과 툴들에 대해 다루는 참조 페이지</a>도 확인해보세요!</p>
+<p>코드를 더 작성하기 전에, 디버깅 툴들을 조금 살펴보고 장전해 볼까요? 관심이 있다면 <a href="game-of-life/../reference/debugging.html">Rust로 WebAssembly 바이너리를 생성하는데 사용해 볼 수 있는 접근 방법들과 툴들에 대해 다루는 참조 페이지</a>도 확인해 보세요!</p>
 <h2 id="패닉-로그-활성화하기"><a class="header" href="#패닉-로그-활성화하기">패닉 로그 활성화하기</a></h2>
-<p><a href="game-of-life/../reference/debugging.html#logging-panics">코드가 패닉할 때 개발자 콘솔에 도움이 되는 에러 메세지를 표시하면 디버깅이 더 쉬워집니다.</a></p>
-<p>필수로 사용할 필요는 없지만 <code>wasm-pack-template</code>은 <code>wasm-game-of-life/src/utils.rs</code> 파일에 기본으로 활성화 돼 있는 종속성인 <a href="https://github.com/rustwasm/console_error_panic_hook">the <code>console_error_panic_hook</code> 크레이트</a>를 포함합니다. 이 훅(hook)을 생성자에 포함시켜주면 이 기능을 사용할 수 있게 됩니다. <code>wasm-game-of-life/src/lib.rs</code> 파일 내의 <code>Universe::new</code> 생성자에서 불러보도록 하겠습니다.</p>
+<p><a href="game-of-life/../reference/debugging.html#logging-panics">코드가 패닉 할 때 개발자 콘솔에 도움이 되는 에러 메세지를 표시하면 디버깅이 더 쉬워집니다.</a></p>
+<p>필수로 사용할 필요는 없지만 <code>wasm-pack-template</code>은 <code>wasm-game-of-life/src/utils.rs</code> 파일에 기본으로 활성화돼 있는 종속성인 <a href="https://github.com/rustwasm/console_error_panic_hook">the <code>console_error_panic_hook</code> 크레이트</a>를 포함합니다. 이 훅(hook)을 생성자에 포함시켜주면 이 기능을 사용할 수 있게 됩니다. <code>wasm-game-of-life/src/lib.rs</code> 파일 내의 <code>Universe::new</code> 생성자에서 불러보도록 하겠습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn new() -&gt; Universe {
@@ -1184,8 +1184,8 @@ pub fn test_tick() {
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="구현한-game-of-life에-로그-기능-추가하기"><a class="header" href="#구현한-game-of-life에-로그-기능-추가하기">구현한 Game of Life에 로그 기능 추가하기</a></h2>
-<p><a href="game-of-life/../reference/debugging.html#logging-with-the-console-apis"><code>web-sys</code> 크레이트를 통해 <code>console.log</code> 함수를 사용해보고, 매 세포들의 정보를 로그</a>할수 있도록 기능을 추가해보겠습니다.</p>
-<p>우선, <code>wasm-game-of-life/Cargo.toml</code> 파일을 열고 <code>web-sys</code>를 종속성으로 추가한 다음 <code>"console"</code> 기능을 활성해주세요:</p>
+<p><a href="game-of-life/../reference/debugging.html#logging-with-the-console-apis"><code>web-sys</code> 크레이트를 통해 <code>console.log</code> 함수를 사용해 보고, 매 세포들의 정보를 로그</a> 할 수 있도록 기능을 추가해 보겠습니다.</p>
+<p>우선, <code>wasm-game-of-life/Cargo.toml</code> 파일을 열고 <code>web-sys</code>를 종속성으로 추가한 다음 <code>"console"</code> 기능을 활성화해 주세요:</p>
 <pre><code class="language-toml">[dependencies]
 
 # ...
@@ -1201,14 +1201,14 @@ features = [
 </span><span class="boring">fn main() {
 </span>extern crate web_sys;
 
-// `println!(...)` 스타일의 문법을 `console.log`에 사용할수 있게 해주는 매크로.
+// `println!(...)` 스타일의 문법을 `console.log`에 사용할 수 있게 해주는 매크로.
 macro_rules! log {
     ( $( $t:tt )* ) =&gt; {
         web_sys::console::log_1(&amp;format!( $( $t )* ).into());
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>이제 Rust 코드에서 <code>log</code> 매크로를 호출해서 콘솔에 메세지를 로그해봅시다. 예를 들어서, 세포의 상태, 이웃 수, 다음 틱 상태를 로그할수 있도록 <code>wasm-game-of-life/src/lib.rs</code> 파일을 수정해주세요:</p>
+<p>이제 Rust 코드에서 <code>log</code> 매크로를 호출해서 콘솔에 메세지를 로그 해봅시다. 예를 들어서, 세포의 상태, 이웃 수, 다음 틱 상태를 로그 할 수 있도록 <code>wasm-game-of-life/src/lib.rs</code> 파일을 수정해 주세요:</p>
 <pre><code class="language-diff">diff --git a/src/lib.rs b/src/lib.rs
 index f757641..a30e107 100755
 --- a/src/lib.rs
@@ -1238,7 +1238,7 @@ index f757641..a30e107 100755
          }
 </code></pre>
 <h2 id="디버거를-사용하여-매-틱마다-일시정지-시키기"><a class="header" href="#디버거를-사용하여-매-틱마다-일시정지-시키기">디버거를 사용하여 매 틱마다 일시정지 시키기</a></h2>
-<p><a href="game-of-life/../reference/debugging.html#using-a-debugger">브라우저의 스탭핑 디버거 (stepping debugger) 는 Rust로 작성한 WebAssembly와 상호작용하는 JavaScript 코드를 살펴볼때 유용합니다.</a></p>
+<p><a href="game-of-life/../reference/debugging.html#using-a-debugger">브라우저의 스탭핑 디버거 (stepping debugger) 는 Rust로 작성한 WebAssembly와 상호작용하는 JavaScript 코드를 살펴볼 때 유용합니다.</a></p>
 <p>예를 들어서, <code>universe.tick()</code> 호출 이전에 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger">JavaScript 코드에 <code>debugger;</code> 줄</a>을 추가하면 디버깅 툴을 사용하여 <code>renderLoop</code>의 매 순회마다 코드 실행을 일시정지 시킬수 있게 됩니다.</p>
 <pre><code class="language-js">const renderLoop = () =&gt; {
   debugger;
@@ -1250,15 +1250,15 @@ index f757641..a30e107 100755
   requestAnimationFrame(renderLoop);
 };
 </code></pre>
-<p>이제 로그 메세지를 쉽게 살펴볼수 있도록 간편한 체크포인트(checkpoint) 기능을 사용할수 있게 됐습니다. 이 기능을 통해 현재 렌더된 프레임과 이전 프레임을 비교할수 있습니다.</p>
+<p>이제 로그 메세지를 쉽게 살펴볼 수 있도록 간편한 체크포인트(checkpoint) 기능을 사용할 수 있게 됐습니다. 이 기능을 통해 현재 렌더된 프레임과 이전 프레임을 비교할 수 있습니다.</p>
 <p><a href="game-of-life/../images/game-of-life/debugging.png"><img src="game-of-life/../images/game-of-life/debugging.png" alt="Game of Life 디버깅 화면 스크린샷" /></a></p>
 <h2 id="연습해보기-3"><a class="header" href="#연습해보기-3">연습해보기</a></h2>
 <ul>
 <li>
-<p>죽게 되거나 살아나게 되는 식으로 상태가 전환되는 각각 세포의 행과 열을 기록할수 있도록 <code>tick</code> 함수를 로그하는 코드를 추가해보세요.</p>
+<p>죽게 되거나 살아나게 되는 식으로 상태가 전환되는 각각 세포의 행과 열을 기록할 수 있도록 <code>tick</code> 함수를 로그 하는 코드를 추가해 보세요.</p>
 </li>
 <li>
-<p><code>Universe::new</code> 메소드에 <code>panic!()</code> 매크로를 추가해서 웹 브라우저의 JavaScript 디버깅 툴에서 패닉한 코드를 <a href="https://ko.wikipedia.org/wiki/%ED%87%B4%EA%B0%81%EA%B2%80%EC%83%89">퇴각검색(backtrace)</a> 할수 있도록 수정해보세요. 추가로 debug 심볼을 비활성화해본 다음 <code>console_error_panic_hook</code> 선택적 종속성을 다시 빌드했을 때 스택 추적도 다시 확인해보세요. 그렇게 유용하진 않은것 같은데, 안그런가요?</p>
+<p><code>Universe::new</code> 메소드에 <code>panic!()</code> 매크로를 추가해서 웹 브라우저의 JavaScript 디버깅 툴에서 패닉한 코드를 <a href="https://ko.wikipedia.org/wiki/%ED%87%B4%EA%B0%81%EA%B2%80%EC%83%89">퇴각검색(backtrace)</a> 할 수 있도록 수정해 보세요. 추가로 debug 심볼을 비활성화한 다음 <code>console_error_panic_hook</code> 선택적 종속성을 다시 빌드했을 때 스택 추적도 다시 확인해 보세요. 그렇게 유용하진 않은 것 같은데, 안 그런가요?</p>
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="상호작용-추가하기"><a class="header" href="#상호작용-추가하기">상호작용 추가하기</a></h1>
@@ -1793,7 +1793,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasm-파일-사이즈-줄이기"><a class="header" href="#wasm-파일-사이즈-줄이기"><code>.wasm</code> 파일 사이즈 줄이기</a></h1>
 <p>구현했던 Game of Life 프로그램과 같이 <code>.wasm</code> 형식으로 컴파일된 바이너리를 유저들에게 네트워크로 전송할 때 코드 사이즈를 신경 쓰는 편이 좋습니다. 대부분의 경우에는 <code>.wasm</code> 파일의 사이즈가 작을수록 페이지가 빨리 로드되고 유저 경험이 더 나아집니다.</p>
 <h2 id="빌드-설정으로-wasm-바이너리-사이즈를-얼마나-줄일-수-있나요"><a class="header" href="#빌드-설정으로-wasm-바이너리-사이즈를-얼마나-줄일-수-있나요">빌드 설정으로 <code>.wasm</code> 바이너리 사이즈를 얼마나 줄일 수 있나요?</a></h2>
-<p><a href="game-of-life/../reference/code-size.html#optimizing-builds-for-code-size"><code>wasm</code> 바이너리 사이즈를 줄일 때 어떤 빌드 설정을 수정해볼수 있는지 한번 살펴보세요.</a></p>
+<p><a href="game-of-life/../reference/code-size.html#optimizing-builds-for-code-size"><code>wasm</code> 바이너리 사이즈를 줄일 때 어떤 빌드 설정을 수정해 볼 수 있는지 한번 살펴보세요.</a></p>
 <p>(debug 심볼이 빠져있는) 기본 빌드 설정으로 Game of Life를 빌드하면 29,410 bytes 사이즈의 바이너리가 출력되게 됩니다:</p>
 <pre><code>$ wc -c pkg/wasm_game_of_life_bg.wasm
 29410 pkg/wasm_game_of_life_bg.wasm
@@ -1802,7 +1802,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 <pre><code>$ wc -c pkg/wasm_game_of_life_bg.wasm
 17317 pkg/wasm_game_of_life_bg.wasm
 </code></pre>
-<p>그 다음에는 출력된 바이너리를 (거의 모든 HTTP 서버가 하는 대로) <code>gzip</code>를 사용하여 압축해보는데, 정말 귀엽게도 바이너리 파일의 사이즈를 9,045 bytes 까지 줄일수 있게 됩니다!</p>
+<p>그다음에는 출력된 바이너리를 (거의 모든 HTTP 서버가 하는 대로) <code>gzip</code>를 사용하여 압축해 보는데, 정말 귀엽게도 바이너리 파일의 사이즈를 9,045 bytes까지 줄일 수 있게 됩니다!</p>
 <pre><code>$ gzip -9 &lt; pkg/wasm_game_of_life_bg.wasm | wc -c
 9045
 </code></pre>
@@ -1812,14 +1812,14 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 <p><a href="game-of-life/../reference/code-size.html#use-the-wasm-snip-tool"><code>wasm-snip</code> 툴</a>을 사용해서 구현했던 Game of Life의 <code>.wasm</code> 바이너리에서 패닉 디버깅 함수를 제외시켜보세요. 파일의 사이즈가 얼마나 줄어드나요?</p>
 </li>
 <li>
-<p><a href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> 를 전역 할당자 (global allocator)</a>를 사용해보고 파일의 사이즈를 이전과 비교해보세요. 프로젝트를 시작할때 클론 했던 <code>rustwasm/wasm-pack-template</code> 템플릿은 "wee_alloc" 이라는 cargo 기능(feature)을 포함하고 있는데, 이 기능은 <code>wasm-game-of-life/Cargo.toml</code> 파일에 있는 <code>[features]</code> 섹션의 <code>default</code> 필드에 추가해서 활성화할수 있습니다.</p>
+<p><a href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> 를 전역 할당자 (global allocator)</a>를 사용해 보고 파일의 사이즈를 이전과 비교해 보세요. 프로젝트를 시작할 때 클론 했던 <code>rustwasm/wasm-pack-template</code> 템플릿은 "wee_alloc" 이라는 cargo 기능을 포함하고 있는데, 이 기능은 <code>wasm-game-of-life/Cargo.toml</code> 파일에 있는 <code>[features]</code> 섹션의 <code>default</code> 필드에 추가해서 활성화할 수 있습니다.</p>
 <pre><code class="language-toml">[features]
 default = ["wee_alloc"]
 </code></pre>
 <p><code>wee_alloc</code>을 활성화하면 <code>.wasm</code> 바이너리 사이즈가 얼마나 줄어드나요?</p>
 </li>
 <li>
-<p>튜토리얼을 진행하는 내내 한 <code>Universe</code>만 페이지에 포함시켰는데, 생성자를 사용하는 대신 단 한개의 <code>static mut</code> 전역 인스턴스 (global instance) 만 수정하는 코드를 익스포트 해볼수도 있습니다. 이전 챕터에서 다룬 이중 버퍼링 기법 (double buffering technique) 을 사용하고 싶다면, 이러한 버퍼도 <code>static mut</code> 키워드를 사용하여 전역적으로 만들어볼수 있습니다. 이런 방식으로, 구현한 게임에서 모든 동적 할당 (dynamic allocation) 을 없앨수 있고, <code>#![no_std]</code> 속성을 추가하여 할당기(allocator)가 없는 크레이트를 만들어볼수도 있습니다. 동적 할당에 필요한 종속성을 다 없애면 <code>.wasm</code> 파일의 사이즈가 얼마나 줄어드나요?</p>
+<p>튜토리얼을 진행하는 내내 한 <code>Universe</code>만 페이지에 포함시켰는데, 생성자를 사용하는 대신 단 한 개의 <code>static mut</code> 전역 인스턴스 (global instance) 만 수정하는 코드를 익스포트 해볼 수도 있습니다. 이전 챕터에서 다룬 이중 버퍼링 기법 (double buffering technique) 을 사용하고 싶다면, 이러한 버퍼도 <code>static mut</code> 키워드를 사용하여 전역적으로 만들어볼 수 있습니다. 이런 방식으로, 구현한 게임에서 모든 동적 할당 (dynamic allocation) 을 없앨 수 있고, <code>#![no_std]</code> 속성을 추가하여 할당기(allocator)가 없는 크레이트를 만들어볼 수도 있습니다. 동적 할당에 필요한 종속성을 다 없애면 <code>.wasm</code> 파일의 사이즈가 얼마나 줄어드나요?</p>
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="npm에-배포하기"><a class="header" href="#npm에-배포하기">npm에 배포하기</a></h1>
