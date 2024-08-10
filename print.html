@@ -456,7 +456,7 @@ wasm.greet();
 <p>웹 브라우저를 열고 <a href="http://localhost:8080/">http://localhost:8080/</a> 를 열면 표시되는 "Hello World" alert 메세지를 확인할 수 있습니다:</p>
 <p><a href="game-of-life/../images/game-of-life/hello-world.png"><img src="game-of-life/../images/game-of-life/hello-world.png" alt="&quot;Hello, wasm-game-of-life!&quot; 웹 페이지 alert 메세지 스크린샷" /></a></p>
 <p>파일을 저장할 때마다 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지에 반영되도록 하고 싶다면, <code>wasm-pack build</code> 명령어를 <code>wasm-game-of-life</code> 경로에서 다시 실행해 주세요.</p>
-<h2 id="연습해보기"><a class="header" href="#연습해보기">연습해보기</a></h2>
+<h2 id="연습해-보기"><a class="header" href="#연습해-보기">연습해 보기</a></h2>
 <ul>
 <li>
 <p><code>wasm-game-of-life/src/lib.rs</code> 경로에 있는 <code>greet</code> 함수를
@@ -512,7 +512,7 @@ pub fn greet(name: &amp;str) {
 </div><center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/C2vgICfQawE?rel=0&amp;start=65" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </center>
-<h2 id="연습해보기-1"><a class="header" href="#연습해보기-1">연습해보기</a></h2>
+<h2 id="연습해-보기-1"><a class="header" href="#연습해-보기-1">연습해 보기</a></h2>
 <ul>
 <li>
 <p>방금 보여드린 다음 틱 예시 이후, 그 다음 틱을 스스로 계산해 보세요. 어떻게 감이 오시는 것 같나요?</p>
@@ -903,7 +903,7 @@ requestAnimationFrame(renderLoop);
 <p><a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 웹 브라우저에서 새로고침하면 구현된 흥미진진한 Game of Life가 시작되게 됩니다.</p>
 <p><a href="game-of-life/../images/game-of-life/initial-game-of-life.png"><img src="game-of-life/../images/game-of-life/initial-game-of-life.png" alt="Game of Life 구현 스크린샷" /></a></p>
 <p>추가로 관심이 있다면, <a href="https://en.wikipedia.org/wiki/Hashlife">hashlife</a> 라는 엄청 멋진 Game of Life 알고리즘 구현도 있으니 한번 확인해 보세요. 이 알고리즘은 공격적인 메모이제이션 (aggressive memoizing) 기법을 사용하는데, 덕분에 코드가 더 오래 구동되는 만큼 미래 세대들을 <em>기하급수적으로 더 빠르게</em> 계산할 수 있게 해줍니다. hashlife를 이 튜토리얼에서 구현해 보면 정말 재밌겠지만, 이 책은 Rust와 WebAssembly 사용에 중점을 두고 있으므로 다루지 않도록 하겠습니다. 하지만 hashlife에 대해 따로 배워보길 적극적으로 권장합니다.</p>
-<h2 id="연습해보기-2"><a class="header" href="#연습해보기-2">연습해보기</a></h2>
+<h2 id="연습해-보기-2"><a class="header" href="#연습해-보기-2">연습해 보기</a></h2>
 <ul>
 <li>
 <p><a href="https://conwaylife.com/wiki/Spaceship">space ship</a> 패턴 하나를 표시하는 세상을 만들어보세요.</p>
@@ -1218,7 +1218,7 @@ index f757641..a30e107 100755
 </code></pre>
 <p>이제 로그 메세지를 쉽게 살펴볼 수 있도록 간편한 체크포인트(checkpoint) 기능을 사용할 수 있게 됐습니다. 이 기능을 통해 현재 렌더된 프레임과 이전 프레임을 비교할 수 있습니다.</p>
 <p><a href="game-of-life/../images/game-of-life/debugging.png"><img src="game-of-life/../images/game-of-life/debugging.png" alt="Game of Life 디버깅 화면 스크린샷" /></a></p>
-<h2 id="연습해보기-3"><a class="header" href="#연습해보기-3">연습해보기</a></h2>
+<h2 id="연습해-보기-3"><a class="header" href="#연습해-보기-3">연습해 보기</a></h2>
 <ul>
 <li>
 <p>죽게 되거나 살아나게 되는 식으로 상태가 전환되는 각각 세포의 행과 열을 기록할 수 있도록 <code>tick</code> 함수를 로그 하는 코드를 추가해 보세요.</p>
@@ -1338,7 +1338,7 @@ impl Universe {
 });
 </code></pre>
 <p><code>wasm-game-of-life</code> 경로에서 <code>wasm-pack build</code> 명령어를 실행하여 다시 빌드한 다음, <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침해 보세요. 이제 세포를 직접 클릭해서 상태를 전환할 수 있게 됐습니다. 패턴을 한번 그려보세요!</p>
-<h2 id="연습해보기-4"><a class="header" href="#연습해보기-4">연습해보기</a></h2>
+<h2 id="연습해-보기-4"><a class="header" href="#연습해-보기-4">연습해 보기</a></h2>
 <ul>
 <li>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range"><code>&lt;input type="range"&gt;</code></a> 위젯을 추가하여 매 프레임마다 발생하는 틱의 수를 조절할 수 있도록 코드를 작성해 보세요.</p>
@@ -1352,10 +1352,10 @@ impl Universe {
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="타임-프로파일링"><a class="header" href="#타임-프로파일링">타임 프로파일링</a></h1>
 <p>이 챕터에서는 타임 <a href="https://ko.wikipedia.org/wiki/%ED%94%84%EB%A1%9C%ED%8C%8C%EC%9D%BC%EB%A7%81_(%EC%BB%B4%ED%93%A8%ED%84%B0_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D)">프로파일링</a> 작업을 해보면서 이전에 구현한 Game of Life의 성능을 개선시켜보겠습니다.</p>
-<p>시작하기 전에, <a href="game-of-life/../reference/time-profiling.html">Rust와 WebAssembly 코드에 사용해볼수 있는 타임 프로파일링 툴들</a>을 살펴보셔도 좋습니다.</p>
+<p>시작하기 전에, <a href="game-of-life/../reference/time-profiling.html">Rust와 WebAssembly 코드에 사용해 볼 수 있는 타임 프로파일링 툴들</a>을 살펴보셔도 좋습니다.</p>
 <h2 id="windowperformancenow-함수를-사용하여-초당-프레임-fps-frames-per-second-타이머-만들기"><a class="header" href="#windowperformancenow-함수를-사용하여-초당-프레임-fps-frames-per-second-타이머-만들기"><code>window.performance.now</code> 함수를 사용하여 초당 프레임 (FPS, Frames Per Second) 타이머 만들기</a></h2>
-<p>이 FPS 타이머는 구현한 게임의 렌더링 속도를 어떻게 개선시킬지 살펴볼때 매우 유용하게 사용될 예정입니다.</p>
-<p><code>wasm-game-of-life/www/index.js</code> 파일에 <code>fps</code> 객체를 추가하는 것으로 시작해봅시다:</p>
+<p>이 FPS 타이머는 구현한 게임의 렌더링 속도를 어떻게 개선시킬지 살펴볼 때 매우 유용하게 사용될 예정입니다.</p>
+<p><code>wasm-game-of-life/www/index.js</code> 파일에 <code>fps</code> 객체를 추가하는 것으로 시작해 봅시다:</p>
 <pre><code class="language-js">const fps = new class {
   constructor() {
     this.fps = document.getElementById("fps");
@@ -1398,7 +1398,7 @@ max of last 100 = ${Math.round(max)}
   }
 };
 </code></pre>
-<p><code>fps</code> 객체의 <code>render</code> 함수를 <code>renderLoop</code> 함수의 의 매 반복마다 호출해보겠습니다:</p>
+<p><code>fps</code> 객체의 <code>render</code> 함수를 <code>renderLoop</code> 함수의 매 반복마다 호출해 보겠습니다:</p>
 <pre><code class="language-js">const renderLoop = () =&gt; {
     fps.render(); //new
 
@@ -1409,10 +1409,10 @@ max of last 100 = ${Math.round(max)}
     animationId = requestAnimationFrame(renderLoop);
 };
 </code></pre>
-<p>마지막으로, <code>fps</code> 요소를 <code>wasm-game-of-life/www/index.html</code> 파일에 잊지 않고 추가해줍시다. <code>&lt;canvas&gt;</code> 바로 위에 추가해주세요:</p>
+<p>마지막으로, <code>fps</code> 요소를 <code>wasm-game-of-life/www/index.html</code> 파일에 잊지 않고 추가해 줍시다. <code>&lt;canvas&gt;</code> 바로 위에 추가해 주세요:</p>
 <pre><code class="language-html">&lt;div id="fps"&gt;&lt;/div&gt;
 </code></pre>
-<p>CSS 프로퍼티를 추가해서 깔끔하게 포맷해주겠습니다:</p>
+<p>CSS 프로퍼티를 추가해서 깔끔하게 포맷해 주겠습니다:</p>
 <pre><code class="language-css">#fps {
   white-space: pre;
   font-family: monospace;
@@ -1420,15 +1420,15 @@ max of last 100 = ${Math.round(max)}
 </code></pre>
 <p>짜잔! 이제 <a href="http://localhost:8080">http://localhost:8080</a> 페이지를 새로고침 하면 FPS 카운터를 확인할 수 있게 됐습니다!</p>
 <h3 id="universetick의-매-틱을-consoletime-consoletimeend-를-사용하여-측정하기"><a class="header" href="#universetick의-매-틱을-consoletime-consoletimeend-를-사용하여-측정하기"><code>Universe::tick</code>의 매 틱을 <code>console.time</code>, <code>console.timeEnd</code> 를 사용하여 측정하기</a></h3>
-<p><code>web-sys</code> 크레이트의 <code>console.time</code>, <code>console.timeend</code> 를 활용하여 각 <code>Universe::tick</code>이 호출되는데 걸리는 시간을 확인해볼수 있습니다.</p>
-<p>먼저, <code>wasm-game-of-life/Cargo.toml</code> 파일을 열고 <code>web-sys</code> 를 종속성으로 추가해주세요:</p>
+<p><code>web-sys</code> 크레이트의 <code>console.time</code>, <code>console.timeend</code> 를 활용하여 각 <code>Universe::tick</code>이 호출되는데 걸리는 시간을 확인해 볼 수 있습니다.</p>
+<p>먼저, <code>wasm-game-of-life/Cargo.toml</code> 파일을 열고 <code>web-sys</code> 를 종속성으로 추가해 주세요:</p>
 <pre><code class="language-toml">[dependencies.web-sys]
 version = "0.3"
 features = [
   "console",
 ]
 </code></pre>
-<p><code>console.time</code>를 호출할 때 마다 <code>console.timeEnd</code>도 같이 호출될 예정이기 때문에, <a href="https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization">RAII</a> 타입으로 묶어서 간편하게 사용할 수도 있습니다:</p>
+<p><code>console.time</code>를 호출할 때마다 <code>console.timeEnd</code>도 같이 호출될 예정이기 때문에, <a href="https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization">RAII</a> 타입으로 묶어서 간편하게 사용 할 수도 있습니다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern crate web_sys;
@@ -1451,25 +1451,25 @@ impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>그 다음, 메소드 최상단에 다음 코드를 추가해서 각 <code>Universe::tick</code> 호출이 얼마나 오래 걸리는지 측정해볼수 있습니다:</p>
+<p>그다음, 메소드 최상단에 다음 코드를 추가해서 각 <code>Universe::tick</code> 호출이 얼마나 오래 걸리는지 측정해 볼 수 있습니다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let _timer = Timer::new("Universe::tick");
 <span class="boring">}</span></code></pre></pre>
-<p>콘솔에 <code>Universe::tick</code>를 호출하는데 걸리는 시간을 로그로 표시합니다:</p>
+<p>콘솔에 <code>Universe::tick</code>를 호출하는 데 걸리는 시간을 로그로 표시합니다:</p>
 <p><a href="game-of-life/../images/game-of-life/console-time.png"><img src="game-of-life/../images/game-of-life/console-time.png" alt="console.time 로그 스크린샷" /></a></p>
 <p>추가로, 브라우저 프로파일러(profiler)의 timeline 혹은 waterfall 뷰에서 <code>console.time</code>과 <code>console.timeEnd</code>가 같이 실행된 부분을 확인할 수 있습니다:</p>
 <p><a href="game-of-life/../images/game-of-life/console-time-in-profiler.png"><img src="game-of-life/../images/game-of-life/console-time-in-profiler.png" alt="console.time 로그 스크린샷" /></a></p>
 <h2 id="game-of-life-세상의-사이즈-늘려보기"><a class="header" href="#game-of-life-세상의-사이즈-늘려보기">Game of Life 세상의 사이즈 늘려보기</a></h2>
 <blockquote>
-<p>⚠️ 이 섹션은 FireFox의 스크린샷을 예시로 보여줍니다. 거의 모든 모던 브라우저가 비슷한 기능들을 가지고 있지만, 브라우저마다 개발자 도구에 약간의 차이가 있을 수는 있습니다. 뜯어보게 될 프로파일 정보는 기본적으로 같지만, 보게 될 뷰나 도구 이름 등이 살짝 다를수 있는 점을 미리 확인해주세요.</p>
+<p>⚠️ 이 섹션은 FireFox의 스크린샷을 예시로 보여줍니다. 거의 모든 모던 브라우저가 비슷한 기능들을 가지고 있지만, 브라우저마다 개발자 도구에 약간의 차이가 있을 수는 있습니다. 뜯어보게 될 프로파일 정보는 기본적으로 같지만, 보게 될 뷰나 도구 이름 등이 살짝 다를 수 있는 점을 미리 확인해 주세요.</p>
 </blockquote>
-<p>구현한 Game of Life 세상을 더 크게 만들어보면 어떨까요? 64 x 64 사이즈의 세상을 128 x 128 사이즈로 늘려봅시다. (<code>wasm-game-of-life/src/lib.rs</code> 파일에서 <code>Universe::new</code>를 수정해주세요.) 제 컴퓨터에서는 사이즈를 늘렸을 때 부드럽게 작동하던 60fps 화면이 버벅이면서 40fps 처럼 보이는 부분이 확인됩니다.</p>
-<p>프로파일을 기록하고 waterfall 뷰를 확인하면, 각 애니메이션이 처리되는데 20 밀리초보다 더 많이 걸리는 것을 확인할 수 있습니다. 60fps로 표시됐을 때는 프레임 전체를 렌더하는데 16 밀리초가 걸린 것을 떠올려보면 확실히 차이가 있는 것 같습니다. 참고로, JavaScript와 WebAssembly외에도 페이지를 그리는 등 브라우저가 수행하는 다른 작업의 영향도 있으니 참고해주세요.</p>
+<p>구현한 Game of Life 세상을 더 크게 만들어보면 어떨까요? 64 x 64 사이즈의 세상을 128 x 128 사이즈로 늘려봅시다. (<code>wasm-game-of-life/src/lib.rs</code> 파일에서 <code>Universe::new</code>를 수정해 주세요.) 제 컴퓨터에서는 사이즈를 늘렸을 때 부드럽게 작동하던 60fps 화면이 버벅이면서 40fps 처럼 보이는 부분이 확인됩니다.</p>
+<p>프로파일을 기록하고 waterfall 뷰를 확인하면, 각 애니메이션이 처리되는데 20 밀리초보다 더 많이 걸리는 것을 확인할 수 있습니다. 60fps로 표시됐을 때는 프레임 전체를 렌더하는데 16 밀리초가 걸린 것을 떠올려보면 확실히 차이가 있는 것 같습니다. 참고로, JavaScript와 WebAssembly외에도 페이지를 그리는 등 브라우저가 수행하는 다른 작업의 영향도 있으니 참고해 주세요.</p>
 <p><a href="game-of-life/../images/game-of-life/drawCells-before-waterfall.png"><img src="game-of-life/../images/game-of-life/drawCells-before-waterfall.png" alt="페이지 렌더링 처리의 waterfall 뷰 스크린샷" /></a></p>
-<p>한 애니메이션 프레임 동안 어떤 일이 일어나는지 잘 확인해보면, <code>CanvasRenderingContext2D.fillStyle</code>의 setter가 많은 성능을 요구하는 부분을 확인할 수 있습니다.</p>
+<p>한 애니메이션 프레임 동안 어떤 일이 일어나는지 잘 확인해 보면, <code>CanvasRenderingContext2D.fillStyle</code>의 setter가 많은 성능을 요구하는 부분을 확인할 수 있습니다.</p>
 <blockquote>
-<p>⚠️ FireFox 브라우저에서 위 내용에서 언급된 <code>CanvasRenderingContext2D.fillStyle</code> 대신에 "DOM"이 표시된다면 성능 개발자 도구 (performance developer tools) 에서 "Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)" 옵션을 활성화해줘야 할 수도 있습니다:</p>
+<p>⚠️ FireFox 브라우저에서 위 내용에서 언급된 <code>CanvasRenderingContext2D.fillStyle</code> 대신에 "DOM"이 표시된다면 성능 개발자 도구 (performance developer tools) 에서 "Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)" 옵션을 활성화해줘야 할수도 있습니다:</p>
 <p><a href="game-of-life/../images/game-of-life/profiler-firefox-show-gecko-platform.png"><img src="game-of-life/../images/game-of-life/profiler-firefox-show-gecko-platform.png" alt="&quot;Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)&quot; 옵션 활성화하기" /></a></p>
 </blockquote>
 <p><a href="game-of-life/../images/game-of-life/drawCells-before-flamegraph.png"><img src="game-of-life/../images/game-of-life/drawCells-before-flamegraph.png" alt="페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
@@ -1477,7 +1477,7 @@ impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
 <p><a href="game-of-life/../images/game-of-life/drawCells-before-calltree.png"><img src="game-of-life/../images/game-of-life/drawCells-before-calltree.png" alt="페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
 <p>어이쿠! 거의 40% 분량을 이 setter에 사용해버렸네요!</p>
 <blockquote>
-<p>⚡ <code>tick</code> 메소드가 성능 병목을 일으키는데 특별한 이유가 있을 것 같았지만, 사실 그렇지 않은 부분을 확인했습니다. 이렇게 작업을 하다 보면 예상치 못한 부분에서 시간을 많이 쓰게 될수도 있으니, 항상 <strong>정말 중요한</strong> 프로파일링 도구를 먼저 살펴보도록 합시다.</p>
+<p>⚡ <code>tick</code> 메소드가 성능 병목을 일으키는데 특별한 이유가 있을 것 같았지만, 사실 그렇지 않은 부분을 확인했습니다. 이렇게 작업을 하다 보면 예상치 못한 부분에서 시간을 많이 쓰게 될 수도 있으니, 항상 <strong>정말 중요한</strong> 프로파일링 도구를 먼저 살펴보도록 합시다.</p>
 </blockquote>
 <p><code>wasm-game-of-life/www/index.js</code> 파일 내의 <code>drawCells</code> 함수에서 <code>fillStyle</code> 프로퍼티가 한번 정해지면 세상 내의 모든 세포와 모든 애니메이션에 이 프로퍼티가 사용되게 됩니다.</p>
 <pre><code class="language-js">for (let row = 0; row &lt; height; row++) {
@@ -1497,7 +1497,7 @@ impl&lt;'a&gt; Drop for Timer&lt;'a&gt; {
   }
 }
 </code></pre>
-<p><code>fillStyle</code>가 많은 성능을 요구하는 부분을 확인했는데, 그렇다면 어떤 식으로 코드를 작성해서 개선시킬수 있을까요? 세포의 생존 여부에 따라 <code>fillStyle</code>를 사용하도록 바꿔봅시다. <code>fillStyle = ALIVE_COLOR</code>를 추가해줘서 살아있는 세포만 그리도록 하고 <code>fillStyle = DEAD_COLOR</code>도 추가해줘서 죽은 세포도 동일한 방식으로 처리를 해준다면 세포들을 모두 한번에 그리는 대신 <code>fillStyle</code>을 두 번만 설정하게 됩니다.</p>
+<p><code>fillStyle</code>가 많은 성능을 요구하는 부분을 확인했는데, 그렇다면 어떤 식으로 코드를 작성해서 개선시킬수 있을까요? 세포의 생존 여부에 따라 <code>fillStyle</code>를 사용하도록 바꿔봅시다. <code>fillStyle = ALIVE_COLOR</code>를 추가해 줘서 살아있는 세포만 그리도록 하고 <code>fillStyle = DEAD_COLOR</code>도 추가해 줘서 죽은 세포도 동일한 방식으로 처리를 해준다면 세포들을 모두 한 번에 그리는 대신 <code>fillStyle</code>을 두 번만 설정하게 됩니다.</p>
 <pre><code class="language-js">// 살아있는 세포들을 처리합니다.
 ctx.fillStyle = ALIVE_COLOR;
 for (let row = 0; row &lt; height; row++) {
@@ -1534,13 +1534,13 @@ for (let row = 0; row &lt; height; row++) {
   }
 }
 </code></pre>
-<p>코드 파일을 저장하고 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침 해주면, 웹사이트가 60fps로 다시 부드럽게 렌더링됩니다.</p>
-<p>프로파일을 다시 확인해보면, 각 애니메이션 프레임마다 오직 10 밀리초만 걸리는 부분도 확인할 수 있습니다.</p>
-<p><a href="game-of-life/../images/game-of-life/drawCells-after-waterfall.png"><img src="game-of-life/../images/game-of-life/drawCells-after-waterfall.png" alt="drawCells 함수를 업데이트 한 이후 페이지 렌더링 처리의 waterfall 뷰 스크린샷" /></a></p>
-<p>한 프레임을 다시 분석해보면, <code>fillStyle</code> 이 더이상 성능을 많이 사용하지 않고, <code>fillRect</code>가 각 세포 사각형을 그리는데 대부분의 시간이 소비되는 것을 확인할 수 있습니다.</p>
-<p><a href="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png"><img src="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png" alt="drawCells 함수를 업데이트 한 이후 페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
+<p>코드 파일을 저장하고 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침 해주면, 웹사이트가 60fps로 다시 부드럽게 렌더 됩니다.</p>
+<p>프로파일을 다시 확인해 보면, 각 애니메이션 프레임마다 오직 10 밀리초만 걸리는 부분도 확인할 수 있습니다.</p>
+<p><a href="game-of-life/../images/game-of-life/drawCells-after-waterfall.png"><img src="game-of-life/../images/game-of-life/drawCells-after-waterfall.png" alt="drawCells 함수를 업데이트한 이후 페이지 렌더링 처리의 waterfall 뷰 스크린샷" /></a></p>
+<p>한 프레임을 다시 분석해 보면, <code>fillStyle</code> 이 더 이상 성능을 많이 사용하지 않고, <code>fillRect</code>가 각 세포 사각형을 그리는데 대부분의 시간이 소비되는 것을 확인할 수 있습니다.</p>
+<p><a href="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png"><img src="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png" alt="drawCells 함수를 업데이트한 이후 페이지 렌더링 처리의 flamegraph 뷰 스크린샷" /></a></p>
 <h2 id="game-of-life가-더-빠르게-진행되도록-만들어보기"><a class="header" href="#game-of-life가-더-빠르게-진행되도록-만들어보기">Game of Life가 더 빠르게 진행되도록 만들어보기</a></h2>
-<p>어떤 사람들은 빨리 빨리 진행하는 것을 선호해서 매 프레임마다 1틱이 아니라 9틱씩 진행되도록 수정하고 싶을 수도 있습니다. 놀랍게도 이 작업은 <code>wasm-game-of-life/www/index.js</code> 파일의 <code>renderLoop</code> 함수를 수정해서 생각외로 간단하게 해볼수 있습니다:</p>
+<p>어떤 사람들은 빨리빨리 진행하는 것을 선호해서 매 프레임마다 1틱이 아니라 9틱씩 진행되도록 수정하고 싶을 수도 있습니다. 놀랍게도 이 작업은 <code>wasm-game-of-life/www/index.js</code> 파일의 <code>renderLoop</code> 함수를 수정해서 생각 외로 간단하게 해볼 수 있습니다:</p>
 <pre><code class="language-js">for (let i = 0; i &lt; 9; i++) {
   universe.tick();
 }
@@ -1587,10 +1587,10 @@ for (let row = 0; row &lt; height; row++) {
     self.cells = next;
 }
 <span class="boring">}</span></code></pre></pre>
-<p>브라우저 개발자 도구에서 타이밍(timing)을 잘 확인해보면 이 예상이 사실은 명백하게 틀린 부분을 확인할 수 있습니다. 실제로는 대부분의 시간이 다음 세대 세포들을 계산하는데 사용되게 됩니다. 그리고 의외로 매 틱마다 벡터 값을 할당하고 해제하는 작업이 그렇게 성능을 많이 사용하지 않습니다. 다시 한번 <strong>정말 중요한</strong> 프로파일링을 해보겠습니다!</p>
+<p>브라우저 개발자 도구에서 타이밍(timing)을 잘 확인해 보면 이 예상이 사실은 명백하게 틀린 부분을 확인할 수 있습니다. 실제로는 대부분의 시간이 다음 세대 세포들을 계산하는데 사용되게 됩니다. 그리고 의외로 매 틱마다 벡터 값을 할당하고 해제하는 작업이 그렇게 성능을 많이 사용하지 않습니다. 다시 한번 <strong>정말 중요한</strong> 프로파일링을 해보겠습니다!</p>
 <p><a href="game-of-life/../images/game-of-life/console-time-in-universe-tick.png"><img src="game-of-life/../images/game-of-life/console-time-in-universe-tick.png" alt="Universe::tick 타이머 결과 값의 스크린샷" /></a></p>
-<p>사용하게 될 <a href="https://doc.rust-lang.org/unstable-book/library-features/test.html">테스트 기능 게이트 (test feature gate)</a> 가 <code>nightly</code> 버전에 같이 포함돼 있기 때문에, <code>nightly</code> 컴파일러가 필요합니다. 그러면 벤치마킹에 이 기능을 한번 사용해보겠습니다. <a href="https://github.com/BurntSushi/cargo-benchcmp">cargo benchcmp</a>이라는 툴도 필요하니 설치해주도록 합시다. 참고로 cargo benchcmp는 <code>cargo bench</code>로 생성한 마이크로 벤치마킹을 비교하는데 사용하는 작은 사이즈의 유틸리티입니다.</p>
-<p>WebAssembly와 동일한 작업을 수행하는 네이티브 코드인 <code>#[bench]</code>를 작성해봅시다. 이렇게 네이티브 코드를 작성하게 되면 더 많은 기능을 사용할 수 있게 됩니다. 이제 새롭게 작성된 <code>wasm-game-of-life/benches/bench.rs</code>을 확인해보겠습니다:</p>
+<p>사용하게 될 <a href="https://doc.rust-lang.org/unstable-book/library-features/test.html">테스트 기능 게이트 (test feature gate)</a> 가 <code>nightly</code> 버전에 같이 포함돼 있기 때문에, <code>nightly</code> 컴파일러가 필요합니다. 그러면 벤치마킹에 이 기능을 한번 사용해 보겠습니다. <a href="https://github.com/BurntSushi/cargo-benchcmp">cargo benchcmp</a>이라는 툴도 필요하니 설치해 주도록 합시다. 참고로 cargo benchcmp는 <code>cargo bench</code>로 생성한 마이크로 벤치마킹을 비교하는 데 사용하는 작은 사이즈의 유틸리티입니다.</p>
+<p>WebAssembly와 동일한 작업을 수행하는 네이티브 코드인 <code>#[bench]</code>를 작성해 봅시다. 이렇게 네이티브 코드를 작성하게 되면 더 많은 기능을 사용할 수 있게 됩니다. 이제 새롭게 작성된 <code>wasm-game-of-life/benches/bench.rs</code>을 확인해 보겠습니다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>#![feature(test)]
 
@@ -1607,8 +1607,8 @@ fn universe_ticks(b: &amp;mut test::Bencher) {
     });
 }
 <span class="boring">}</span></code></pre></pre>
-<p><code>#[wasm_bindgen]</code> 속성을 모두 주석처리 해주도록 하고, <code>Cargo.toml</code> 파일의 <code>"cdylib"</code>도 주석처리 해주겠습니다. 이렇게 주석처리를 하지 않으면 빌드가 실패하고 링크 오류(link errors)가 발생하게 됩니다.</p>
-<p>준비가 다 됐다면, <code>cargo bench | tee before.txt</code> 명령어를 실행해서 코드를 컴파일하고 벤치마크를 실행해보겠습니다. <code>| tee before.txt</code>를 포함하면서 <code>cargo bench</code> 명령어의 출력값을 가져와서 <code>before.txt</code> 파일에 저장할 예정이니 이 부분도 다시 확인해주세요.</p>
+<p><code>#[wasm_bindgen]</code> 속성을 모두 주석 처리 해주도록 하고, <code>Cargo.toml</code> 파일의 <code>"cdylib"</code>도 주석 처리 해주겠습니다. 이렇게 주석 처리를 하지 않으면 빌드가 실패하고 링크 오류(link errors)가 발생하게 됩니다.</p>
+<p>준비가 다 됐다면, <code>cargo bench | tee before.txt</code> 명령어를 실행해서 코드를 컴파일하고 벤치마크를 실행해 보겠습니다. <code>| tee before.txt</code>를 포함하면서 <code>cargo bench</code> 명령어의 출력값을 가져와서 <code>before.txt</code> 파일에 저장할 예정이니 이 부분도 다시 확인해 주세요.</p>
 <pre><code>$ cargo bench | tee before.txt
     Finished release [optimized + debuginfo] target(s) in 0.0 secs
      Running target/release/deps/wasm_game_of_life-91574dfbe2b5a124
@@ -1638,7 +1638,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 <p><a href="game-of-life/../images/game-of-life/bench-perf-report.png"><img src="game-of-life/../images/game-of-life/bench-perf-report.png" alt="perf report 스크린샷" /></a></p>
 <p><code>perf</code>를 실행한 다음 <code>a</code> 키를 누르면 어떤 어셈블리 명령어(instruction)이 함수를 처리할 때 사용되고 있는지 확인할 수 있습니다:</p>
 <p><a href="game-of-life/../images/game-of-life/bench-perf-annotate.png"><img src="game-of-life/../images/game-of-life/bench-perf-annotate.png" alt="perf 화면에서 어셈블리 명령어를 표시하는 화면의 스크린샷" /></a></p>
-<p>위 내용을 확인하면 26.67%의 시간이 이웃 세포들을 만들어내는 데 사용되고, 23.41%를 이웃들의 열 인덱스, 그리고 나머지 15.42%를 행 인덱스를 더하는데 사용되는 것을 알수 있습니다. 제일 많은 성능을 사용하는 세 명령어들 중, 두번째와 세번째로 비용이 많이 드는 명령어가 <code>div</code> 명령어인 부분도 확인할 수 있습니다. 이 <code>div</code> 구현들이 <code>Universe::live_neighbor_count</code> 함수에서 나머지 연산자로 인덱싱 하도록 구현했던 부분입니다. (modulo indexing logic)</p>
+<p>위 내용을 확인하면 26.67%의 시간이 이웃 세포들을 만들어내는 데 사용되고, 23.41%를 이웃들의 열 인덱스, 그리고 나머지 15.42%를 행 인덱스를 더하는 데 사용되는 것을 알 수 있습니다. 제일 많은 성능을 사용하는 세 명령어들 중, 두 번째와 세 번째로 비용이 많이 드는 명령어가 <code>div</code> 명령어인 부분도 확인할 수 있습니다. 이 <code>div</code> 구현들이 <code>Universe::live_neighbor_count</code> 함수에서 나머지 연산자로 인덱싱 하도록 구현했던 부분입니다. (modulo indexing logic)</p>
 <p><code>wasm-game-of-life/src/lib.rs</code> 파일에서 <code>live_neighbor_count</code>를 정의했던 내용을 다시 떠올려봅시다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1659,8 +1659,8 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
     count
 }
 <span class="boring">}</span></code></pre></pre>
-<p>코드를 다시 확인해보면 <code>if</code> 블럭들로 첫째와 마지막 행과 열의 엣지 케이스(edge case) 를 처리하는데 코드를 불필요하게 길게 작성하는 대신 나머지 연산자 (modulo operator) 를 사용하고 있는 부분을 확인할 수 있습니다. <code>row</code>과 <code>column</code> 둘 다 세상의 가장자리에 있지 않고 나머지 연산자를 쓸 필요가 없는 일반적인 경우를 처리하는데도 <code>div</code> 명령어를 사용해서 많은 성능을 사용하는 부분도 확인됩니다. 반복문을 사용하는 대신에 <code>if</code> 문으로 이러한 엣지 케이스들을 처리하고, 여러 분기들을 CPU의 분기 예측기(branch predictor)가 예측하기 쉽도록 만들어보겠습니다.</p>
-<p><code>live_neighbor_count</code>를 다음과 같이 다시 작성해봅시다:</p>
+<p>코드를 다시 확인해 보면 <code>if</code> 블럭들로 첫째와 마지막 행과 열의 엣지 케이스(edge case) 를 처리하는데 코드를 불필요하게 길게 작성하는 대신 나머지 연산자 (modulo operator) 를 사용하고 있는 부분을 확인할 수 있습니다. <code>row</code>과 <code>column</code> 둘 다 세상의 가장자리에 있지 않고 나머지 연산자를 쓸 필요가 없는 일반적인 경우를 처리하는데도 <code>div</code> 명령어를 사용해서 많은 성능을 사용하는 부분도 확인됩니다. 반복문을 사용하는 대신에 <code>if</code> 문으로 이러한 엣지 케이스들을 처리하고, 여러 분기들을 CPU의 분기 예측기(branch predictor)가 예측하기 쉽도록 만들어보겠습니다.</p>
+<p><code>live_neighbor_count</code>를 다음과 같이 다시 작성해 봅시다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn live_neighbor_count(&amp;self, row: u32, column: u32) -&gt; u8 {
@@ -1717,7 +1717,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
     count
 }
 <span class="boring">}</span></code></pre></pre>
-<p>벤치마킹을 다시 해보겠습니다! 이번에는 출력되는 메세지들을 <code>after.txt</code>로 출력해봅시다.</p>
+<p>벤치마킹을 다시 해보겠습니다! 이번에는 출력되는 메세지들을 <code>after.txt</code>로 출력해 봅시다.</p>
 <pre><code>$ cargo bench | tee after.txt
    Compiling wasm_game_of_life v0.1.0 (file:///home/fitzgen/wasm_game_of_life)
     Finished release [optimized + debuginfo] target(s) in 0.82 secs
@@ -1734,26 +1734,26 @@ test universe_ticks ... bench:      87,258 ns/iter (+/- 14,632)
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 </code></pre>
-<p>훨씬 나은것 같습니다! <code>benchcmp</code> 툴과 방금 생성한 두 텍스트 파일을 확인해보면 얼마나 나이졌는지 볼수 있습니다:</p>
+<p>훨씬 나은 것 같습니다! <code>benchcmp</code> 툴과 방금 생성한 두 텍스트 파일을 확인해 보면 얼마나 나이졌는지 볼 수 있습니다:</p>
 <pre><code>$ cargo benchcmp before.txt after.txt
  name            before.txt ns/iter  after.txt ns/iter  diff ns/iter   diff %  speedup
  universe_ticks  664,421             87,258                 -577,163  -86.87%   x 7.61
 </code></pre>
 <p>우와! 7.61 배나 빨라졌네요!</p>
-<p>WebAssembly는 의도적으로 일반적인 하드웨어 아키텍쳐와 밀접하게 매핑(mapping)되도록 설계돼 있지만, 이러한 네이티브 코드의 속도 향상이 WebAssembly 성능 향상으로도 이어질 수 있는지 확실히 확인해 보는 것도 중요합니다.</p>
-<p><code>wasm-pack build</code> 명령어를 실행해서 <code>.wasm</code> 파일을 다시 빌드하고 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침 해주세요. 제 컴퓨터에서는 60 fps의 속도로 다시 작동하는 것이 확인됩니다. 브라우저의 프로파일러를 사용해서 다시 확인해보니 각 애니메이션 프레임이 10 밀리초씩 걸리는 것으로 확인됩니다.</p>
-<p>성공적으로 잘 마무리한것 같습니다!</p>
+<p>WebAssembly는 의도적으로 일반적인 하드웨어 아키텍처와 밀접하게 매핑(mapping)되도록 설계돼 있지만, 이러한 네이티브 코드의 속도 향상이 WebAssembly 성능 향상으로도 이어질 수 있는지 확실히 확인해 보는 것도 중요합니다.</p>
+<p><code>wasm-pack build</code> 명령어를 실행해서 <code>.wasm</code> 파일을 다시 빌드하고 <a href="http://localhost:8080/">http://localhost:8080/</a> 페이지를 새로고침 해주세요. 제 컴퓨터에서는 60 fps의 속도로 다시 작동하는 것이 확인됩니다. 브라우저의 프로파일러를 사용해서 다시 확인해 보니 각 애니메이션 프레임이 10 밀리초씩 걸리는 것으로 확인됩니다.</p>
+<p>성공적으로 잘 마무리한 것 같습니다!</p>
 <p><a href="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png"><img src="game-of-life/../images/game-of-life/drawCells-after-flamegraph.png" alt="나머지 연산자를 if문 분기들로 바꾼 이후 페이지 렌더링 처리의 waterfall 뷰 스크린샷" /></a></p>
-<h2 id="연습해보기-5"><a class="header" href="#연습해보기-5">연습해보기</a></h2>
+<h2 id="연습해-보기-5"><a class="header" href="#연습해-보기-5">연습해 보기</a></h2>
 <ul>
 <li>
-<p>현재로는 할당과 해제를 처리하는 코드를 지우는 게 <code>Universe::tick</code> 속도를 향상시키는 가장 쉬운 방법입니다. <code>Universe</code>가 두 벡터만 관리하도록 하고, 두 벡터를 코드가 실행되는 내내 해제되거나 <code>tick</code> 함수에서 새 버퍼를 할당하지 않도록 세포들을 이중 버퍼링 (double buffering) 기법으로 구현해보세요.</p>
+<p>현재로는 할당과 해제를 처리하는 코드를 지우는 게 <code>Universe::tick</code> 속도를 향상시키는 가장 쉬운 방법입니다. <code>Universe</code>가 두 벡터만 관리하도록 하고, 두 벡터를 코드가 실행되는 내내 해제되거나 <code>tick</code> 함수에서 새 버퍼를 할당하지 않도록 세포들을 이중 버퍼링 (double buffering) 기법으로 구현해 보세요.</p>
 </li>
 <li>
-<p>"Game of Life 구현하기" 섹션에서 델타 기반으로 설계한 내용을 토대로, Rust 코드가 상태가 바뀐 세포들의 목록을 반환하는 방식으로 다시 코드를 설계해보세요. <code>&lt;canvas&gt;</code> 가 더 빨리 렌더되는 게 보이시나요? 매 틱마다 새 델타 목록을 할당하지 않으면서 구현하실수 있을것 같으신가요?</p>
+<p>"Game of Life 구현하기" 섹션에서 델타 기반으로 설계한 내용을 토대로, Rust 코드가 상태가 바뀐 세포들의 목록을 반환하는 방식으로 다시 코드를 설계해 보세요. <code>&lt;canvas&gt;</code> 가 더 빨리 렌더되는 게 보이시나요? 매 틱마다 새 델타 목록을 할당하지 않으면서 구현하실수 있을것 같으신가요?</p>
 </li>
 <li>
-<p>프로파일링 툴로 확인할 수 있듯, 2D <code>&lt;canvas&gt;</code> 렌더링이 특별히 빠르지는 않은 것 같습니다. 2D 캔버스 렌더러 대신 <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a> 렌더러를 대신 사용해서 코드를 다시 구현해보세요. WebGL로 구현한 버전은 얼마나 더 빠른가요? 답답하게 느렸던 WebGL과 비교하면 얼마나 큰 사이즈의 세상을 가볍게 처리할 수 있게 됐나요?</p>
+<p>프로파일링 툴로 확인할 수 있듯, 2D <code>&lt;canvas&gt;</code> 렌더링이 특별히 빠르지는 않은 것 같습니다. 2D 캔버스 렌더러 대신 <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a> 렌더러를 대신 사용해서 코드를 다시 구현해 보세요. WebGL로 구현한 버전은 얼마나 더 빠른가요? 답답하게 느렸던 WebGL과 비교하면 얼마나 큰 사이즈의 세상을 가볍게 처리할 수 있게 됐나요?</p>
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasm-파일-사이즈-줄이기"><a class="header" href="#wasm-파일-사이즈-줄이기"><code>.wasm</code> 파일 사이즈 줄이기</a></h1>
@@ -1772,7 +1772,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 <pre><code>$ gzip -9 &lt; pkg/wasm_game_of_life_bg.wasm | wc -c
 9045
 </code></pre>
-<h2 id="연습해보기-6"><a class="header" href="#연습해보기-6">연습해보기</a></h2>
+<h2 id="연습해-보기-6"><a class="header" href="#연습해-보기-6">연습해 보기</a></h2>
 <ul>
 <li>
 <p><a href="game-of-life/../reference/code-size.html#use-the-wasm-snip-tool"><code>wasm-snip</code> 툴</a>을 사용해서 구현했던 Game of Life의 <code>.wasm</code> 바이너리에서 패닉 디버깅 함수를 제외시켜보세요. 파일의 사이즈가 얼마나 줄어드나요?</p>
@@ -2078,7 +2078,7 @@ opt-level = 'z'
 </code></pre>
 <p>정말 놀랍게도, 출력되는 파일의 사이즈가 <code>opt-level = "z"</code>대신 <code>opt-level = "s"</code>를 사용했을 때 더 작아지는 경우도 있습니다. 항상 잘 확인해보는걸 잊지 말아주세요!</p>
 <h3 id="wasm-opt-툴-사용하기"><a class="header" href="#wasm-opt-툴-사용하기"><code>wasm-opt</code> 툴 사용하기</a></h3>
-<p><a href="https://github.com/WebAssembly/binaryen">Binaryen</a> 툴킷은 WebAssembly에 특화된 컴파일러 툴링을 포함합니다. 단순히 LLVM의 WebAssembly 백엔드 작업 외에도 훨씬 더 다양한 작업에 사용할 수 있고, <code>wasm-opt</code> 툴을 사용해서 LLVM이 빌드한 <code>.wasm</code> 바이너리를 최적화 하면 보통은 코드 사이즈를 15-20% 정도 더 줄일수 있게 됩니다. 런타임 속도도 같이 개선될수도 있으니 참고해주세요!</p>
+<p><a href="https://github.com/WebAssembly/binaryen">Binaryen</a> 툴킷은 WebAssembly에 특화된 컴파일러 툴링을 포함합니다. 단순히 LLVM의 WebAssembly 백엔드 작업 외에도 훨씬 더 다양한 작업에 사용할 수 있고, <code>wasm-opt</code> 툴을 사용해서 LLVM이 빌드한 <code>.wasm</code> 바이너리를 최적화 하면 보통은 코드 사이즈를 15-20% 정도 더 줄일수 있게 됩니다. 런타임 속도도 같이 개선될 수도 있으니 참고해주세요!</p>
 <pre><code class="language-bash"># 사이즈 최적화.
 wasm-opt -Os -o output.wasm input.wasm
 
@@ -2207,7 +2207,7 @@ fn whatever(t: &amp;MyTrait) { ... }
 <h3 id="wasm-snip-툴을-사용해보세요"><a class="header" href="#wasm-snip-툴을-사용해보세요"><code>wasm-snip</code> 툴을 사용해보세요</a></h3>
 <p><a href="https://github.com/fitzgen/wasm-snip"><code>wasm-snip</code>은 WebAssembly 함수의 코드를 <code>unreachable</code> Assembly 명령어로 교체해줍니다.</a> 하지만 잘 생각해보면 못 하나를 박는다고 아주 거대한 망치를 가져와서 열심히 두드리는 것 같은 느낌이 조금씩 듭니다.</p>
 <p>런타임에서 사용하지 않는 함수들과 이 함수들이 간접적으로 호출하는 다른 함수들을 제거하고  싶은데, 컴파일러가 어떤 함수를 사용하지 않는지 모른다면 어떻게 해야 할까요? 우선은 코드를 빌드해보고 <code>wasm-opt</code>를 <code>--dce</code> 플래그를 포함해서 다시 실행해보세요! 간접적으로 호출되는 (런타임에서 부르지 않는) 함수들까지 지워버릴수 있습니다.</p>
-<p>패닉 코드가 이런 문제들로 종종 이어질 수 있기 때문에, 패닉 인프라 (panicking infrastructure) 를 지울때 이 툴이 유용하게 사용될수도 있습니다.</p>
+<p>패닉 코드가 이런 문제들로 종종 이어질 수 있기 때문에, 패닉 인프라 (panicking infrastructure) 를 지울때 이 툴이 유용하게 사용될 수도 있습니다.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="javascript-상호-운용하기"><a class="header" href="#javascript-상호-운용하기">JavaScript 상호 운용하기</a></h1>
 <h2 id="javascript-함수-임포트하고-익스포트하기"><a class="header" href="#javascript-함수-임포트하고-익스포트하기">JavaScript 함수 임포트하고 익스포트하기</a></h2>
 <h3 id="rust-사이드"><a class="header" href="#rust-사이드">Rust 사이드</a></h3>

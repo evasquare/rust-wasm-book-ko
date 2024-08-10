@@ -201,7 +201,7 @@ opt-level = 'z'
 </code></pre>
 <p>정말 놀랍게도, 출력되는 파일의 사이즈가 <code>opt-level = "z"</code>대신 <code>opt-level = "s"</code>를 사용했을 때 더 작아지는 경우도 있습니다. 항상 잘 확인해보는걸 잊지 말아주세요!</p>
 <h3 id="wasm-opt-툴-사용하기"><a class="header" href="#wasm-opt-툴-사용하기"><code>wasm-opt</code> 툴 사용하기</a></h3>
-<p><a href="https://github.com/WebAssembly/binaryen">Binaryen</a> 툴킷은 WebAssembly에 특화된 컴파일러 툴링을 포함합니다. 단순히 LLVM의 WebAssembly 백엔드 작업 외에도 훨씬 더 다양한 작업에 사용할 수 있고, <code>wasm-opt</code> 툴을 사용해서 LLVM이 빌드한 <code>.wasm</code> 바이너리를 최적화 하면 보통은 코드 사이즈를 15-20% 정도 더 줄일수 있게 됩니다. 런타임 속도도 같이 개선될수도 있으니 참고해주세요!</p>
+<p><a href="https://github.com/WebAssembly/binaryen">Binaryen</a> 툴킷은 WebAssembly에 특화된 컴파일러 툴링을 포함합니다. 단순히 LLVM의 WebAssembly 백엔드 작업 외에도 훨씬 더 다양한 작업에 사용할 수 있고, <code>wasm-opt</code> 툴을 사용해서 LLVM이 빌드한 <code>.wasm</code> 바이너리를 최적화 하면 보통은 코드 사이즈를 15-20% 정도 더 줄일수 있게 됩니다. 런타임 속도도 같이 개선될 수도 있으니 참고해주세요!</p>
 <pre><code class="language-bash"># 사이즈 최적화.
 wasm-opt -Os -o output.wasm input.wasm
 
@@ -330,7 +330,7 @@ fn whatever(t: &amp;MyTrait) { ... }
 <h3 id="wasm-snip-툴을-사용해보세요"><a class="header" href="#wasm-snip-툴을-사용해보세요"><code>wasm-snip</code> 툴을 사용해보세요</a></h3>
 <p><a href="https://github.com/fitzgen/wasm-snip"><code>wasm-snip</code>은 WebAssembly 함수의 코드를 <code>unreachable</code> Assembly 명령어로 교체해줍니다.</a> 하지만 잘 생각해보면 못 하나를 박는다고 아주 거대한 망치를 가져와서 열심히 두드리는 것 같은 느낌이 조금씩 듭니다.</p>
 <p>런타임에서 사용하지 않는 함수들과 이 함수들이 간접적으로 호출하는 다른 함수들을 제거하고  싶은데, 컴파일러가 어떤 함수를 사용하지 않는지 모른다면 어떻게 해야 할까요? 우선은 코드를 빌드해보고 <code>wasm-opt</code>를 <code>--dce</code> 플래그를 포함해서 다시 실행해보세요! 간접적으로 호출되는 (런타임에서 부르지 않는) 함수들까지 지워버릴수 있습니다.</p>
-<p>패닉 코드가 이런 문제들로 종종 이어질 수 있기 때문에, 패닉 인프라 (panicking infrastructure) 를 지울때 이 툴이 유용하게 사용될수도 있습니다.</p>
+<p>패닉 코드가 이런 문제들로 종종 이어질 수 있기 때문에, 패닉 인프라 (panicking infrastructure) 를 지울때 이 툴이 유용하게 사용될 수도 있습니다.</p>
 
                     </main>
 
