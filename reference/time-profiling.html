@@ -203,7 +203,7 @@ fn now() -&gt; f64 {
 <h3 id="개발자-도구-내의-프로파일러"><a class="header" href="#개발자-도구-내의-프로파일러">개발자 도구 내의 프로파일러</a></h3>
 <p>모든 웹 브라우저의 개발자 도구는 프로파일러를 포함하고 있습니다. 이러한 프로파일러들은 "call tree"나 "flame graph"와 같은 일반적인 시각 자료와 함께 어떤 함수들이 가장 많은 시간을 소비하는지 표시해줍니다.</p>
 <p>"name" 커스텀 섹션이 wasm 바이너리에 포함되도록 <a href="./debugging.html#building-with-debug-symbols">debug 심볼을 포함해서 빌드</a>하면 프로파일러가 <code>wasm-function[123]</code>와 같이 복잡하고 불투명한 이름 대신 Rust 함수 이름을 대신 표시하게 됩니다.</p>
-<p>이러한 프로파일러들은 인라인 함수를 <strong>표시하지 않는다는</strong> 점을 기억해주세요. Rust와 LLVM는 인라인 작업을 매우 무겁게 수행하기 때문에 이러한 작업을 해주더라도 결과값이 조금은 읽기 어려울수 있습니다.</p>
+<p>이러한 프로파일러들은 인라인 함수를 <strong>표시하지 않는다는</strong> 점을 기억해주세요. Rust와 LLVM는 인라인 작업을 매우 무겁게 수행하기 때문에 이러한 작업을 해주더라도 결괏값이 조금은 읽기 어려울수 있습니다.</p>
 <p><a href="../images/game-of-life/profiler-with-rust-names.png"><img src="../images/game-of-life/profiler-with-rust-names.png" alt="Rust 심볼을 표시하는 프로파일러 스크린샷" /></a></p>
 <h4 id="추가-자료"><a class="header" href="#추가-자료">추가 자료</a></h4>
 <ul>
