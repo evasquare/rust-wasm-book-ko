@@ -2212,7 +2212,7 @@ fn whatever(t: &amp;MyTrait) { ... }
 <h2 id="javascript-함수-임포트하고-익스포트하기"><a class="header" href="#javascript-함수-임포트하고-익스포트하기">JavaScript 함수 임포트하고 익스포트하기</a></h2>
 <h3 id="rust-사이드"><a class="header" href="#rust-사이드">Rust 사이드</a></h3>
 <p>JavaScript 환경에서 wasm을 사용할 때 Rust 사이드에서 함수들을 임포트하고 익스포팅하는 작업은 의외로 매우 간단합니다. 그리고 C 언어와 유사하게 작동하기도 합니다.</p>
-<p>WebAssembly 모듈은 임포트 시퀀스(sequence)를 선언하는데, 각각 시퀀스는 <em>모듈 이름</em>과 <em>임포트 이름</em>으로 구성됩니다. 기본값으로 "env" 파일에 설정된 것과 같이, <a href="https://github.com/rust-lang/rust/issues/52090"><code>#[link(wasm_import_module)]</code></a>를 사용하여 <code>extern { ... }</code> 블럭 모듈 이름을 직접 지정해줄수도 있습니다.</p>
+<p>WebAssembly 모듈은 임포트 시퀀스(sequence)를 선언하는데, 각각 시퀀스는 <em>모듈 이름</em>과 <em>임포트 이름</em>으로 구성됩니다. 기본값으로 "env" 파일에 설정된 것과 같이, <a href="https://github.com/rust-lang/rust/issues/52090"><code>#[link(wasm_import_module)]</code></a>를 사용하여 <code>extern { ... }</code> 블럭 모듈 이름을 직접 지정해 줄 수도 있습니다.</p>
 <p>익스포트는 한가지 이름만 가질 수 있는데, 다른 <code>extern</code> 함수들과 마찬가지로, WebAssembly 인스턴스의 선형 메모리는 기본값으로는 "memory" 라는 이름으로 익스포트 됩니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2224,16 +2224,16 @@ extern { fn foo(); }
 #[no_mangle]
 pub extern fn bar() { /* ... */ }
 <span class="boring">}</span></code></pre></pre>
-<p>wasm은 제한된 수의 값 타입들을 가지고 있기 때문에, 이러한 함수들은 원시 숫자 타입에서만 작동해야 한다는 부분도 참고해주세요.</p>
+<p>wasm은 제한된 수의 값 타입들을 가지고 있기 때문에, 이러한 함수들은 원시 숫자 타입에서만 작동해야 한다는 부분도 참고해 주세요.</p>
 <h3 id="javascript-사이드"><a class="header" href="#javascript-사이드">JavaScript 사이드</a></h3>
-<p>JavaScript 코드 내에서는 wasm 바이너리가 ES6 모듈로 변환되는 것을 확인할 수 있습니다. 이 모듈은 선형 메모리와 함께 먼저 <em>인스턴스화</em> 돼야하고, 임포트한 내용과 일치하는 JavaScript 함수 그룹을 필요로 합니다. 인스턴스화에 대해 더 자세히 알아보려면 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming">MDN</a>를 참고해주세요.</p>
+<p>JavaScript 코드 내에서는 wasm 바이너리가 ES6 모듈로 변환되는 것을 확인할 수 있습니다. 이 모듈은 선형 메모리와 함께 먼저 <em>인스턴스화</em> 돼야하고, 임포트한 내용과 일치하는 JavaScript 함수 그룹을 필요로 합니다. 인스턴스화에 대해 더 자세히 알아보려면 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming">MDN</a>를 참고해 주세요.</p>
 <p>출력하게 되는 ES6 모듈은 Rust에서 익스포트한 함수들을 모두 포함하게 되는데, 이런 함수들은 JavaScript 함수에서 호출할 수 있습니다.</p>
-<p>셋업을 하고 실행시키는 전반적으로 간단한 예시를 확인하고 싶다면 <a href="https://www.hellorust.com/demos/add/index.html">여기</a>를 참고해주세요.</p>
+<p>셋업을 하고 실행시키는 전반적으로 간단한 예시를 확인하고 싶다면 <a href="https://www.hellorust.com/demos/add/index.html">여기</a>를 참고해 주세요.</p>
 <h2 id="숫자-외에-다른-값도-사용해보기"><a class="header" href="#숫자-외에-다른-값도-사용해보기">숫자 외에 다른 값도 사용해보기</a></h2>
 <p>JavaScript에서 wasm을 사용할 때는 wasm 모듈의 메모리와 JavaScript 메모리 사이가 명확하게 구분됩니다:</p>
 <ul>
 <li>
-<p>(이 문서 최상단에 설명된 대로) 각각의 wasm 모듈은 인스턴스화 과정에서 생성하게 되는 선형 메모리를 가지게 됩니다. <strong>JavaScript 코드는 자유롭게 이 메모리를 읽고 쓸수 있습니다.</strong></p>
+<p>(이 문서 최상단에 설명된 대로) 각각의 wasm 모듈은 인스턴스화 과정에서 생성하게 되는 선형 메모리를 가지게 됩니다. <strong>JavaScript 코드는 자유롭게 이 메모리를 읽고 쓸 수 있습니다.</strong></p>
 </li>
 <li>
 <p>반면에, wasm에서는 JavaScript 객체에 직접 접근할 수 없습니다.</p>
@@ -2271,7 +2271,7 @@ pub static SECTION: [u8; 24] = *b"This is a custom section";
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="어떤-크레이트들을-webassembly에서-바로-사용할-수-있나요"><a class="header" href="#어떤-크레이트들을-webassembly에서-바로-사용할-수-있나요">어떤 크레이트들을 WebAssembly에서 바로 사용할 수 있나요?</a></h1>
 <p>가장 간단하게 어떤 기능들이 WebAssembly 환경에서 작동하지 않는지 목록을 한번 만들어 보겠습니다. 다음 내용에 해당하지 않는 크레이트들은 휴대성이 좋고 WebAssembly 환경에서 잘 작동한다고 생각해도 좋고, 임베디드 시스템과 <code>#![no_std]</code>를 지원하는 크레이트들도 보통은 WebAssembly도 지원한다고 볼수 있습니다.</p>
-<h2 id="이러한-크레이트들은-webassembly-환경에서-작동하지-않을수도-있습니다"><a class="header" href="#이러한-크레이트들은-webassembly-환경에서-작동하지-않을수도-있습니다">이러한 크레이트들은 WebAssembly 환경에서 작동하지 않을수도 있습니다</a></h2>
+<h2 id="이러한-크레이트들은-webassembly-환경에서-작동하지-않을-수도-있습니다"><a class="header" href="#이러한-크레이트들은-webassembly-환경에서-작동하지-않을-수도-있습니다">이러한 크레이트들은 WebAssembly 환경에서 작동하지 않을 수도 있습니다</a></h2>
 <h3 id="c-언어와-시스템-라이브러리-종속성이-있는-경우"><a class="header" href="#c-언어와-시스템-라이브러리-종속성이-있는-경우">C 언어와 시스템 라이브러리 종속성이 있는 경우</a></h3>
 <p>wasm에는 시스템 라이브러리가 없기 떄문에 시스템 라이브러리에 바인딩돼 있는 코드가 있다면 작동하지 않습니다.</p>
 <p>wasm에는 언어 간 통신에 사용할 수 있는 안정된 버전의 ABI와 언어 간 링킹(linking)이 존재하지 않습니다. 그러므로 C 라이브러리를 사용하는 크레이트도 작동하지 않습니다. 특히 <code>clang</code> 컴파일러가 <code>wasm32</code> 타겟을 기본으로 제공하기 때문에 결국은 작동할 것으로 예상되지만, 현재로서는 완벽하지 않습니다.</p>
@@ -2291,17 +2291,17 @@ pub static SECTION: [u8; 24] = *b"This is a custom section";
 <h3 id="rust-패턴"><a class="header" href="#rust-패턴">Rust 패턴</a></h3>
 <p><a href="https://crates.io/categories/rust-patterns">Rust 프로그래밍의 특정한 상황에 쓰도록 공유되는 해결책들</a>은 WebAssembly와 잘 작동하는 편입니다.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="다목적-크레이트가-webassembly를-지원하도록-코드-수정하기"><a class="header" href="#다목적-크레이트가-webassembly를-지원하도록-코드-수정하기">다목적 크레이트가 WebAssembly를 지원하도록 코드 수정하기</a></h1>
-<p>이 섹션은 WebAssembly를 지원하는데에 관심이 있는 다목적 크레이트 저자들을 위해 작성됐습니다.</p>
+<p>이 섹션은 WebAssembly를 지원하는 데에 관심이 있는 다목적 크레이트 저자들을 위해 작성됐습니다.</p>
 <h2 id="크레이트가-이미-webassembly를-지원할-수도-있어요"><a class="header" href="#크레이트가-이미-webassembly를-지원할-수도-있어요">크레이트가 이미 WebAssembly를 지원할 수도 있어요!</a></h2>
 <p>우선 <a href="reference/./which-crates-work-with-wasm.html">어떤 작업을 하는 다목적 크레이트가 WebAssembly에 적합하지 <strong>않나요</strong>?</a> 의 내용을 먼저 읽어보세요. 작성하는 크레이트가 해당 사항이 없다면, WebAssembly를 지원할 확률이 높습니다.</p>
-<p>추가로, 언제든 <code>cargo build</code> 명령어를 입력해서 WebAssembly 타겟을 지원하는지 확인해볼수 있습니다:</p>
+<p>추가로, 언제든 <code>cargo build</code> 명령어를 입력해서 WebAssembly 타겟을 지원하는지 확인해 볼 수 있습니다:</p>
 <pre><code>cargo build --target wasm32-unknown-unknown
 </code></pre>
 <p>명령어 실행이 실패한다면 현재로서는 크레이트가 WebAssembly를 지원하지 않는다는 의미입니다. 하지만 이 명령어가 성공하더라도 크레이트가 꼭 WebAssembly를 지원한다는 의미는 아닙니다. 더 확실하게 확인하고 싶다면 <a href="reference/add-wasm-support-to-crate.html#maintaining-ongoing-support-for-webassembly">wasm 테스팅 코드를 추가하고 지속성 통합 (continuous integration) 환경에서 테스트를 실행해보기</a> 를 읽어보세요.</p>
 <h2 id="webassembly-지원-추가하기"><a class="header" href="#webassembly-지원-추가하기">WebAssembly 지원 추가하기</a></h2>
 <h3 id="바로-io를-수행하지-말아주세요"><a class="header" href="#바로-io를-수행하지-말아주세요">바로 I/O를 수행하지 말아주세요</a></h3>
-<p>웹 환경에서 I/O는 항상 비동기적일 뿐 아니라 파일 시스템도 존재하지 않습니다. 라이브러리의 I/O를 분리하고 유저들이 I/O를 직접 수행하고 슬라이스를 라이브러리로 대신 입력할 수 있도록 수정해봅시다.</p>
-<p>예를 들어서, 이 코드를 리팩토링해주세요:</p>
+<p>웹 환경에서 I/O는 항상 비동기적일 뿐 아니라 파일 시스템도 존재하지 않습니다. 라이브러리의 I/O를 분리하고 유저들이 I/O를 직접 수행하고 슬라이스를 라이브러리로 대신 입력할 수 있도록 수정해 봅시다.</p>
+<p>예를 들어서, 이 코드를 리팩토링해 주세요:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs;
@@ -2312,7 +2312,7 @@ pub fn parse_thing(path: &amp;Path) -&gt; Result&lt;MyThing, MyError&gt; {
     // ...
 }
 <span class="boring">}</span></code></pre></pre>
-<p>다음은 리팩토링된 코드입니다:</p>
+<p>다음은 리팩토링 된 코드입니다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn parse_thing(contents: &amp;[u8]) -&gt; Result&lt;MyThing, MyError&gt; {
@@ -2320,14 +2320,14 @@ pub fn parse_thing(path: &amp;Path) -&gt; Result&lt;MyThing, MyError&gt; {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="wasm-bindgen을-종속성으로-추가하기"><a class="header" href="#wasm-bindgen을-종속성으로-추가하기"><code>wasm-bindgen</code>을 종속성으로 추가하기</a></h3>
-<p>(예를 들어서, 라이브러리 사용자가 상호작용을 직접 컨트롤하도록 허용하면 안되는 경우처럼) 외부 환경과 따로 상호작용을 해야 하는 경우, (필요하다면 <code>js-sys</code>와 <code>web-sys</code>와 함께) <code>wasm-bindgen</code>을 컴파일, 타겟팅 종속성으로 추가해야 합니다:</p>
+<p>(예를 들어서, 라이브러리 사용자가 상호작용을 직접 컨트롤하도록 허용하면 안 되는 경우처럼) 외부 환경과 따로 상호작용을 해야 하는 경우, (필요하다면 <code>js-sys</code>와 <code>web-sys</code>와 함께) <code>wasm-bindgen</code>을 컴파일, 타겟팅 종속성으로 추가해야 합니다:</p>
 <pre><code class="language-toml">[target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "0.2"
 js-sys = "0.3"
 web-sys = "0.3"
 </code></pre>
 <h3 id="동기적-io를-피해주세요"><a class="header" href="#동기적-io를-피해주세요">동기적 I/O를 피해주세요</a></h3>
-<p>웹 환경에서는 비동기적 I/O만 수행할 수 있으므로 라이브러리에서 I/O 작업을 수행할때는 동기적으로는 처리할 수 없습니다. <a href="https://crates.io/crates/futures"><code>futures</code> 크레이트</a> 와 <a href="https://rustwasm.github.io/wasm-bindgen/api/wasm_bindgen_futures/"><code>wasm-bindgen-futures</code> 크레이트</a>를 사용해서 비동기 I/O를 관리해보세요. 라이브러리가 Future 타입 <code>F</code>를 제네릭 타입으로 사용한다면, 웹 환경의 <code>fetch</code>나 운영체제에서 제공하는 논블로킹 (non-blocking) I/O로 코드를 구현해볼수 있습니다.</p>
+<p>웹 환경에서는 비동기적 I/O만 수행할 수 있으므로 라이브러리에서 I/O 작업을 수행할 때는 동기적으로는 처리할 수 없습니다. <a href="https://crates.io/crates/futures"><code>futures</code> 크레이트</a> 와 <a href="https://rustwasm.github.io/wasm-bindgen/api/wasm_bindgen_futures/"><code>wasm-bindgen-futures</code> 크레이트</a>를 사용해서 비동기 I/O를 관리해 보세요. 라이브러리가 Future 타입 <code>F</code>를 제네릭 타입으로 사용한다면, 웹 환경의 <code>fetch</code>나 운영체제에서 제공하는 논블로킹 (non-blocking) I/O로 코드를 구현해 볼 수 있습니다.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn do_stuff&lt;F&gt;(future: F) -&gt; impl Future&lt;Item = MyOtherThing&gt;
@@ -2337,7 +2337,7 @@ where
     // ...
 }
 <span class="boring">}</span></code></pre></pre>
-<p>트레이트를 정의하고 WebAssembly와 웹, 네이티브 타겟에서 실행할 수 있도록 구현해볼수도 있습니다:</p>
+<p>트레이트를 정의하고 WebAssembly와 웹, 네이티브 타겟에서 실행할 수 있도록 구현해 볼 수도 있습니다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>trait ReadMyThing {
@@ -2367,7 +2367,7 @@ impl ReadMyThing for NativeReadMyThing {
 <span class="boring">}</span></code></pre></pre>
 <h3 id="스레드-생성을-피해주세요"><a class="header" href="#스레드-생성을-피해주세요">스레드 생성을 피해주세요</a></h3>
 <p>Wasm은 아직 스레드를 지원하지 않습니다. (하지만 <a href="https://rustwasm.github.io/2018/10/24/multithreading-rust-and-wasm.html">실험적으로 지원 작업이 진행되고 있긴 합니다.</a>) 그러므로, wasm에서 스레드를 생성하려고 시도하면 코드가 패닉하게 됩니다.</p>
-<p><code>#[cfg(..)]</code>를 사용하여 타겟이 WebAssembly인지 아닌지 여부에 따라 스레드와 비스레드 코드를 따로 작성해볼수도 있습니다:</p>
+<p><code>#[cfg(..)]</code>를 사용하여 타겟이 WebAssembly인지 아닌지 여부에 따라 스레드와 비스레드 코드를 따로 작성해 볼 수도 있습니다:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>#![cfg(target_arch = "wasm32")]
 <span class="boring">fn main() {
@@ -2385,14 +2385,14 @@ fn do_work() {
     });
 }
 <span class="boring">}</span></code></pre></pre>
-<p>파일 I/O를 제거하고 유저들이 I/O 코드를 따로 가져올수 있도록 허용하는 접근 방식과 유사하게, 스레드 생성 코드를 라이브러리에서 제외시킨 다음 유저들이 스레드 코드나 라이브러리를 따로 가져올수 있도록 변경해볼수도 있습니다. 이렇게 구현했을때 라이브러리 사용자들이 직접 스레드 풀 코드를 마련할 수 있게 되는 긍정적인 부수 효과를 보게 됩니다.</p>
+<p>파일 I/O를 제거하고 유저들이 I/O 코드를 따로 가져올 수 있도록 허용하는 접근 방식과 유사하게, 스레드 생성 코드를 라이브러리에서 제외시킨 다음 유저들이 스레드 코드나 라이브러리를 따로 가져올 수 있도록 변경해 볼 수도 있습니다. 이렇게 구현했을 때 라이브러리 사용자들이 직접 스레드 풀 코드를 마련할 수 있게 되는 긍정적인 부수 효과를 보게 됩니다.</p>
 <h2 id="webassembly의-지속적인-지원-유지하기"><a class="header" href="#webassembly의-지속적인-지원-유지하기">WebAssembly의 지속적인 지원 유지하기</a></h2>
 <h3 id="지속성-통합-ci-환경을-사용해서-wasm32-unknown-unknown-타겟으로-빌드하기"><a class="header" href="#지속성-통합-ci-환경을-사용해서-wasm32-unknown-unknown-타겟으로-빌드하기">지속성 통합 (CI) 환경을 사용해서 <code>wasm32-unknown-unknown</code> 타겟으로 빌드하기</a></h3>
 <p>WebAssembly를 타겟으로 할떄, 다음 명령어를 CI 스크립트에 포함시켜서 컴파일이 실패하지 않는 이유를 더 자세하게 확인할 수 있습니다:</p>
 <pre><code>rustup target add wasm32-unknown-unknown
 cargo check --target wasm32-unknown-unknown
 </code></pre>
-<p>예를 들어서, Travis CI 설정 파일인 <code>.travis.yml</code> 에 다음 내용을 추가해보겠습니다:</p>
+<p>예를 들어서, Travis CI 설정 파일인 <code>.travis.yml</code> 에 다음 내용을 추가해 보겠습니다:</p>
 <pre><code class="language-yaml">
 matrix:
   include:
@@ -2403,22 +2403,22 @@ matrix:
       script: cargo check --target wasm32-unknown-unknown
 </code></pre>
 <h3 id="nodejs와-헤드리스-브라우저-headless-browsers-에서-테스팅하기"><a class="header" href="#nodejs와-헤드리스-브라우저-headless-browsers-에서-테스팅하기">Node.js와 <a href="https://ko.wikipedia.org/wiki/%ED%97%A4%EB%93%9C%EB%A6%AC%EC%8A%A4_%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80">헤드리스 브라우저 (Headless Browsers)</a> 에서 테스팅하기</a></h3>
-<p><code>wasm-bindgen-test</code>와 <code>wasm-pack-test</code> 하위 명령어 (subcommand) 를 사용해서 wasm 테스트들 Node.js나 헤드리스 브라우저에서 실행해보세요. 이러한 테스트들을 CI에 통합시켜볼수도 있습니다.</p>
+<p><code>wasm-bindgen-test</code>와 <code>wasm-pack-test</code> 하위 명령어 (subcommand) 를 사용해서 wasm 테스트들 Node.js나 헤드리스 브라우저에서 실행해보세요. 이러한 테스트들을 CI에 통합시켜 볼 수도 있습니다.</p>
 <p><a href="https://rustwasm.github.io/wasm-bindgen/wasm-bindgen-test/index.html">여기서 wasm 테스팅에 대해 더 알아보세요.</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust로-작성한-webassembly-코드를-프로덕션-환경에-배포하기"><a class="header" href="#rust로-작성한-webassembly-코드를-프로덕션-환경에-배포하기">Rust로 작성한 WebAssembly 코드를 프로덕션 환경에 배포하기</a></h1>
 <blockquote>
 <p><strong>⚡ 사실 Rust, WebAssembly로 웹 앱을 작성했더라도 배포 과정이 다른 웹 앱을 배포하는 과정과 거의 동일합니다!</strong></p>
 </blockquote>
-<p>Rust로 생성한 WebAssembly를 실행하는 웹 앱을 배포해보겠습니다. 빌드된 웹 앱을 프로덕션 서버의 파일 시스템으로 복사하고, 복사한 파일에 접근할 수 있도록 HTTP 서버를 설정해주세요.</p>
+<p>Rust로 생성한 WebAssembly를 실행하는 웹 앱을 배포해 보겠습니다. 빌드된 웹 앱을 프로덕션 서버의 파일 시스템으로 복사하고, 복사한 파일에 접근할 수 있도록 HTTP 서버를 설정해 주세요.</p>
 <h2 id="http-서버가-applicationwasm-mime-타입을-지원하는지-확인해주세요"><a class="header" href="#http-서버가-applicationwasm-mime-타입을-지원하는지-확인해주세요">HTTP 서버가 <code>application/wasm</code> MIME 타입을 지원하는지 확인해주세요</a></h2>
-<p>페이지가 빠르게 로드될수 있도록, 네트워크 전송을 통해 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming"><code>WebAssembly.instantiateStreaming</code> 함수</a>를 사용하여 wasm 컴파일과 인스턴스화 과정을 파이프라인 처리해야 합니다. (번들러가 이 함수를 사용할 수 있는지도 확인해주세요.) 하지만 <code>instantiateStreaming</code>를 실행할 때 HTTP 응답이 <code>application/wasm</code> <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME 타입</a> 유형을 가지고 있지 않다면 오류가 발생하게 되니 이 부분도 잘 확인해주세요.</p>
+<p>페이지가 빠르게 로드될 수 있도록, 네트워크 전송을 통해 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming"><code>WebAssembly.instantiateStreaming</code> 함수</a>를 사용하여 wasm 컴파일과 인스턴스화 과정을 파이프라인 처리해야 합니다. (번들러가 이 함수를 사용할 수 있는지도 확인해주세요.) 하지만 <code>instantiateStreaming</code>를 실행할 때 HTTP 응답이 <code>application/wasm</code> <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME 타입</a> 유형을 가지고 있지 않다면 오류가 발생하게 되니 이 부분도 잘 확인해  주세요.</p>
 <ul>
 <li><a href="https://httpd.apache.org/docs/2.4/mod/mod_mime.html#addtype">Apache HTTP 서버에서 MIME 타입 설정하기</a></li>
 <li><a href="https://nginx.org/en/docs/http/ngx_http_core_module.html#types">NGINX HTTP 서버에서 MIME 타입 설정하기</a></li>
 </ul>
 <h2 id="추가-자료-2"><a class="header" href="#추가-자료-2">추가 자료</a></h2>
 <ul>
-<li><a href="https://webpack.js.org/guides/production/">프로덕션 개발 환경에서 Webpack를 사용하는 모범 사례.</a> 많은 Rust와 WebAssembly 프로젝트들은 Rust로 생성한 WebAssembly와 JavaScript, CSS, HTML 코드를 번들링 하기 위해 Webpack을 사용합니다. 이 가이드는 프로덕션 환경에 배포할 때 어떻게 Webpack을 가장 잘 활용할 수 있는지 알려주는 여러 유용한 정보들를 포함합니다.</li>
+<li><a href="https://webpack.js.org/guides/production/">프로덕션 개발 환경에서 Webpack를 사용하는 모범 사례.</a> 많은 Rust와 WebAssembly 프로젝트들은 Rust로 생성한 WebAssembly와 JavaScript, CSS, HTML 코드를 번들링 하기 위해 Webpack을 사용합니다. 이 가이드는 프로덕션 환경에 배포할 때 어떻게 Webpack을 가장 잘 활용할 수 있는지 알려주는 여러 유용한 정보들을 포함합니다.</li>
 <li><a href="https://httpd.apache.org/docs/">Apache 문서.</a> Apache는 프로덕션 환경에서 많이 사용되는 HTTP 서버입니다.</li>
 <li><a href="https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/">NGINX 문서.</a> NGNIX는 프로덕션 환경에서 많이 사용되는 HTTP 서버입니다.</li>
 </ul>
